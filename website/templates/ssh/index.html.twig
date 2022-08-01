@@ -18,20 +18,20 @@
         {% for ssh in sshes %}
             <tr>
                 <td>{{ ssh.id }}</td>
-                <td>{{ ssh.identifiant }}</td>
-                <td>{{ ssh.motdepasse }}</td>
+                <td>{{ ssh.identifiant|decrypt }}</td>
+                <td>*****</td>
                 <td>
-                    <a href="{{ path('app_ssh_show', {'id': ssh.id}) }}">show</a>
-                    <a href="{{ path('app_ssh_edit', {'id': ssh.id}) }}">edit</a>
+                    <a href="{{ path('app_ssh_show', {'id': ssh.id}) }}">Voir</a>
+                    <a href="{{ path('app_ssh_edit', {'id': ssh.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucune données en base </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_ssh_new') }}">Create new</a>
+    <a href="{{ path('app_ssh_new') }}">Ajouter un nouveau ssh</a>
 {% endblock %}

@@ -35,23 +35,19 @@ class ServerController extends AbstractController
     /**
      * @Route("/new", name="app_server_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ServerRepository $serverRepository,EncryptorInterface $encryptor): Response
+    public function new(Request $request, ServerRepository $serverRepository): Response
     {
 
-//        $event = new EncryptEvent("3DDOXwqZAEEDPJDK8/LI4wDsftqaNCN2kkyt8+QWr8E=<ENC>");
-//
-//        $dispatcher->dispatch(EncryptEvents::DECRYPT, $event);
-       $encrypted = $encryptor->encrypt('abcd');
-        $decrypted = $encryptor->decrypt($encrypted);
-//        $decrypted = $event->getValue();
-        dump($encrypted);
-        dump($decrypted);
+
+
         $server = new Server();
         $form = $this->createForm(ServerType::class, $server);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+        $server->setDate(new \DateTime());
+        $server->setUsers($this->getUser());
             $serverRepository->add($server, true);
 
             return $this->redirectToRoute('app_server_index', [], Response::HTTP_SEE_OTHER);

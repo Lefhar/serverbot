@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ssh;
 use App\Form\SshType;
 use App\Repository\SshRepository;
+use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,13 +35,21 @@ class SshController extends AbstractController
     /**
      * @Route("/new", name="app_ssh_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, SshRepository $sshRepository): Response
+    public function new(Request $request, SshRepository $sshRepository,EncryptorInterface $encryptor): Response
     {
         $ssh = new Ssh();
         $form = $this->createForm(SshType::class, $ssh);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $encrypted = $encryptor->encrypt('abcd');
+            $decrypted = $encryptor->decrypt($encrypted);
+            $obj = $request->get('ssh');
+
+            $ssh->setIdentifiant($encryptor->encrypt($obj['identifiant']));
+            $ssh->setMotdepasse($encryptor->encrypt($obj['motdepasse']));
+            dump($encrypted);
+            dump($decrypted);
             $sshRepository->add($ssh, true);
 
             return $this->redirectToRoute('app_ssh_index', [], Response::HTTP_SEE_OTHER);
