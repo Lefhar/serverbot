@@ -30,9 +30,11 @@ class Ssh
     private $motdepasse;
 
     /**
-     * @ORM\OneToMany(targetEntity=Server::class, mappedBy="ssh")
+     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="sshes")
      */
-    private $servers;
+    private $Server;
+
+
 
     public function __construct()
     {
@@ -70,34 +72,18 @@ class Ssh
         return $this;
     }
 
-    /**
-     * @return Collection<int, Server>
-     */
-    public function getServers(): Collection
+    public function getServer(): ?Server
     {
-        return $this->servers;
+        return $this->Server;
     }
 
-    public function addServer(Server $server): self
+    public function setServer(?Server $Server): self
     {
-        if (!$this->servers->contains($server)) {
-            $this->servers[] = $server;
-            $server->setSsh($this);
-        }
+        $this->Server = $Server;
 
         return $this;
     }
 
-    public function removeServer(Server $server): self
-    {
-        if ($this->servers->removeElement($server)) {
-            // set the owning side to null (unless already changed)
-            if ($server->getSsh() === $this) {
-                $server->setSsh(null);
-            }
-        }
 
-        return $this;
-    }
 
 }

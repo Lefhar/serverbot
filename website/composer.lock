@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b49ba30a98de6b172674a27870e31e3",
+    "content-hash": "c92a44ece49da6805adea238a224ff54",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2227,6 +2227,64 @@
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.2.6"
             },
             "time": "2022-01-14T11:51:13+00:00"
+        },
+        {
+            "name": "specshaper/encrypt-bundle",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mogilvie/EncryptBundle.git",
+                "reference": "83cc319d2143ce2863f785a63f159656da077966"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mogilvie/EncryptBundle/zipball/83cc319d2143ce2863f785a63f159656da077966",
+                "reference": "83cc319d2143ce2863f785a63f159656da077966",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "^2.0",
+                "doctrine/orm": "^2.5",
+                "php": ">=7.1",
+                "symfony/console": "^5.0",
+                "symfony/framework-bundle": "^5.0",
+                "symfony/monolog-bundle": "^3.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SpecShaper\\EncryptBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Ogilvie",
+                    "email": "mark.ogilvie@ogilvieconsulting.net"
+                }
+            ],
+            "description": "Bundle provides a service for encoding via annotation.",
+            "homepage": "https://github.com/mogilvie/EncryptBundle",
+            "keywords": [
+                "encoder bundle"
+            ],
+            "support": {
+                "issues": "https://github.com/mogilvie/EncryptBundle/issues",
+                "source": "https://github.com/mogilvie/EncryptBundle/tree/v2.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mogilvie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-02-22T14:42:53+00:00"
         },
         {
             "name": "symfony/amqp-messenger",

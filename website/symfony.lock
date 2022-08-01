@@ -64,6 +64,9 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "specshaper/encrypt-bundle": {
+        "version": "v2.0.1"
+    },
     "symfony/console": {
         "version": "5.4",
         "recipe": {

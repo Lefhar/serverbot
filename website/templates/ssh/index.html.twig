@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ssh index{% endblock %}
+
+{% block body %}
+    <h1>Ssh index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Identifiant</th>
+                <th>Motdepasse</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ssh in sshes %}
+            <tr>
+                <td>{{ ssh.id }}</td>
+                <td>{{ ssh.identifiant }}</td>
+                <td>{{ ssh.motdepasse }}</td>
+                <td>
+                    <a href="{{ path('app_ssh_show', {'id': ssh.id}) }}">show</a>
+                    <a href="{{ path('app_ssh_edit', {'id': ssh.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ssh_new') }}">Create new</a>
+{% endblock %}

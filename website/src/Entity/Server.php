@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,9 +66,15 @@ class Server
     private $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ssh::class, inversedBy="servers")
+     * @ORM\OneToMany(targetEntity=Ssh::class, mappedBy="Server")
      */
-    private $ssh;
+    private $sshes;
+
+    public function __construct()
+    {
+        $this->sshes = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -181,15 +189,35 @@ class Server
         return $this;
     }
 
-    public function getSsh(): ?Ssh
+    /**
+     * @return Collection<int, Ssh>
+     */
+    public function getSshes(): Collection
     {
-        return $this->ssh;
+        return $this->sshes;
     }
 
-    public function setSsh(?Ssh $ssh): self
+    public function addSsh(Ssh $ssh): self
     {
-        $this->ssh = $ssh;
+        if (!$this->sshes->contains($ssh)) {
+            $this->sshes[] = $ssh;
+            $ssh->setServer($this);
+        }
 
         return $this;
     }
+
+    public function removeSsh(Ssh $ssh): self
+    {
+        if ($this->sshes->removeElement($ssh)) {
+            // set the owning side to null (unless already changed)
+            if ($ssh->getServer() === $this) {
+                $ssh->setServer(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

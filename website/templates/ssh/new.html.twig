@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Ssh{% endblock %}
+
+{% block body %}
+    <h1>Create new Ssh</h1>
+
+    {{ include('ssh/_form.html.twig') }}
+
+    <a href="{{ path('app_ssh_index') }}">back to list</a>
+{% endblock %}

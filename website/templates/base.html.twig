@@ -58,20 +58,41 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
+
+                    <!--interface-->
                     <div class="sb-sidenav-menu-heading">Interface</div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
-                       aria-expanded="false" aria-controls="collapseLayouts">
+                    <!--fin interface-->
+
+                    <!--début server-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseServeur"
+                       aria-expanded="false" aria-controls="collapseServeur">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Layouts
+                        Serveur
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                    <div class="collapse" id="collapseServeur" aria-labelledby="headingOne"
                          data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                            <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                            <a class="nav-link" href="{{ path('app_server_index') }}">Liste serveur</a>
+                            <a class="nav-link" href="{{ path('app_server_new') }}">Ajouter un serveur</a>
                         </nav>
                     </div>
+                    <!--fin server-->
+                    <!--début Ssh-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSsh"
+                       aria-expanded="false" aria-controls="collapseSsh">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Ssh
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseSsh" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="{{ path('app_ssh_index') }}">Liste Ssh</a>
+                            <a class="nav-link" href="{{ path('app_ssh_new') }}">Ajouter un Ssh</a>
+                        </nav>
+                    </div>
+                    <!--fin server-->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                        aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>

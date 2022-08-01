@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Server{% endblock %}
+
+{% block body %}
+    <h1>Server</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ server.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ server.nom }}</td>
+            </tr>
+            <tr>
+                <th>Ippower</th>
+                <td>{{ server.ippower }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ server.etat }}</td>
+            </tr>
+            <tr>
+                <th>Ipv4</th>
+                <td>{{ server.ipv4 }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ server.location }}</td>
+            </tr>
+            <tr>
+                <th>Localscript</th>
+                <td>{{ server.localscript }}</td>
+            </tr>
+            <tr>
+                <th>Lieninfo</th>
+                <td>{{ server.lieninfo }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ server.date ? server.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_server_index') }}">back to list</a>
+
+    <a href="{{ path('app_server_edit', {'id': server.id}) }}">edit</a>
+
+    {{ include('server/_delete_form.html.twig') }}
+{% endblock %}

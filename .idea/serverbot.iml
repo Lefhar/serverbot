@@ -144,6 +144,7 @@
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/console" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/lock" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/rate-limiter" />
+      <excludeFolder url="file://$MODULE_DIR$/website/vendor/twig/string-extra" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

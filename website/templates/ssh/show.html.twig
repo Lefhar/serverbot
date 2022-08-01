@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ssh{% endblock %}
+
+{% block body %}
+    <h1>Ssh</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ssh.id }}</td>
+            </tr>
+            <tr>
+                <th>Identifiant</th>
+                <td>{{ ssh.identifiant }}</td>
+            </tr>
+            <tr>
+                <th>Motdepasse</th>
+                <td>{{ ssh.motdepasse }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ssh_index') }}">back to list</a>
+
+    <a href="{{ path('app_ssh_edit', {'id': ssh.id}) }}">edit</a>
+
+    {{ include('ssh/_delete_form.html.twig') }}
+{% endblock %}
