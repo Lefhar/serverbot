@@ -17,6 +17,7 @@ class SshType extends AbstractType
             ->add('identifiant',TextType::class)
             ->add('motdepasse',PasswordType::class)
             ->add('Server',null,['required' => true])
+            ->add('port')
         ;
     }
 

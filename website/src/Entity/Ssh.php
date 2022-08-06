@@ -34,6 +34,11 @@ class Ssh
      */
     private $Server;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $port;
+
 
 
     public function __construct()
@@ -80,6 +85,18 @@ class Ssh
     public function setServer(?Server $Server): self
     {
         $this->Server = $Server;
+
+        return $this;
+    }
+
+    public function getPort(): ?int
+    {
+        return $this->port;
+    }
+
+    public function setPort(int $port): self
+    {
+        $this->port = $port;
 
         return $this;
     }
