@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Server;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,10 +14,24 @@ class ServerType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('ippower')
-            ->add('etat')
+            ->add('ippower', ChoiceType::class, array(
+                'choices' => [
+                    'prise 1' => '1',
+                    'prise 2' => '2',
+                    'prise 3' => '3',
+                    'prise 4' => '4',
+                ]))
+            ->add('etat', ChoiceType::class, array(
+                'choices' => [
+                    'Inactif' => '0',
+                    'Actif' => '1'
+                ],'required' => true))
             ->add('ipv4')
-            ->add('location')
+            ->add('location', ChoiceType::class, array(
+                'choices' => [
+                    'local' => 'local',
+                    'distant' => 'distant'
+                ],'required' => true))
             ->add('localscript')
             ->add('lieninfo')
         ;

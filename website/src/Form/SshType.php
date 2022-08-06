@@ -16,7 +16,7 @@ class SshType extends AbstractType
         $builder
             ->add('identifiant',TextType::class)
             ->add('motdepasse',PasswordType::class)
-            ->add('Server')
+            ->add('Server',null,['required' => true])
         ;
     }
 

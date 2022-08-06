@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Serveur</th>
                 <th>Identifiant</th>
                 <th>Motdepasse</th>
                 <th>actions</th>
@@ -18,6 +19,7 @@
         {% for ssh in sshes %}
             <tr>
                 <td>{{ ssh.id }}</td>
+                <td>{{ ssh.Server.nom }}</td>
                 <td>{{ ssh.identifiant|decrypt }}</td>
                 <td>*****</td>
                 <td>

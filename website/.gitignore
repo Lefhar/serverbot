@@ -9,7 +9,7 @@
 /vendor/
 ###< symfony/framework-bundle ###
 /.env
-
+/config/packages/encryption.yaml
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache

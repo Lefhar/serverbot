@@ -44,10 +44,10 @@ class SshController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $encrypted = $encryptor->encrypt('abcd');
             $decrypted = $encryptor->decrypt($encrypted);
-            $obj = $request->get('ssh');
 
-            $ssh->setIdentifiant($encryptor->encrypt($obj['identifiant']));
-            $ssh->setMotdepasse($encryptor->encrypt($obj['motdepasse']));
+
+            $ssh->setIdentifiant($encryptor->encrypt($form->get('identifiant')->getData()));
+            $ssh->setMotdepasse($encryptor->encrypt($form->get('motdepasse')->getData()));
             dump($encrypted);
             dump($decrypted);
             $sshRepository->add($ssh, true);
@@ -74,12 +74,14 @@ class SshController extends AbstractController
     /**
      * @Route("/{id}/edit", name="app_ssh_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Ssh $ssh, SshRepository $sshRepository): Response
+    public function edit(Request $request, Ssh $ssh, SshRepository $sshRepository, EncryptorInterface $encryptor): Response
     {
         $form = $this->createForm(SshType::class, $ssh);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $ssh->setIdentifiant($encryptor->encrypt($form->get('identifiant')->getData()));
+            $ssh->setMotdepasse($encryptor->encrypt($form->get('motdepasse')->getData()));
             $sshRepository->add($ssh, true);
 
             return $this->redirectToRoute('app_ssh_index', [], Response::HTTP_SEE_OTHER);
