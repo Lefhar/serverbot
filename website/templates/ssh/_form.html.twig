@@ -2,9 +2,29 @@
 <div class="form-group pt-2">
     {{ form_widget(form.identifiant,{value:ssh.identifiant|decrypt}) }}
 </div>
+{#<div class="form-group pt-2">#}
+{#    {{ form_widget(form.motdepasse,{value:ssh.motdepasse|decrypt}) }}#}
+{#</div>#}
+
+
+<div class="mb-3">
+    {{ form_label(form.motdepasse) }}
+    <div class="input-group">
+        {{ form_widget(form.motdepasse,{ 'id': 'motdepasse',value:ssh.motdepasse|decrypt}) }}
+        <span class="input-group-text" id="viewpassword">
+                <i class="fa fa-eye-slash" aria-hidden="true" id="eyepassword"></i></span>
+    </div>
+    <small>{{ form_errors(form.motdepasse) }}</small>
+
+
+
+
+
 <div class="form-group pt-2">
-    {{ form_widget(form.motdepasse,{value:ssh.motdepasse|decrypt}) }}
+    {{ form_widget(form.port,{value:ssh.port}) }}
 </div>
+
+
     {{ form_widget(form) }}
 <div class="form-group pt-2">
     <button class="btn btn-success">{{ button_label|default('Valider') }}</button>

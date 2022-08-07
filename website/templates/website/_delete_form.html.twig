@@ -1,0 +1,7 @@
+<div class="form-group pt-2">
+    <form method="post" action="{{ path('app_website_delete', {'id': website.id}) }}"
+          onsubmit="return confirm('être vous sur vouloir supprimer ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ website.id) }}">
+        <button class="btn btn-danger">Effacer</button>
+    </form>
+</div>

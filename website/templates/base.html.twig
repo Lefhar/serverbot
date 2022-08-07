@@ -92,7 +92,23 @@
                             <a class="nav-link" href="{{ path('app_ssh_new') }}">Ajouter un Ssh</a>
                         </nav>
                     </div>
-                    <!--fin server-->
+                    <!--fin Ssh-->
+
+                    <!--début website-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseWebsite"
+                       aria-expanded="false" aria-controls="collapseSsh">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Website
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseWebsite" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="{{ path('app_website_index') }}">Liste Site web</a>
+                            <a class="nav-link" href="{{ path('app_website_new') }}">Ajouter un site web</a>
+                        </nav>
+                    </div>
+                    <!--fin Ssh-->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                        aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
@@ -165,6 +181,10 @@
         </footer>
     </div>
 </div>
+<script
+        src="https://code.jquery.com/jquery-3.6.0.slim.js"
+        integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 <script src="/assets/js/scripts.js"></script>

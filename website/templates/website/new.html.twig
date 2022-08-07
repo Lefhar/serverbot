@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Website{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un site</h1>
+
+    {{ include('website/_form.html.twig') }}
+<div class="form-group pt-2">
+    <a href="{{ path('app_website_index') }}">Retour</a>
+</div>
+{% endblock %}

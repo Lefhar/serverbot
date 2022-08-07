@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Website index{% endblock %}
+
+{% block body %}
+    <h1>Liste website</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Domaine</th>
+                <th>Date</th>
+                <th>Ip</th>
+                <th>Port</th>
+                <th>Etat</th>
+                <th>File</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for website in websites %}
+            <tr>
+                <td>{{ website.id }}</td>
+                <td>{{ website.domaine }}</td>
+                <td>{{ website.date ? website.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ website.ip }}</td>
+                <td>{{ website.port }}</td>
+                <td>{{ website.etat }}</td>
+                <td>{{ website.file }}</td>
+                <td>
+                    <a href="{{ path('app_website_show', {'id': website.id}) }}">Voir</a>
+                    <a href="{{ path('app_website_edit', {'id': website.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Aucun site</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_website_new') }}">Ajouter un site</a>
+{% endblock %}

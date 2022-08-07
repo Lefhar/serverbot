@@ -22,5 +22,16 @@ window.addEventListener('DOMContentLoaded', event => {
             localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
         });
     }
+    $("#viewpassword").click(function (event) {
+        if ($('#motdepasse').attr("type") == "text") {
+            $('#motdepasse').attr('type', 'password');
+            $('#eyepassword').addClass("fa-eye-slash");
+            $('#eyepassword').removeClass("fa-eye");
+        } else if ($('#motdepasse').attr("type") == "password") {
+            $('#motdepasse').attr('type', 'text');
+            $('#eyepassword').removeClass("fa-eye-slash");
+            $('#eyepassword').addClass("fa-eye");
+        }
+    });
 
 });
