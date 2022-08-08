@@ -22,16 +22,31 @@ window.addEventListener('DOMContentLoaded', event => {
             localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
         });
     }
-    $("#viewpassword").click(function (event) {
-        if ($('#motdepasse').attr("type") == "text") {
-            $('#motdepasse').attr('type', 'password');
-            $('#eyepassword').addClass("fa-eye-slash");
-            $('#eyepassword').removeClass("fa-eye");
-        } else if ($('#motdepasse').attr("type") == "password") {
-            $('#motdepasse').attr('type', 'text');
-            $('#eyepassword').removeClass("fa-eye-slash");
-            $('#eyepassword').addClass("fa-eye");
-        }
-    });
+    // $("#viewpassword").click(function (event) {
+    //     if ($('#motdepasse').attr("type") == "text") {
+    //         $('#motdepasse').attr('type', 'password');
+    //         $('#eyepassword').addClass("fa-eye-slash");
+    //         $('#eyepassword').removeClass("fa-eye");
+    //     } else if ($('#motdepasse').attr("type") == "password") {
+    //         $('#motdepasse').attr('type', 'text');
+    //         $('#eyepassword').removeClass("fa-eye-slash");
+    //         $('#eyepassword').addClass("fa-eye");
+    //     }
+    // });
 
+    if(document.getElementById('password')){
+
+const password = document.getElementById('password');
+        password.addEventListener("click", function() {
+            if (password.attr("type") === "text") {
+                password.attr('type', 'password');
+                password.addClass("fa-eye-slash");
+                password.removeClass("fa-eye");
+            } else if (password.attr("type") === "password") {
+                password.attr('type', 'text');
+                password.removeClass("fa-eye-slash");
+                password.addClass("fa-eye");
+            }
+    });
+    }
 });

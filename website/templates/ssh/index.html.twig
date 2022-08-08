@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>lien</th>
                 <th>Serveur</th>
                 <th>Identifiant</th>
                 <th>Mot de passe</th>
@@ -19,6 +20,7 @@
         {% for ssh in sshes %}
             <tr>
                 <td>{{ ssh.id }}</td>
+                <td><a href="{{ path('app_ssh_json',{id:ssh.id}) }}" target="_blank">teste</a></td>
                 <td>{{ ssh.Server.nom }}</td>
                 <td>{{ ssh.identifiant|decrypt }}</td>
                 <td>*****</td>

@@ -1,6 +1,6 @@
 {{ form_start(form) }}
 {{ form_label(form.identifiant) }}
-<div class="form-group pt-2">
+<div class="mb-3">
     {{ form_widget(form.identifiant,{value:ssh.identifiant|decrypt}) }}
 </div>
 
@@ -13,15 +13,15 @@
     </div>
     <small>{{ form_errors(form.motdepasse) }}</small>
 
-
+</div>
     {{ form_label(form.port) }}
-    <div class="form-group pt-2">
+<div class="mb-3">
         {{ form_widget(form.port,{value:ssh.port}) }}
     </div>
 
 
     {{ form_widget(form) }}
-    <div class="form-group pt-2">
+<div class="mb-3 mt-3">
         <button class="btn btn-success">{{ button_label|default('Valider') }}</button>
     </div>
     {{ form_end(form) }}
