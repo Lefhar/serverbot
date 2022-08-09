@@ -70,9 +70,17 @@ class Server
      */
     private $sshes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Machine::class, inversedBy="Machine")
+     */
+    private $machine;
+
+
+
     public function __construct()
     {
         $this->sshes = new ArrayCollection();
+        $this->machines = new ArrayCollection();
     }
 
 
@@ -223,5 +231,19 @@ class Server
     {
         return $this->nom;
     }
+
+    public function getMachine(): ?Machine
+    {
+        return $this->machine;
+    }
+
+    public function setMachine(?Machine $machine): self
+    {
+        $this->machine = $machine;
+
+        return $this;
+    }
+
+
 
 }

@@ -30,7 +30,8 @@ class SshController extends AbstractController
      */
     public function sshacces(Ssh $id, EncryptorInterface $encryptor, ssh_access $ssh_access): Response
     {
-        $ssh_access->setMachine("Freenas");
+      //  dd($id->getServer()->getMachines());
+        $ssh_access->setMachine($id->getServer()->getMachine());
         $ssh_access->setIdentifiant($encryptor->decrypt($id->getIdentifiant()));
         $ssh_access->setPassword($encryptor->decrypt($id->getMotdepasse()));
         $ssh_access->setIp($id->getServer()->getIpv4());

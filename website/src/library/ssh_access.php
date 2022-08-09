@@ -18,6 +18,8 @@ class ssh_access
                 return $r[0];
             }
             return '';
+        }else{
+            return false;
         }
     }
 
@@ -66,8 +68,10 @@ class ssh_access
 
     public function connexionSSh()
     {
-        if($this->getMachine()=="Freenas"){
+        if($this->getMachine()=="Freenas") {
             return $this->connexionfreenasSSh();
+        }elseif ($this->getMachine()=="Debian"){
+            return $this->connexiondebianSSh();
         }else{
             return (array('error'=>'aucune machine compatible'));
         }
@@ -176,26 +180,155 @@ class ssh_access
         $swapcomplet = $this->extstres22($swapbrut, 'Swap:', 'Total');
         $swapdispo = $this->extstres22($swapbrut, '' . trim($swapcomplet) . ' Total,', 'Free');
         $swaputil = (float)$swapcomplet - (float)$swapdispo;
-//$swapcomplet = 0;
-//$swapdispo = 0;
+
         $swaputil = 0;
-//sysctl hw | egrep 'hw.(phys|user|real)'
-// echo 'load '.$uptime[1];
-// echo '<br>';
-// echo 'cpu'.$cpu;
-// echo '<br>';
-// echo 'ramcomplet'.$ramcomplet;
-// echo '<br>';
-// echo 'ramutil'.$ramutil;
-// echo '<br>';
         $finaljson = ['cpu' => trim($cpu), 'pcpu' => trim($uptime[1]), 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
-        //   header('Access-Control-Allow-Origin: *');
-        //     header('Content-Type: application/json');
-        //  $contenu_json = json_encode($finaljson);
-        //  $contenu_json = str_replace('\\', "", $contenu_json);
-        //   return $contenu_json;
+
         return $finaljson;
     }
 
+    public function connexiondebianSSh()
+    {
+        if (!function_exists("ssh2_connect")) die("function ssh2_connect doesn't exist");
+
+        function ssh2_debug($message, $language, $always_display)
+        {
+            printf("%s %s %s\n", $message, $language, $always_display);
+        }
+
+        /* Notify the user if the server terminates the connection */
+        function my_ssh_disconnect($reason, $message, $language)
+        {
+            printf("Server disconnected with reason code [%d] and message: %s\n", $reason, $message);
+        }
+
+        $methods = array(
+            'hostkey' => 'ssh-rsa,ssh-dss',
+//    'kex' => 'diffie-hellman-group-exchange-sha256',
+            'client_to_server' => array(
+                'crypt' => 'aes256-ctr,aes192-ctr,aes128-ctr,aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc,blowfish-cbc',
+                'comp' => 'none'),
+            'server_to_client' => array(
+                'crypt' => 'aes256-ctr,aes192-ctr,aes128-ctr,aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc,blowfish-cbc',
+                'comp' => 'none'));
+
+        //      $callbacks = array('disconnect' => 'my_ssh_disconnect');
+        $callbacks = array(
+            1 => 'NET_SSH2_DISCONNECT_HOST_NOT_ALLOWED_TO_CONNECT',
+            2 => 'NET_SSH2_DISCONNECT_PROTOCOL_ERROR',
+            3 => 'NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED',
+            4 => 'NET_SSH2_DISCONNECT_RESERVED',
+            5 => 'NET_SSH2_DISCONNECT_MAC_ERROR',
+            6 => 'NET_SSH2_DISCONNECT_COMPRESSION_ERROR',
+            7 => 'NET_SSH2_DISCONNECT_SERVICE_NOT_AVAILABLE',
+            8 => 'NET_SSH2_DISCONNECT_PROTOCOL_VERSION_NOT_SUPPORTED',
+            9 => 'NET_SSH2_DISCONNECT_HOST_KEY_NOT_VERIFIABLE',
+            10 => 'NET_SSH2_DISCONNECT_CONNECTION_LOST',
+            11 => 'NET_SSH2_DISCONNECT_BY_APPLICATION',
+            12 => 'NET_SSH2_DISCONNECT_TOO_MANY_CONNECTIONS',
+            13 => 'NET_SSH2_DISCONNECT_AUTH_CANCELLED_BY_USER',
+            14 => 'NET_SSH2_DISCONNECT_NO_MORE_AUTH_METHODS_AVAILABLE',
+            15 => 'NET_SSH2_DISCONNECT_ILLEGAL_USER_NAME'
+        );
+
+        $connection = ssh2_connect($this->getIp(), $this->port, $methods, $callbacks);
+        if (!$connection) die("Connection failed:");
+
+        ssh2_auth_password($connection, $this->getIdentifiant(), $this->getPassword()) or die("Unable to authenticate");
+        $stream = ssh2_exec($connection, 'uptime');
+        $stream2 = ssh2_exec($connection, 'ps aux | wc -l');
+        $stream3 = ssh2_exec($connection, 'cat /proc/meminfo');
+        $stream4 = ssh2_exec($connection, 'df /');
+        //top -w
+        $stream5 = ssh2_exec($connection, 'top -w');
+        //freenas-boot/ROOT/11.3-U5
+        stream_set_blocking($stream, true);
+        stream_set_blocking($stream2, true);
+        stream_set_blocking($stream3, true);
+        stream_set_blocking($stream4, true);
+        stream_set_blocking($stream5, true);
+        $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
+        $stream_out2 = ssh2_fetch_stream($stream2, SSH2_STREAM_STDIO);
+        $stream_out3 = ssh2_fetch_stream($stream3, SSH2_STREAM_STDIO);
+        $stream_out4 = ssh2_fetch_stream($stream4, SSH2_STREAM_STDIO);
+        //  $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
+        $upteste = stream_get_contents($stream_out);
+        $cpu = stream_get_contents($stream_out2);
+        $memory = stream_get_contents($stream_out3);
+        $disk = stream_get_contents($stream_out4);
+        $swapbrut = stream_get_contents($stream5);
+        //dump($memory);
+        //echo $upteste;
+        //echo stream_get_contents($stream_out);
+        $pos[0] = strpos($upteste, 'load') + 14;
+        $uptime[0] = substr($upteste, $pos[0]);
+        $pos[0] = strpos($uptime[0], ',');
+        $uptimexx = explode(", ", $uptime[0]);
+        $tabprocess = array();
+        foreach ($uptimexx as $row)
+        {
+            $rowi=str_replace("\n","",$row);
+            $tabprocess[] = $rowi;
+        }
+      //  dd($tabprocess);
+        $uptime[1] = substr($uptime[0], 0, $pos[0]);
+        $uptime[1] = $uptimexx;
+        $dftotalgiga0 = explode(" ", $disk);
+        dump($dftotalgiga0);
+        $disktotal = $dftotalgiga0[21] / 1024000;
+        $disktotal = number_format($disktotal, 2, ',', ' ');
+        $diskuse = $dftotalgiga0[22] / 1024000;
+
+        $disklibre = (float)$disktotal -   (float)$diskuse;
+        $disklibre = number_format($disklibre, 2);
+        dump($disklibre);
+        $diskuse = number_format($diskuse, 2, ',', ' ');
+      //  $diskfree = $dftotalgiga0[24] / 1024000;
+        $diskfree = $disklibre;
+        dump($memory);
+        $mem = explode("\n", $memory);
+        dump($mem);
+        $diskfree = number_format($diskfree, 2, ',', ' ');
+
+
+        $memoire = $mem[0];
+        $memfree = $mem[1];
+        $swap = $mem[14];
+        $swapfree = $mem[15];
+        $memoire=str_replace('MemTotal:','',$memoire);
+        $memoire=str_replace('kB','',trim($memoire));
+        $memfree=str_replace('MemFree:','',$memfree);
+        $memfree=str_replace('kB','',trim($memfree));
+        $swapfree=str_replace('SwapFree:','',$swapfree);
+        $swapfree=str_replace('kB','',trim($swapfree));
+        $swap=str_replace('SwapTotal:','',$swap);
+        $swap=str_replace('kB','',trim($swap));
+        //fin
+
+        $memuse = (float)$memoire - (float)$memfree;
+        $swapuse = (float)$swap - (float)$swapfree;
+        $memoire1 = (float)$memoire/1024000;
+        $memfree1 = (float)$memfree/1024000;
+        $memuse1 = (float)$memuse/1024000;
+
+
+        $swap1 = (float)$swap/1024000;
+        $swapfree1 = (float)$swapfree/1024000;
+        $swapuse1 = (float)$swapuse/1024000;
+
+        $memuse2 = (int)$memuse1;
+        $ramcomplet = number_format($memoire1, 2, ',', ' ');
+        $ramdispo = number_format($memfree1, 2, ',', ' ');
+        $ramutil = number_format($memuse1, 2, ',', ' ');
+
+        $swapcomplet = number_format($swap1, 0, ',', ' ');
+        $swapdispo = number_format($swapfree1, 0, ',', ' ');
+        $swaputil = number_format($swapuse1, 0, ',', ' ');
+
+
+        $finaljson = ['cpu' => trim($cpu), 'pcpu' => $tabprocess[0], 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
+
+        return $finaljson;
+    }
 
 }

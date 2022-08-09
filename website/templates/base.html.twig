@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Dashboard - SB Admin</title>
+    <title>Dashboard - serverbot</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
     <link href="/assets/css/styles.css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -54,7 +54,7 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="{{ path('app_admin') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
@@ -63,7 +63,21 @@
                     <div class="sb-sidenav-menu-heading">Interface</div>
                     <!--fin interface-->
 
-                    <!--début server-->
+                    <!--début machine-->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseMachine"
+                       aria-expanded="false" aria-controls="collapseMachine">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Machine
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseMachine" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="{{ path('app_machine_index') }}">Liste machine</a>
+                            <a class="nav-link" href="{{ path('app_machine_new') }}">Ajouter une Machine</a>
+                        </nav>
+                    </div>
+                    <!--fin machine-->                    <!--début server-->
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseServeur"
                        aria-expanded="false" aria-controls="collapseServeur">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>

@@ -34,6 +34,7 @@ class ServerType extends AbstractType
                 ],'required' => true))
             ->add('localscript')
             ->add('lieninfo')
+            ->add('machine',null,['required'=>true])
         ;
     }
 
