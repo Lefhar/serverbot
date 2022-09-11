@@ -10,18 +10,20 @@
     <div class="row">
         <div class="col-xl-12 col-md-12">
             Etat des machines
-            {{ dump(machine) }}
-            {{ dump(ssh) }}
+{#            {{ dump(machine) }}#}
+{#            {{ dump(ssh) }}#}
 
             <table class="table table-striped">
-                <tbody>
+              <thead>
                 <tr>
                     <th>Id</th>
                     <th>Serveur</th>
                     <th>Ram</th>
-                    <th>Uptime</th>
+                    <th>Cpu</th>
                     <th>Disk</th>
                 </tr>
+              </thead>
+                <tbody>
                 {% for row in ssh %}
 
 

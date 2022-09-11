@@ -5,7 +5,9 @@
 {% block body %}
     <h1>Server</h1>
 {#{{ dump(server.sshes|first) }}#}
+    {% if server.sshes|first %}
     <div class="container">
+
         <div class="row gauge"  id="{{ (server.sshes|first).id }}">
             <div class="col-4">
                 <div class="card" >
@@ -34,7 +36,8 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
+{% endif %}
     <table class="table">
         <tbody>
             <tr>
@@ -81,6 +84,7 @@
     <a href="{{ path('app_server_edit', {'id': server.id}) }}">edit</a>
 
     {{ include('server/_delete_form.html.twig') }}
+
 
 
 

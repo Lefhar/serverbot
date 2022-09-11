@@ -83,7 +83,7 @@ if (document.getElementsByClassName('ram')) {
             // ramuser+=obj.ramuse;
             document.getElementById(id).innerHTML = `${data.ramfree}/${data.ram} ${data.ramuse} Libre`;
 
-            document.getElementById('uptime' + id).innerHTML = `${data.cpu} thread`;
+            document.getElementById('uptime' + id).innerHTML = `${data.cpuusage} %`;
             document.getElementById('disk' + id).innerHTML = `${data.diskfree}/${data.disk} ${data.diskuse} utilisé`;
 
 
@@ -106,7 +106,7 @@ if(document.getElementById('gauge'))
 
             setInterval(() => {
                 serverJsonGauge(document.querySelector('.gauge').id);
-            }, 15000);
+            }, 20000);
 
 
     });

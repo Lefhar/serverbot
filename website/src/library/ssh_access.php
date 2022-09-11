@@ -165,7 +165,7 @@ class ssh_access
         $testecc = stream_get_contents($stream6);
         $testecpu = $this->extstres22($upteste, 'load averages:', "\n");
         $uptimexxzza = explode("\n", $testecc);
-        dump($uptimexxzza);
+       // dump($uptimexxzza);
         $uptimexxzz = explode(" ", $uptimexxzza[9]);
 
         $tabteste = array();
