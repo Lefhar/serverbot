@@ -117,21 +117,22 @@ function serverJsonGauge(id) {
     let url = `/admin/ssh/sshjson/${id}`;
     fetch(url).then(response => response.json().then(data => {
         // console.log(data)
-        // console.log(data.cpu)
+        let ramfree = data.ramfree.replace(",", ".");
+        console.log(parseFloat(ramfree))
         let ctx = document.getElementById("gauge");
         let myChart = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: ['RAM utilisé', 'RAM LIBRE'],
                 datasets: [{
-                    data: [parseFloat(data.ramfree), parseFloat(data.ramuse)],
+                    data: [data.ramfree.replace(",", "."), data.ramuse.replace(",", ".")],
                     backgroundColor: [
-                        'rgb(255,0,0)',
-                        'rgba(41,224,20,0.88)'
+                        'rgba(255,0,0,0.7)',
+                        'rgba(41,224,20,0.7)'
                     ],
                     borderColor: [
-                        'rgb(255,0,0)',
-                        'rgba(41,224,20,0.88)'
+                        'rgba(255,0,0,0.7)',
+                        'rgba(41,224,20,0.7)'
                     ],
                     borderWidth: 1
                 }]
@@ -139,7 +140,16 @@ function serverJsonGauge(id) {
             options: {
                 //cutoutPercentage: 40,
                 responsive: false,
-
+                tooltips: {
+                    callbacks: {
+                        label: (tooltipItem, chart) => {
+                            const realValue = chart.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+                            const customValue = realValue + ' Giga';
+                            const label = chart.labels[tooltipItem.index] + ':';
+                            return label + customValue;
+                        }
+                    }
+                }
             }
         });
 
@@ -149,14 +159,14 @@ function serverJsonGauge(id) {
             data: {
                 labels: ['Disk utilisé', 'Disk LIBRE'],
                 datasets: [{
-                    data: [parseFloat(data.diskuse), parseFloat(data.diskfree)],
+                    data: [data.diskuse.replace(",", "."), data.diskfree.replace(",", ".")],
                     backgroundColor: [
-                        'rgb(255,0,0)',
-                        'rgba(41,224,20,0.88)'
+                        'rgba(255,0,0,0.7)',
+                        'rgba(41,224,20,0.7)'
                     ],
                     borderColor: [
-                        'rgb(255,0,0)',
-                        'rgba(41,224,20,0.88)'
+                        'rgba(255,0,0,0.7)',
+                        'rgba(41,224,20,0.7)'
                     ],
                     borderWidth: 1
                 }]
@@ -164,9 +174,107 @@ function serverJsonGauge(id) {
             options: {
                 //cutoutPercentage: 40,
                 responsive: false,
-
+                tooltips: {
+                    callbacks: {
+                        label: (tooltipItem, chart) => {
+                            const realValue = chart.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+                            const customValue = realValue + ' Giga';
+                            const label = chart.labels[tooltipItem.index] + ':';
+                            return label + customValue;
+                        }
+                    }
+                }
             }
         });
+    console.log(data.cpuusage)
+        let cpuuse = data.cpuusage.replace(",", ".");
+        Chart.pluginService.register({
+            beforeDraw: function (chart) {
+                if (chart.config.options.elements.center) {
+                    //Get ctx from string
+                    var ctx = chart.chart.ctx;
+
+                    //Get options from the center object in options
+                    var centerConfig = chart.config.options.elements.center;
+                    var fontStyle = centerConfig.fontStyle || 'Arial';
+                    var txt = centerConfig.text;
+                    var color = centerConfig.color || '#000';
+                    var sidePadding = centerConfig.sidePadding || 20;
+                    var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+                    //Start with a base font of 30px
+                    ctx.font = "30px " + fontStyle;
+
+                    //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+                    var stringWidth = ctx.measureText(txt).width;
+                    var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+                    // Find out how much the font can grow in width.
+                    var widthRatio = elementWidth / stringWidth;
+                    var newFontSize = Math.floor(30 * widthRatio);
+                    var elementHeight = (chart.innerRadius * 2);
+
+                    // Pick a new font size so it will not be larger than the height of label.
+                    var fontSizeToUse = Math.min(newFontSize, elementHeight);
+
+                    //Set font settings to draw it correctly.
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+                    var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+                    ctx.font = fontSizeToUse+"px " + fontStyle;
+                    ctx.fillStyle = color;
+
+                    //Draw text in center
+                    ctx.fillText(txt, centerX, centerY);
+                }
+            }
+        });
+
+
+        var config = {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    "Charge",
+                    "Libre",
+                ],
+                datasets: [{
+                    data: [parseFloat(cpuuse), (100-parseFloat(cpuuse))],
+                    backgroundColor: [
+                        'rgba(255,0,0,0.7)',
+                        'rgba(41,224,20,0.7)'
+                    ],
+                    hoverBackgroundColor: [
+                        'rgba(255,0,0,0.7)',
+                        'rgba(41,224,20,0.7)'
+                    ]
+                }]
+            },
+            options: {
+                elements: {
+                    center: {
+                        text: parseFloat(cpuuse)  +'%',
+                        color: '#FF6384', // Default is #000000
+                        fontStyle: 'Arial', // Default is Arial
+                        sidePadding: 20 // Defualt is 20 (as a percentage)
+                    }
+                },
+                tooltips: {
+                    callbacks: {
+                        label: (tooltipItem, chart) => {
+                            const realValue = chart.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+                            const customValue = realValue.toFixed(2) + ' %';
+                            const label = chart.labels[tooltipItem.index] + ':';
+                            return label + customValue;
+                        }
+                    }
+                }
+            }
+        };
+
+
+        var ctx4 = document.getElementById("cpu").getContext("2d");
+        var myChart4 = new Chart(ctx4, config);
 
 
        // myChart.update()

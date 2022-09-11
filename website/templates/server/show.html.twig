@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Server</h1>
-{{ dump(server.sshes|first) }}
+{#{{ dump(server.sshes|first) }}#}
     <div class="container">
         <div class="row gauge"  id="{{ (server.sshes|first).id }}">
             <div class="col-4">
@@ -22,6 +22,14 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Disk</h5>
                         <canvas id="disk" width="350" height="350" ></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Cpu</h5>
+                        <canvas id="cpu" width="350" height="320" ></canvas>
                     </div>
                 </div>
             </div>

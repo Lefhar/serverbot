@@ -9,6 +9,7 @@ class ssh_access
     private $identifiant;
     private $password;
     private $port;
+
     public function extstres22($content, $start, $end)
     {
         if ((($content and $start) and $end)) {
@@ -18,48 +19,56 @@ class ssh_access
                 return $r[0];
             }
             return '';
-        }else{
+        } else {
             return false;
         }
     }
 
     public function setMachine($machine)
     {
-        $this->machine=$machine;
+        $this->machine = $machine;
     }
+
     public function setIp($ip)
     {
-        $this->ip=$ip;
+        $this->ip = $ip;
     }
+
     public function setIdentifiant($identifiant)
     {
-        $this->identifiant=$identifiant;
+        $this->identifiant = $identifiant;
     }
+
     public function setPassword($password)
     {
-        $this->password=$password;
+        $this->password = $password;
     }
+
     public function setPort($port)
     {
-        $this->port=$port;
+        $this->port = $port;
     }
 
     public function getMachine()
     {
         return $this->machine;
     }
+
     public function getIp()
     {
         return $this->ip;
     }
+
     public function getPort()
     {
         return $this->port;
     }
+
     public function getIdentifiant()
     {
         return $this->identifiant;
     }
+
     public function getPassword()
     {
         return $this->password;
@@ -68,17 +77,17 @@ class ssh_access
 
     public function connexionSSh()
     {
-        if($this->getMachine()=="Freenas") {
+        if ($this->getMachine() == "Freenas") {
             return $this->connexionfreenasSSh();
-        }elseif ($this->getMachine()=="Debian"){
+        } elseif ($this->getMachine() == "Debian") {
             return $this->connexiondebianSSh();
-        }else{
-            return (array('error'=>'aucune machine compatible'));
+        } else {
+            return (array('error' => 'aucune machine compatible'));
         }
     }
+
     public function connexionfreenasSSh()
     {
-
 
 
         if (!function_exists("ssh2_connect")) die("function ssh2_connect doesn't exist");
@@ -104,7 +113,7 @@ class ssh_access
                 'crypt' => 'aes256-ctr,aes192-ctr,aes128-ctr,aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc,blowfish-cbc',
                 'comp' => 'none'));
 
-  //      $callbacks = array('disconnect' => 'my_ssh_disconnect');
+        //      $callbacks = array('disconnect' => 'my_ssh_disconnect');
         $callbacks = array(
             1 => 'NET_SSH2_DISCONNECT_HOST_NOT_ALLOWED_TO_CONNECT',
             2 => 'NET_SSH2_DISCONNECT_PROTOCOL_ERROR',
@@ -133,25 +142,43 @@ class ssh_access
         $stream4 = ssh2_exec($connection, 'df /');
         //top -w
         $stream5 = ssh2_exec($connection, 'top -w');
+        $stream6 = ssh2_exec($connection, 'top -b -n 1');
         //freenas-boot/ROOT/11.3-U5
         stream_set_blocking($stream, true);
         stream_set_blocking($stream2, true);
         stream_set_blocking($stream3, true);
         stream_set_blocking($stream4, true);
         stream_set_blocking($stream5, true);
+        stream_set_blocking($stream6, true);
         $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
         $stream_out2 = ssh2_fetch_stream($stream2, SSH2_STREAM_STDIO);
         $stream_out3 = ssh2_fetch_stream($stream3, SSH2_STREAM_STDIO);
         $stream_out4 = ssh2_fetch_stream($stream4, SSH2_STREAM_STDIO);
+        $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
+        $stream_out6 = ssh2_fetch_stream($stream6, SSH2_STREAM_STDIO);
         //  $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
         $upteste = stream_get_contents($stream_out);
         $cpu = stream_get_contents($stream_out2);
         $memory = stream_get_contents($stream_out3);
         $disk = stream_get_contents($stream_out4);
         $swapbrut = stream_get_contents($stream5);
+        $testecc = stream_get_contents($stream6);
         $testecpu = $this->extstres22($upteste, 'load averages:', "\n");
-        //echo $upteste;
-        $uptimexx = explode(", ",trim($testecpu));
+        $uptimexxzza = explode("\n", $testecc);
+        dump($uptimexxzza);
+        $uptimexxzz = explode(" ", $uptimexxzza[9]);
+
+        $tabteste = array();
+        foreach ($uptimexxzz as $row)
+        {
+            if($row !=""){
+                $tabteste[] = $row;
+            }
+
+        }
+
+        $cpuusage = str_replace('%', "", $tabteste[10]);
+        $uptimexx = explode(", ", trim($testecpu));
 
         //echo stream_get_contents($stream_out);
         $pos[0] = strpos($upteste, 'load') + 14;
@@ -184,7 +211,7 @@ class ssh_access
         $swaputil = (float)$swapcomplet - (float)$swapdispo;
 
         $swaputil = 0;
-        $finaljson = ['cpu' => trim($cpu), 'pcpu' => $uptimexx, 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
+        $finaljson = ['cpu' => trim($cpu), 'pcpu' => $uptimexx,'cpuusage'=>$cpuusage, 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
 
         return $finaljson;
     }
@@ -242,68 +269,94 @@ class ssh_access
         $stream3 = ssh2_exec($connection, 'cat /proc/meminfo');
         $stream4 = ssh2_exec($connection, 'df /');
         //top -w
-        $stream5 = ssh2_exec($connection, 'top');
+        $stream5 = ssh2_exec($connection, '/usr/bin/top -b -n1');
+        $stream6 = ssh2_exec($connection, 'vmstat -w 1');
+        //$stream7 = ssh2_exec($connection, 'top');
         //freenas-boot/ROOT/11.3-U5
         stream_set_blocking($stream, true);
         stream_set_blocking($stream2, true);
         stream_set_blocking($stream3, true);
         stream_set_blocking($stream4, true);
         stream_set_blocking($stream5, true);
+      //  stream_set_blocking($stream6, true);
+       // stream_set_blocking($stream7, true);
         $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
         $stream_out2 = ssh2_fetch_stream($stream2, SSH2_STREAM_STDIO);
         $stream_out3 = ssh2_fetch_stream($stream3, SSH2_STREAM_STDIO);
         $stream_out4 = ssh2_fetch_stream($stream4, SSH2_STREAM_STDIO);
-          $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
+        $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
+        $stream_out6 = ssh2_fetch_stream($stream6, SSH2_STREAM_STDIO);
 
         $upteste = stream_get_contents($stream_out);
         $cpu = stream_get_contents($stream_out2);
         $memory = stream_get_contents($stream_out3);
         $disk = stream_get_contents($stream_out4);
         $testecuu = stream_get_contents($stream_out5);
-        $uptimexxzz = explode(" ",trim($testecuu));
+        $testepourcentage = stream_get_contents($stream_out6);
 
+        $uptimexxzza = explode("\n", trim($testecuu));
+        $uptimexxzz = explode(" ", $uptimexxzza[7]);
+        $tabteste = array();
+        foreach ($uptimexxzz as $row)
+        {
+            if($row !=""){
+                $tabteste[] = $row;
+            }
+
+        }
+       // dump($uptimexxzza[6]);
+       // dump($uptimexxzza[7]);
+       // dd($uptimexxzz);
         //echo $upteste;
         //echo stream_get_contents($stream_out);
         $pos[0] = strpos($upteste, 'load') + 14;
         $uptime[0] = substr($upteste, $pos[0]);
         $pos[0] = strpos($uptime[0], ',');
-      //  $uptimexx = explode(", ", $uptime[0]);
-        //dd($upteste);
+          $uptimexx = explode("\n", $testepourcentage);
+        $tabvaleur = explode(" ", $uptimexx[2]);
+
+     //   dd( $tabteste);
+        //dump(count($tabvaleur));
+       // dump($dernierkey);
+      //  dump($testepourcentage);
+      //  $us = $tabteste[12];
+       // $sy = $tabteste[13];
+     //   dump($us+$sy);
+      //  dd($uptimexxzz);
         $testecpu = $this->extstres22($upteste, 'load average:', "\n");
         //echo $upteste;
 
-        $uptimexx = explode(", ",trim($testecpu));
+        $uptimexx = explode(", ", trim($testecpu));
 
         $tabprocess = array();
-        $countrow=0;
-        foreach ($uptimexx as $row)
-        {
+        $countrow = 0;
+        foreach ($uptimexx as $row) {
 
-            $rowi=str_replace("\n","",$row);
-            $rowi=str_replace(",",".",$rowi);
+            $rowi = str_replace("\n", "", $row);
+            $rowi = str_replace(",", ".", $rowi);
             $countrow += (float)$rowi;
             $tabprocess[] = $rowi;
         }
-      //  dump($tabprocess);
-       // dd(array_sum($tabprocess));
-      //  dd($tabprocess);
+        //  dump($tabprocess);
+        // dd(array_sum($tabprocess));
+        //  dd($tabprocess);
         $uptime[1] = substr($uptime[0], 0, $pos[0]);
         $uptime[1] = $uptimexx;
         $dftotalgiga0 = explode(" ", $disk);
-        dump($dftotalgiga0);
+     //   dump($dftotalgiga0);
         $disktotal = $dftotalgiga0[21] / 1024000;
         $disktotal = number_format($disktotal, 2, ',', ' ');
         $diskuse = $dftotalgiga0[22] / 1024000;
 
-        $disklibre = (float)$disktotal -   (float)$diskuse;
+        $disklibre = (float)$disktotal - (float)$diskuse;
         $disklibre = number_format($disklibre, 2);
-        dump($disklibre);
+      //  dump($disklibre);
         $diskuse = number_format($diskuse, 2, ',', ' ');
-      //  $diskfree = $dftotalgiga0[24] / 1024000;
+        //  $diskfree = $dftotalgiga0[24] / 1024000;
         $diskfree = $disklibre;
-        dump($memory);
+       // dump($memory);
         $mem = explode("\n", $memory);
-        dump($mem);
+     //   dump($mem);
         $diskfree = number_format($diskfree, 2, ',', ' ');
 
 
@@ -311,26 +364,26 @@ class ssh_access
         $memfree = $mem[1];
         $swap = $mem[14];
         $swapfree = $mem[15];
-        $memoire=str_replace('MemTotal:','',$memoire);
-        $memoire=str_replace('kB','',trim($memoire));
-        $memfree=str_replace('MemFree:','',$memfree);
-        $memfree=str_replace('kB','',trim($memfree));
-        $swapfree=str_replace('SwapFree:','',$swapfree);
-        $swapfree=str_replace('kB','',trim($swapfree));
-        $swap=str_replace('SwapTotal:','',$swap);
-        $swap=str_replace('kB','',trim($swap));
+        $memoire = str_replace('MemTotal:', '', $memoire);
+        $memoire = str_replace('kB', '', trim($memoire));
+        $memfree = str_replace('MemFree:', '', $memfree);
+        $memfree = str_replace('kB', '', trim($memfree));
+        $swapfree = str_replace('SwapFree:', '', $swapfree);
+        $swapfree = str_replace('kB', '', trim($swapfree));
+        $swap = str_replace('SwapTotal:', '', $swap);
+        $swap = str_replace('kB', '', trim($swap));
         //fin
 
         $memuse = (float)$memoire - (float)$memfree;
         $swapuse = (float)$swap - (float)$swapfree;
-        $memoire1 = (float)$memoire/1024000;
-        $memfree1 = (float)$memfree/1024000;
-        $memuse1 = (float)$memuse/1024000;
+        $memoire1 = (float)$memoire / 1024000;
+        $memfree1 = (float)$memfree / 1024000;
+        $memuse1 = (float)$memuse / 1024000;
 
 
-        $swap1 = (float)$swap/1024000;
-        $swapfree1 = (float)$swapfree/1024000;
-        $swapuse1 = (float)$swapuse/1024000;
+        $swap1 = (float)$swap / 1024000;
+        $swapfree1 = (float)$swapfree / 1024000;
+        $swapuse1 = (float)$swapuse / 1024000;
 
         $memuse2 = (int)$memuse1;
         $ramcomplet = number_format($memoire1, 2, ',', ' ');
@@ -342,7 +395,7 @@ class ssh_access
         $swaputil = number_format($swapuse1, 0, ',', ' ');
 
 
-        $finaljson = ['cpu' => trim($cpu), 'pcpu' => $tabprocess, 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
+        $finaljson = ['cpu' => trim($cpu),'cpuusage'=>$tabteste[8], 'pcpu' => $tabprocess, 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
 
         return $finaljson;
     }
