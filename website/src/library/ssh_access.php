@@ -149,8 +149,10 @@ class ssh_access
         $memory = stream_get_contents($stream_out3);
         $disk = stream_get_contents($stream_out4);
         $swapbrut = stream_get_contents($stream5);
-
+        $testecpu = $this->extstres22($upteste, 'load averages:', "\n");
         //echo $upteste;
+        $uptimexx = explode(", ",trim($testecpu));
+
         //echo stream_get_contents($stream_out);
         $pos[0] = strpos($upteste, 'load') + 14;
         $uptime[0] = substr($upteste, $pos[0]);
@@ -182,7 +184,7 @@ class ssh_access
         $swaputil = (float)$swapcomplet - (float)$swapdispo;
 
         $swaputil = 0;
-        $finaljson = ['cpu' => trim($cpu), 'pcpu' => trim($uptime[1]), 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
+        $finaljson = ['cpu' => trim($cpu), 'pcpu' => $uptimexx, 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
 
         return $finaljson;
     }
@@ -240,7 +242,7 @@ class ssh_access
         $stream3 = ssh2_exec($connection, 'cat /proc/meminfo');
         $stream4 = ssh2_exec($connection, 'df /');
         //top -w
-        $stream5 = ssh2_exec($connection, 'top -w');
+        $stream5 = ssh2_exec($connection, 'top');
         //freenas-boot/ROOT/11.3-U5
         stream_set_blocking($stream, true);
         stream_set_blocking($stream2, true);
@@ -251,25 +253,39 @@ class ssh_access
         $stream_out2 = ssh2_fetch_stream($stream2, SSH2_STREAM_STDIO);
         $stream_out3 = ssh2_fetch_stream($stream3, SSH2_STREAM_STDIO);
         $stream_out4 = ssh2_fetch_stream($stream4, SSH2_STREAM_STDIO);
-        //  $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
+          $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
+
         $upteste = stream_get_contents($stream_out);
         $cpu = stream_get_contents($stream_out2);
         $memory = stream_get_contents($stream_out3);
         $disk = stream_get_contents($stream_out4);
-        $swapbrut = stream_get_contents($stream5);
-        //dump($memory);
+        $testecuu = stream_get_contents($stream_out5);
+        $uptimexxzz = explode(" ",trim($testecuu));
+
         //echo $upteste;
         //echo stream_get_contents($stream_out);
         $pos[0] = strpos($upteste, 'load') + 14;
         $uptime[0] = substr($upteste, $pos[0]);
         $pos[0] = strpos($uptime[0], ',');
-        $uptimexx = explode(", ", $uptime[0]);
+      //  $uptimexx = explode(", ", $uptime[0]);
+        //dd($upteste);
+        $testecpu = $this->extstres22($upteste, 'load average:', "\n");
+        //echo $upteste;
+
+        $uptimexx = explode(", ",trim($testecpu));
+
         $tabprocess = array();
+        $countrow=0;
         foreach ($uptimexx as $row)
         {
+
             $rowi=str_replace("\n","",$row);
+            $rowi=str_replace(",",".",$rowi);
+            $countrow += (float)$rowi;
             $tabprocess[] = $rowi;
         }
+      //  dump($tabprocess);
+       // dd(array_sum($tabprocess));
       //  dd($tabprocess);
         $uptime[1] = substr($uptime[0], 0, $pos[0]);
         $uptime[1] = $uptimexx;
@@ -326,7 +342,7 @@ class ssh_access
         $swaputil = number_format($swapuse1, 0, ',', ' ');
 
 
-        $finaljson = ['cpu' => trim($cpu), 'pcpu' => $tabprocess[0], 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
+        $finaljson = ['cpu' => trim($cpu), 'pcpu' => $tabprocess, 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
 
         return $finaljson;
     }

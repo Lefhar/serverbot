@@ -9,7 +9,32 @@
     </ol>
     <div class="row">
         <div class="col-xl-12 col-md-12">
-            teste
+            Etat des machines
+            {{ dump(machine) }}
+            {{ dump(ssh) }}
+
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <th>Serveur</th>
+                    <th>Ram</th>
+                    <th>Uptime</th>
+                    <th>Disk</th>
+                </tr>
+                {% for row in ssh %}
+
+
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.server.nom }}</td>
+                        <td class="ram"><span id="{{ row.id }}"></span></td>
+                        <td><span id="uptime{{ row.id }}"></span></td>
+                        <td><span id="disk{{ row.id }}"></span></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
