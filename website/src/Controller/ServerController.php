@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Server;
 use App\Form\ServerType;
+use App\library\ssh_access;
 use App\Repository\ServerRepository;
 use Nzo\UrlEncryptorBundle\Encryptor\Encryptor;
 use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
@@ -62,11 +63,24 @@ class ServerController extends AbstractController
     /**
      * @Route("/{id}", name="app_server_show", methods={"GET"})
      */
-    public function show(Server $server): Response
+    public function show(Server $server,ssh_access $ssh_access): Response
     {
+    $teste =    $ssh_access->ping($server->getIpv4());
+
         return $this->render('server/show.html.twig', [
             'server' => $server,
+            'ping'=>$teste
         ]);
+    }
+
+    /**
+     * @Route("/ping/{id}", name="app_ping_json", methods={"GET"})
+     */
+    public function pingPc(Server $server,ssh_access $ssh_access): Response
+    {
+    $teste =    $ssh_access->ping($server->getIpv4());
+
+       return $this->json(['ping'=>$teste]);
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace App\library;
 
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+
 class ssh_access
 {
     private $machine;
@@ -400,4 +403,22 @@ class ssh_access
         return $finaljson;
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function ping($ip)
+    {
+
+        $ping = shell_exec("ping -c 1 $ip");
+        if(preg_match('`100% packet loss`i', $ping))
+        {
+            $pinger = 'Hors ligne';
+        }
+        else
+        {
+            $pinger = 'En ligne';
+        }
+// echo $ping;
+        return $pinger;
+    }
 }

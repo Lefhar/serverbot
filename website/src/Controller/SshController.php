@@ -38,6 +38,8 @@ class SshController extends AbstractController
         $ssh_access->setPort($id->getPort());
 
         $jsonprocess = $ssh_access->connexionSSh();
+
+
         return $this->json($jsonprocess);
     }
 

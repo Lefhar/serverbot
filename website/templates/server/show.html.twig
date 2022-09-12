@@ -38,6 +38,7 @@
         </div>
         </div>
 {% endif %}
+    <input type="hidden" id="server" value="{{ server.id }}">
     <table class="table">
         <tbody>
             <tr>
@@ -54,7 +55,7 @@
             </tr>
             <tr>
                 <th>Etat</th>
-                <td>{{ server.etat }}</td>
+                <td><span id="etat"></span></td>
             </tr>
             <tr>
                 <th>Ipv4</th>
