@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ippower index{% endblock %}
+
+{% block body %}
+    <h1>Ippower index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Password</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ippower in ippowers %}
+            <tr>
+                <td>{{ ippower.id }}</td>
+                <td>{{ ippower.name }}</td>
+                <td>{{ ippower.password }}</td>
+                <td>
+                    <a href="{{ path('app_ippower_show', {'id': ippower.id}) }}">show</a>
+                    <a href="{{ path('app_ippower_edit', {'id': ippower.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ippower_new') }}">Create new</a>
+{% endblock %}

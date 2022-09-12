@@ -282,21 +282,22 @@ function serverJsonGauge(id) {
 
     }));
 
-    if(document.getElementById('server'))
-    {
+
+}
+if(document.getElementById('server'))
+{
+     ping();
+    setInterval(() => {
         ping();
-        setInterval(() => {
-            ping();
-        }, 60000);
-    }
-    function ping()
-    {
-        const id = document.getElementById('server').value;
-        const etat = document.getElementById('etat');
-        let url = `/admin/server/ping/${id}`;
-        fetch(url).then(response => response.json().then(data => {
-            console.log(data);
-            etat.textContent = data.ping;
-        }));
-    }
+    }, 60000);
+}
+function ping()
+{
+    const id = document.getElementById('server').value;
+    const etat = document.getElementById('etat');
+    let url = `/admin/server/ping/${id}`;
+    fetch(url).then(response => response.json().then(data => {
+        console.log(data);
+        etat.textContent = data.ping;
+    }));
 }

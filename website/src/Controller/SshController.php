@@ -64,14 +64,14 @@ class SshController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $encrypted = $encryptor->encrypt('abcd');
-            $decrypted = $encryptor->decrypt($encrypted);
+//            $encrypted = $encryptor->encrypt('abcd');
+//            $decrypted = $encryptor->decrypt($encrypted);
 
 
             $ssh->setIdentifiant($encryptor->encrypt($form->get('identifiant')->getData()));
             $ssh->setMotdepasse($encryptor->encrypt($form->get('motdepasse')->getData()));
-            dump($encrypted);
-            dump($decrypted);
+//            dump($encrypted);
+//            dump($decrypted);
             $sshRepository->add($ssh, true);
 
             return $this->redirectToRoute('app_ssh_index', [], Response::HTTP_SEE_OTHER);
