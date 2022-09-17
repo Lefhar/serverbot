@@ -284,11 +284,11 @@ function serverJsonGauge(id) {
 
 }
 
-if (document.getElementById('server')) {
+if (document.getElementById('etat')) {
     ping();
     setInterval(() => {
         ping();
-    }, 33000);
+    }, 20000);
 }
 
 function ping() {
@@ -297,7 +297,12 @@ function ping() {
     let url = `/admin/server/ping/${id}`;
     fetch(url).then(response => response.json().then(data => {
         console.log(data);
-        etat.textContent = data.ping;
+        if(data.ping) {
+            etat.textContent = data.ping;
+        }else{
+            etat.textContent = `Hors ligne`;
+        }
+
     }));
 }
 
