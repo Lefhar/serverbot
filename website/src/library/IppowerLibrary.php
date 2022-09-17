@@ -85,7 +85,7 @@ class IppowerLibrary
         }else{
             $resultat = 'Inactif';
             $date = new \DateTime();
-            $date->modify('+120 secondes');
+            $date->modify('+120 second');
             $date->format('Y-m-d H:i:s');
             $Restart = new Restart();
             $Restart->setEtat(2);
