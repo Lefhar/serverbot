@@ -319,17 +319,33 @@ function ippower() {
     let url = `/admin/server/pingippower/${id}`;
     fetch(url).then(response => response.json().then(data => {
         console.log(data);
-        etat.textContent = data.ippower;
+
+        if(data.ippower) {
+            etat.textContent = data.ippower;
+        }else{
+            etat.textContent = `Inactif`;
+        }
+
+
+
     }));
 }
 
 if (document.getElementById('restart')) {
     const restart = document.getElementById('restart');
+    const ippower = document.getElementById('ippower');
+    const etat = document.getElementById('etat');
     const id = document.getElementById('server').value;
     const etatelec = document.getElementById('etatelec');
+
+
     restart.addEventListener("click", () => {
+        etat.innerHTML = `Hors ligne`;
+        ippower.innerHTML = `Inactif`;
         let url = `/admin/server/restartippower/${id}`;
+
         etatelec.innerHTML = "Redémarrage en cours";
+
         fetch(url).then(response => response.json().then(data => {
             if (data.ippower === "Actif") {
                 etatelec.innerHTML = "Redémarrage terminé";
