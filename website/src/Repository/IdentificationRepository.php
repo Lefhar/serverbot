@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Ippower;
+use App\Entity\Identification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Ippower>
+ * @extends ServiceEntityRepository<Identification>
  *
- * @method Ippower|null find($id, $lockMode = null, $lockVersion = null)
- * @method Ippower|null findOneBy(array $criteria, array $orderBy = null)
- * @method Ippower[]    findAll()
- * @method Ippower[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Identification|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Identification|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Identification[]    findAll()
+ * @method Identification[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class IppowerRepository extends ServiceEntityRepository
+class IdentificationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Ippower::class);
+        parent::__construct($registry, Identification::class);
     }
 
-    public function add(Ippower $entity, bool $flush = false): void
+    public function add(Identification $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class IppowerRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Ippower $entity, bool $flush = false): void
+    public function remove(Identification $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 

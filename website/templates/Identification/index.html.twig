@@ -15,14 +15,15 @@
             </tr>
         </thead>
         <tbody>
-        {% for ippower in ippowers %}
+        {% for Identification in Identifications %}
             <tr>
-                <td>{{ ippower.id }}</td>
-                <td>{{ ippower.name }}</td>
-                <td>{{ ippower.password }}</td>
+                <td>{{ Identification.id }}</td>
+                <td>{{ Identification.type }}</td>
+                <td>{{ Identification.name }}</td>
+                <td>{{ Identification.password }}</td>
                 <td>
-                    <a href="{{ path('app_ippower_show', {'id': ippower.id}) }}">show</a>
-                    <a href="{{ path('app_ippower_edit', {'id': ippower.id}) }}">edit</a>
+                    <a href="{{ path('app_Identification_show', {'id': Identification.id}) }}">show</a>
+                    <a href="{{ path('app_Identification_edit', {'id': Identification.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +34,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_ippower_new') }}">Create new</a>
+    <a href="{{ path('app_Identification_new') }}">Create new</a>
 {% endblock %}

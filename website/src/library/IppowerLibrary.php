@@ -2,17 +2,29 @@
 
 namespace App\library;
 
-use App\Repository\IppowerRepository;
+
+use App\Repository\IdentificationRepository;
 use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
 
 class IppowerLibrary
 {
-
-
-    public function etat($pc, EncryptorInterface $encryptor, IppowerRepository $ippowerRepository)
+    private $ippower;
+    private EncryptorInterface $encryptor;
+    public function __construct(IdentificationRepository $identificationRepository,EncryptorInterface $encryptorinterface)
     {
-        $ippower = $ippowerRepository->find(6);
-        $url = 'http://'.$encryptor->decrypt($ippower->getName()).':'.$encryptor->decrypt($ippower->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=GetPower';
+        $this->ippower = $identificationRepository->findOneBy(['type'=>'ippower']);
+        $this->encryptor = $encryptorinterface;
+    }
+
+    public function getIppower()
+    {
+        return $this->ippower;
+    }
+
+    public function etat($pc)
+    {
+
+        $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=GetPower';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)');

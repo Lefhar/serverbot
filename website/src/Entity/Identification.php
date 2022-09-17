@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\IppowerRepository;
+use App\Repository\IdentificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=IppowerRepository::class)
  */
-class Ippower
+class Identification
 {
     /**
      * @ORM\Id
@@ -26,6 +26,11 @@ class Ippower
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $type;
 
     public function getId(): ?int
     {
@@ -52,6 +57,18 @@ class Ippower
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

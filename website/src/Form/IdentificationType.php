@@ -2,18 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Ippower;
+use App\Entity\Identification;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ShowHidePasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IppowerType extends AbstractType
+class IdentificationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('type',TextType::class)
             ->add('name',TextType::class)
             ->add('password',ShowHidePasswordType::class)
         ;
@@ -22,7 +23,7 @@ class IppowerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Ippower::class,
+            'data_class' => Identification::class,
         ]);
     }
 }
