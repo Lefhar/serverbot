@@ -19,6 +19,7 @@ class CronController extends AbstractController
     {
         $restart = $restartRepository->findBy(['etat'=>2]);
 dump($restart);
+        date_default_timezone_set('Europe/Paris');
         $dateActuel = new \DateTime();
         foreach ($restartRepository->findBy(['etat'=>2]) as $row)
         {
