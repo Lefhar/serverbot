@@ -73,7 +73,7 @@ class IppowerLibrary
         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
 
         $start =   $this->getCurl($url);
-        date_default_timezone_set('Europe/Paris');
+        //date_default_timezone_set('Europe/Paris');
         $date = new \DateTime();
         $date->modify('+120 secondes');
         $date->format('Y-m-d H:i:s');
