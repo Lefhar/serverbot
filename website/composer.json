@@ -6,6 +6,7 @@
     "require": {
         "php": ">=7.4",
         "ext-ctype": "*",
+        "ext-curl": "*",
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-ssh2": "*",
@@ -51,8 +52,7 @@
         "symfonycasts/verify-email-bundle": "^1.10",
         "twig/extra-bundle": "^3.4",
         "twig/string-extra": "^3.4",
-        "twig/twig": "^2.12|^3.0",
-      "ext-curl": "*"
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "allow-plugins": {
