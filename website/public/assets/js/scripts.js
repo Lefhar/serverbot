@@ -347,8 +347,15 @@ if (document.getElementById('restart')) {
         etatelec.innerHTML = "Redémarrage en cours";
 
         fetch(url).then(response => response.json().then(data => {
-            if (data.ippower === "Actif") {
-                etatelec.innerHTML = "Redémarrage terminé";
+            if(data.ippower==="")
+            {
+
+            }
+            if (data.ippower === "Inactif") {
+                setTimeout(function () {
+                    etatelec.innerHTML  = "Redémarrage terminé";
+                }, 120000);
+                etatelec.innerHTML
 
                 // On l'efface 8 secondes plus tard
                 setTimeout(function () {
