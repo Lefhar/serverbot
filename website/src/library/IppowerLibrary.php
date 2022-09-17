@@ -35,7 +35,7 @@ class IppowerLibrary
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         preg_match('/<html>(.*?)<\/html>/s', $data, $match);
         $extraire= explode(',',$match[0]);
-
+        //teste
         curl_close($ch);
         if($extraire['p6'.$pc]==1){
             $resultat = 'Actif';
