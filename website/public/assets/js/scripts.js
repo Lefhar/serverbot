@@ -288,7 +288,7 @@ if (document.getElementById('server')) {
     ping();
     setInterval(() => {
         ping();
-    }, 60000);
+    }, 33000);
 }
 
 function ping() {
@@ -305,7 +305,7 @@ if (document.getElementById('ippower')) {
     ippower();
     setInterval(() => {
         ippower();
-    }, 60000);
+    }, 30000);
 }
 
 function ippower() {
