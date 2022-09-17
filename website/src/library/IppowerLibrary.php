@@ -5,6 +5,7 @@ namespace App\library;
 
 use App\Entity\Restart;
 use App\Repository\IdentificationRepository;
+use App\Repository\ServerRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
@@ -14,11 +15,14 @@ class IppowerLibrary
     private $ippower;
     private EncryptorInterface $encryptor;
     private EntityManagerInterface $entityManager;
-    public function __construct(IdentificationRepository $identificationRepository,EncryptorInterface $encryptorinterface,EntityManagerInterface $EntityManagerInterface)
+    private ServerRepository $serverRepository;
+    public function __construct(IdentificationRepository $identificationRepository,EncryptorInterface $encryptorinterface,
+                                EntityManagerInterface $EntityManagerInterface,ServerRepository $serverRepository)
     {
         $this->ippower = $identificationRepository->findOneBy(['type'=>'ippower']);
         $this->encryptor = $encryptorinterface;
         $this->entityManager = $EntityManagerInterface;
+        $this->serverRepository=$serverRepository;
     }
 
 
@@ -64,6 +68,7 @@ class IppowerLibrary
 
   public function restart($pc)
     {
+        $server = $this->serverRepository->findOneBy(['ippower'=>$pc]);
         ini_set('max_execution_time', 0);
         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
 
@@ -75,6 +80,7 @@ class IppowerLibrary
         $Restart = new Restart();
         $Restart->setEtat(2);
         $Restart->setDate($date);
+        $Restart->setIppower($server);
         $this->entityManager->persist($Restart);
         $this->entityManager->flush();
        // $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=1';
