@@ -65,10 +65,10 @@ class ServerController extends AbstractController
     /**
      * @Route("/{id}", name="app_server_show", methods={"GET"})
      */
-    public function show(Server $server,ssh_access $ssh_access,IppowerLibrary $ippowerLibrary): Response
+    public function show(Server $server,ssh_access $ssh_access): Response
     {
     $teste =    $ssh_access->ping($server->getIpv4());
-        dump($ippowerLibrary->etat($server->getIppower()));
+//        dump($ippowerLibrary->etat($server->getIppower()));
         return $this->render('server/show.html.twig', [
             'server' => $server,
             'ping'=>$teste
