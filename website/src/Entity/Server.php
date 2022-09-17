@@ -75,12 +75,18 @@ class Server
      */
     private $machine;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Restart::class, mappedBy="ippower")
+     */
+    private $restarts;
+
 
 
     public function __construct()
     {
         $this->sshes = new ArrayCollection();
         $this->machines = new ArrayCollection();
+        $this->restarts = new ArrayCollection();
     }
 
 
@@ -240,6 +246,36 @@ class Server
     public function setMachine(?Machine $machine): self
     {
         $this->machine = $machine;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Restart>
+     */
+    public function getRestarts(): Collection
+    {
+        return $this->restarts;
+    }
+
+    public function addRestart(Restart $restart): self
+    {
+        if (!$this->restarts->contains($restart)) {
+            $this->restarts[] = $restart;
+            $restart->setIppower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRestart(Restart $restart): self
+    {
+        if ($this->restarts->removeElement($restart)) {
+            // set the owning side to null (unless already changed)
+            if ($restart->getIppower() === $this) {
+                $restart->setIppower(null);
+            }
+        }
 
         return $this;
     }

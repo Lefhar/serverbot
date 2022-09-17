@@ -3,17 +3,22 @@
 namespace App\library;
 
 
+use App\Entity\Restart;
 use App\Repository\IdentificationRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
 
 class IppowerLibrary
 {
     private $ippower;
     private EncryptorInterface $encryptor;
-    public function __construct(IdentificationRepository $identificationRepository,EncryptorInterface $encryptorinterface)
+    private EntityManagerInterface $entityManager;
+    public function __construct(IdentificationRepository $identificationRepository,EncryptorInterface $encryptorinterface,EntityManagerInterface $EntityManagerInterface)
     {
         $this->ippower = $identificationRepository->findOneBy(['type'=>'ippower']);
         $this->encryptor = $encryptorinterface;
+        $this->entityManager = $EntityManagerInterface;
     }
 
 
@@ -62,13 +67,21 @@ class IppowerLibrary
         ini_set('max_execution_time', 0);
         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
 
-        $this->getCurl($url);
-        sleep(80);
-        $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=1';
-      $start =  $this->getCurl($url);
+        $start =   $this->getCurl($url);
+
+        $date = new \DateTime();
+        $date->modify('+120 secondes');
+        $date->format('Y-m-d H:i:s');
+        $Restart = new Restart();
+        $Restart->setEtat(2);
+        $Restart->setDate($date);
+        $this->entityManager->persist($Restart);
+        $this->entityManager->flush();
+       // $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=1';
+     // $start =  $this->getCurl($url);
         preg_match('/<html>(.*?)<\/html>/s', $start, $match);
         $retour = $match[1].',';
-        parse_str(str_replace(',', '&', $match[1]), $output);
+        parse_str(str_replace(',', '&', $retour), $output);
         if($output['p6'.$pc]==1){
             $resultat = 'Actif';
         }else{
@@ -77,5 +90,22 @@ class IppowerLibrary
         return $resultat;
     }
 
+
+    public function startByCron($pc)
+    {
+         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=1';
+        $start =   $this->getCurl($url);
+        preg_match('/<html>(.*?)<\/html>/s', $start, $match);
+        $retour = $match[1].',';
+
+        parse_str(str_replace(',', '&', $match[1]), $output);
+        dump($output);
+        if($output['p6'.$pc]==1){
+            $resultat = true;
+        }else{
+            $resultat = false;
+        }
+        return $resultat;
+    }
 
 }
