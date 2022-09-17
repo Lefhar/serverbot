@@ -92,8 +92,7 @@ if (document.getElementsByClassName('ram')) {
 
 }
 
-if(document.getElementById('gauge'))
-{
+if (document.getElementById('gauge')) {
     console.log(document.querySelector('.gauge').id)
     window.addEventListener('load', (event) => {
         // let ram = document.getElementsByClassName('ram')
@@ -102,11 +101,11 @@ if(document.getElementById('gauge'))
         //     console.log(ram[i].childNodes.getAttribute("id"));
         // }
 
-            serverJsonGauge(document.querySelector('.gauge').id)
+        serverJsonGauge(document.querySelector('.gauge').id)
 
-            setInterval(() => {
-                serverJsonGauge(document.querySelector('.gauge').id);
-            }, 20000);
+        setInterval(() => {
+            serverJsonGauge(document.querySelector('.gauge').id);
+        }, 20000);
 
 
     });
@@ -186,7 +185,7 @@ function serverJsonGauge(id) {
                 }
             }
         });
-    console.log(data.cpuusage)
+        console.log(data.cpuusage)
         let cpuuse = data.cpuusage.replace(",", ".");
         Chart.pluginService.register({
             beforeDraw: function (chart) {
@@ -200,7 +199,7 @@ function serverJsonGauge(id) {
                     let txt = centerConfig.text;
                     let color = centerConfig.color || '#000';
                     let sidePadding = centerConfig.sidePadding || 20;
-                    let sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+                    let sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2)
                     //Start with a base font of 30px
                     ctx.font = "30px " + fontStyle;
 
@@ -221,7 +220,7 @@ function serverJsonGauge(id) {
                     ctx.textBaseline = 'middle';
                     let centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
                     let centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
-                    ctx.font = 40+"px " + fontStyle;
+                    ctx.font = 40 + "px " + fontStyle;
                     ctx.fillStyle = color;
 
                     //Draw text in center
@@ -239,7 +238,7 @@ function serverJsonGauge(id) {
                     "Libre",
                 ],
                 datasets: [{
-                    data: [parseFloat(cpuuse), (100-parseFloat(cpuuse))],
+                    data: [parseFloat(cpuuse), (100 - parseFloat(cpuuse))],
                     backgroundColor: [
                         'rgba(255,0,0,0.7)',
                         'rgba(41,224,20,0.7)'
@@ -253,7 +252,7 @@ function serverJsonGauge(id) {
             options: {
                 elements: {
                     center: {
-                        text: parseFloat(cpuuse)  +'%',
+                        text: parseFloat(cpuuse) + '%',
                         color: '#FF6384', // Default is #000000
                         fontStyle: 'Arial', // Default is Arial
                         sidePadding: 20 // Defualt is 20 (as a percentage)
@@ -277,22 +276,22 @@ function serverJsonGauge(id) {
         let myChart4 = new Chart(ctx4, config);
 
 
-       // myChart.update()
+        // myChart.update()
 
 
     }));
 
 
 }
-if(document.getElementById('server'))
-{
-     ping();
+
+if (document.getElementById('server')) {
+    ping();
     setInterval(() => {
         ping();
     }, 60000);
 }
-function ping()
-{
+
+function ping() {
     const id = document.getElementById('server').value;
     const etat = document.getElementById('etat');
     let url = `/admin/server/ping/${id}`;
@@ -302,15 +301,14 @@ function ping()
     }));
 }
 
-if(document.getElementById('ippower'))
-{
+if (document.getElementById('ippower')) {
     ippower();
     setInterval(() => {
         ippower();
     }, 60000);
 }
-function ippower()
-{
+
+function ippower() {
     const id = document.getElementById('server').value;
     const etat = document.getElementById('ippower');
     let url = `/admin/server/pingippower/${id}`;
@@ -319,13 +317,23 @@ function ippower()
         etat.textContent = data.ippower;
     }));
 }
-if(document.getElementById('restart')){
+
+if (document.getElementById('restart')) {
     const restart = document.getElementById('restart');
     const id = document.getElementById('server').value;
+    const etatelec = document.getElementById('etatelec');
     restart.addEventListener("click", () => {
-        let url = `/admin/ssh/restartIpPower/${id}`;
+        let url = `/admin/server/restartippower/${id}`;
+        etatelec.innerHTML = "Redémarrage en cours";
         fetch(url).then(response => response.json().then(data => {
+            if (data.ippower === "Actif") {
+                etatelec.innerHTML = "Redémarrage terminé";
 
+                // On l'efface 8 secondes plus tard
+                setTimeout(function () {
+                    etatelec.innerHTML = "";
+                }, 8000);
+            }
         }));
     })
 }
