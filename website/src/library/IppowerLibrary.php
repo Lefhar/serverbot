@@ -63,7 +63,7 @@ class IppowerLibrary
         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
 
         $this->getCurl($url);
-        sleep(120);
+        sleep(28);
         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
       $start =  $this->getCurl($url);
         preg_match('/<html>(.*?)<\/html>/s', $start, $match);
