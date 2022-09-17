@@ -301,3 +301,21 @@ function ping()
         etat.textContent = data.ping;
     }));
 }
+
+if(document.getElementById('ippower'))
+{
+    ippower();
+    setInterval(() => {
+        ippower();
+    }, 60000);
+}
+function ippower()
+{
+    const id = document.getElementById('server').value;
+    const etat = document.getElementById('ippower');
+    let url = `/admin/server/pingippower/${id}`;
+    fetch(url).then(response => response.json().then(data => {
+        console.log(data);
+        etat.textContent = data.ippower;
+    }));
+}

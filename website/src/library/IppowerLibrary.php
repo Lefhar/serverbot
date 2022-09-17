@@ -34,10 +34,14 @@ class IppowerLibrary
         $data = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         preg_match('/<html>(.*?)<\/html>/s', $data, $match);
-        $extraire= explode(',',$match[0]);
+
+//        $teste = str_replace('=','=>',$match[1]);
+//        dump([$teste]);
+        parse_str(str_replace(',', '&', $match[1]), $output);
+
         //teste
         curl_close($ch);
-        if($extraire['p6'.$pc]==1){
+        if($output['p6'.$pc]==1){
             $resultat = 'Actif';
         }else{
             $resultat = 'Inactif';

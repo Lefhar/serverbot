@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Server;
 use App\Form\ServerType;
+use App\library\IppowerLibrary;
 use App\library\ssh_access;
+use App\Repository\IdentificationRepository;
 use App\Repository\ServerRepository;
 use Nzo\UrlEncryptorBundle\Encryptor\Encryptor;
 use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
@@ -63,10 +65,10 @@ class ServerController extends AbstractController
     /**
      * @Route("/{id}", name="app_server_show", methods={"GET"})
      */
-    public function show(Server $server,ssh_access $ssh_access): Response
+    public function show(Server $server,ssh_access $ssh_access,IppowerLibrary $ippowerLibrary): Response
     {
     $teste =    $ssh_access->ping($server->getIpv4());
-
+        dump($ippowerLibrary->etat($server->getIppower()));
         return $this->render('server/show.html.twig', [
             'server' => $server,
             'ping'=>$teste
@@ -81,6 +83,16 @@ class ServerController extends AbstractController
     $teste =    $ssh_access->ping($server->getIpv4());
 
        return $this->json(['ping'=>$teste]);
+    }
+
+    /**
+     * @Route("/pingippower/{id}", name="app_ippower_json", methods={"GET"})
+     */
+    public function pingIppower(Server $server,IppowerLibrary $ippowerLibrary): Response
+    {
+    $teste =    $ippowerLibrary->etat($server->getIppower());
+
+       return $this->json(['ippower'=>$teste]);
     }
 
     /**
