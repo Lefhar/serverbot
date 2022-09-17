@@ -21,10 +21,11 @@ class CronController extends AbstractController
 dump($restart);
         date_default_timezone_set('Europe/Paris');
         $dateActuel = new \DateTime();
+        dump($dateActuel);
         foreach ($restartRepository->findBy(['etat'=>2]) as $row)
         {
 dump($row->getDate());
-dump($dateActuel);
+
             if($row->getDate()<= $dateActuel){
                 dump('une date');
                 if($ippowerLibrary->startByCron($row->getIppower()->getIppower())){
