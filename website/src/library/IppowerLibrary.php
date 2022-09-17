@@ -16,6 +16,21 @@ class IppowerLibrary
         $this->encryptor = $encryptorinterface;
     }
 
+
+    private  function getCurl($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $data = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return $data;
+    }
+
     public function getIppower()
     {
         return $this->ippower;
@@ -25,14 +40,7 @@ class IppowerLibrary
     {
 
         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=GetPower';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $data = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $data = $this->getCurl($url);
         preg_match('/<html>(.*?)<\/html>/s', $data, $match);
 
 //        $teste = str_replace('=','=>',$match[1]);
@@ -40,7 +48,27 @@ class IppowerLibrary
         parse_str(str_replace(',', '&', $match[1]), $output);
 
         //teste
-        curl_close($ch);
+
+        if($output['p6'.$pc]==1){
+            $resultat = 'Actif';
+        }else{
+            $resultat = 'Inactif';
+        }
+        return $resultat;
+    }
+
+  public function restart($pc)
+    {
+
+        $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
+
+        $this->getCurl($url);
+        sleep(120);
+        $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
+      $start =  $this->getCurl($url);
+        preg_match('/<html>(.*?)<\/html>/s', $start, $match);
+        $retour = $match[1].',';
+        parse_str(str_replace(',', '&', $match[1]), $output);
         if($output['p6'.$pc]==1){
             $resultat = 'Actif';
         }else{

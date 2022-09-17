@@ -319,3 +319,13 @@ function ippower()
         etat.textContent = data.ippower;
     }));
 }
+if(document.getElementById('restart')){
+    const restart = document.getElementById('restart');
+    const id = document.getElementById('server').value;
+    restart.addEventListener("click", () => {
+        let url = `/admin/ssh/restartIpPower/${id}`;
+        fetch(url).then(response => response.json().then(data => {
+
+        }));
+    })
+}

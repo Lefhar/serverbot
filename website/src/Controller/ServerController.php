@@ -96,6 +96,16 @@ class ServerController extends AbstractController
     }
 
     /**
+     * @Route("/restartippower/{id}", name="app_restart_ippower_json", methods={"GET"})
+     */
+    public function restartIpPower(Server $server,IppowerLibrary $ippowerLibrary): Response
+    {
+    $teste =    $ippowerLibrary->restart($server->getIppower());
+
+       return $this->json(['ippower'=>$teste]);
+    }
+
+    /**
      * @Route("/{id}/edit", name="app_server_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Server $server, ServerRepository $serverRepository): Response
