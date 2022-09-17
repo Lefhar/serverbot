@@ -360,7 +360,7 @@ if (document.getElementById('restart')) {
                 // On l'efface 8 secondes plus tard
                 setTimeout(function () {
                     etatelec.innerHTML = "";
-                }, 8000);
+                }, 160000);
             }
         }));
     })
