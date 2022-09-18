@@ -45,6 +45,7 @@ class WebsiteController extends AbstractController
             $filesystem = new Filesystem();
 
             $filesystem->mkdir('/assets/file', 0755);
+            mkdir('/var/www/html/dev.serverbot/serverbot/website/public/assets/file',0755);
             return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
         }
 
