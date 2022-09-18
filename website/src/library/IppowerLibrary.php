@@ -132,7 +132,7 @@ class IppowerLibrary
     }
     public function stopIppower($pc)
     {
-         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=1';
+         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
         $start =   $this->getCurl($url);
         preg_match('/<html>(.*?)<\/html>/s', $start, $match);
         $retour = $match[1].',';

@@ -327,6 +327,7 @@ function ippower() {
     const id = document.getElementById('server').value;
     const etat = document.getElementById('ippower');
     const stop = document.getElementById('stop');
+    const start = document.getElementById('start');
     const restart = document.getElementById('restart');
     let url = `/admin/server/pingippower/${id}`;
     fetch(url).then(response => response.json().then(data => {
@@ -344,6 +345,13 @@ function ippower() {
         {
             stop.style.display =`none`;
             restart.style.display =`none`;
+        }
+
+        if(data.ippower==="Actif")
+        {
+            stop.style.display =``;
+            restart.style.display =``;
+            start.style.display =`none`;
         }
 
     }));
