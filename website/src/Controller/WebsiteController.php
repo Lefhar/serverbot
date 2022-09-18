@@ -6,6 +6,9 @@ use App\Entity\Website;
 use App\Form\WebsiteType;
 use App\Repository\WebsiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +42,9 @@ class WebsiteController extends AbstractController
             $website->setFile(0);
             $website->setUsers($this->getUser());
             $websiteRepository->add($website, true);
+            $filesystem = new Filesystem();
 
+            $filesystem->mkdir('/file', 0755);
             return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
         }
 
