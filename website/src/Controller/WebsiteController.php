@@ -43,7 +43,7 @@ class WebsiteController extends AbstractController
             $website->setUsers($this->getUser());
             $websiteRepository->add($website, true);
             $filesystem = new Filesystem();
-            $path = getcwd().'/file';
+            $path = getcwd().'/assets/file';
 
            // mkdir('/var/www/html/dev.serverbot/serverbot/website/public/assets/file',0755);
             if(!$filesystem->exists($path)){
