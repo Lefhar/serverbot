@@ -14,8 +14,7 @@
                 <th>Etat</th>
                 <th>Ipv4</th>
                 <th>Location</th>
-                <th>Localscript</th>
-                <th>Lieninfo</th>
+
                 <th>Date</th>
                 <th>actions</th>
             </tr>
@@ -29,8 +28,7 @@
                 <td>{{ server.etat ? '<i class="fa-solid fa-power-off text-success"></i>':'<i class="fa-solid fa-power-off text-danger"></i>'}}</td>
                 <td>{{ server.ipv4 }}</td>
                 <td>{{ server.location }}</td>
-                <td>{{ server.localscript }}</td>
-                <td>{{ server.lieninfo }}</td>
+
                 <td>{{ server.date ? server.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_server_show', {'id': server.id}) }}">show</a>
