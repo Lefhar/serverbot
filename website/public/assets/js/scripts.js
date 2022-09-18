@@ -97,7 +97,13 @@ if (document.getElementsByClassName('ram')) {
             {
                 document.getElementById('progressbar' + id).classList.remove('bg-success')
                 document.getElementById('progressbar' + id).classList.add('bg-danger')
+            }else if(parseFloat(data.cpuusage.replace(',','.')) >= 60)
+            {
+                document.getElementById('progressbar' + id).classList.remove('bg-success')
+                document.getElementById('progressbar' + id).classList.remove('bg-danger')
+                document.getElementById('progressbar' + id).classList.add('bg-warning')
             }else {
+                document.getElementById('progressbar' + id).classList.remove('bg-warning')
                 document.getElementById('progressbar' + id).classList.remove('bg-danger')
                 document.getElementById('progressbar' + id).classList.add('bg-success')
             }
