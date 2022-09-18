@@ -51,6 +51,33 @@ class WebsiteController extends AbstractController
                 $filesystem->chown($path, "www-data");
                 $filesystem->chgrp($path, "www-data");
             }
+            if($form->get('port')->getData()=="80"){
+            $data = "<VirtualHost *:80>
+        ServerAdmin postmaster@".$form->get('domaine')->getData()."
+        ServerName ".$form->get('domaine')->getData()."
+        ProxyPass / http://".$form->get('ip')->getData().":80/
+        ProxyPassReverse / http://".$form->get('domaine')->getData().":80/
+        ProxyPreserveHost On
+ </VirtualHost>";
+        }else {
+                $data = "<VirtualHost *:80>
+        ServerAdmin postmaster@" . $form->get('domaine')->getData() . "
+        ServerName " . $form->get('domaine')->getData() . "
+        ProxyPass / http://" . $form->get('ip')->getData() . ":" . $form->get('port')->getData() . "/
+        ProxyPassReverse / http://" . $form->get('domaine')->getData() . ":80/
+        ProxyPreserveHost On
+        RewriteEngine on  
+        RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]  
+        RewriteCond %{HTTP:CONNECTION} ^Upgrade$ [NC]  
+        RewriteRule .* ws://" .$form->get('ip')->getData() . ":" .$form->get('ip')->getData() . "%{REQUEST_URI} [P] 
+ </VirtualHost>";
+            }
+
+            if(!$filesystem->exists($path)) {
+                $domaine = preg_replace("`[^A-Za-z0-9]+`", "-", $form->get('domaine')->getData());
+                $filesystem->touch($path . '/' . $domaine . '.conf');
+                $filesystem->appendToFile($path . '/' . $domaine . '.conf', $data);
+            }
 
 
             return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
