@@ -75,7 +75,9 @@ if (document.getElementsByClassName('ram')) {
         fetch(url).then(response => response.json().then(data => {
             // console.log(data)
             // console.log(data.cpu)
-
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
 
             // ram+=obj.ram;
             // ramuser+=obj.ramuse;
@@ -347,6 +349,7 @@ if (document.getElementById('restart')) {
         etatelec.innerHTML = "Redémarrage en cours";
 
         fetch(url).then(response => response.json().then(data => {
+
             if(data.ippower==="")
             {
 
