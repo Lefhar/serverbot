@@ -32,7 +32,11 @@
                         <td>{{ row.id }}</td>
                         <td>{{ row.server.nom }}</td>
                         <td class="ram"><span id="{{ row.id }}"></span></td>
-                        <td><span id="uptime{{ row.id }}"></span></td>
+                        <td><span id="uptime{{ row.id }}"></span>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </td>
                         <td><span id="disk{{ row.id }}"></span></td>
                         <td>
                             <a href="{{ path('app_server_show', {'id': row.server.id}) }}">show</a>
