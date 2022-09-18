@@ -24,7 +24,10 @@ class CronController extends AbstractController
         {
            $etat = $ippowerLibrary->etat($row->getIppower());
            if($etat=="Actif"){
-               $row->setDate(new \DateTime());
+               $date = new \DateTime();
+               $date->modify('+5 minutes');
+               $date->format('Y-m-d H:i:s');
+               $row->setDate($date);
                $entityManager->flush();
            }
 
