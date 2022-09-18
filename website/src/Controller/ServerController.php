@@ -113,20 +113,22 @@ class ServerController extends AbstractController
     /**
      * @Route("/startippower/{id}", name="app_start_ippower_json", methods={"GET"})
      */
-    public function startIpPower(Server $server,IppowerLibrary $ippowerLibrary): Response
+    public function startIpPower(Server $server,IppowerLibrary $ippowerLibrary,EntityManagerInterface $entityManager): Response
     {
     $teste =    $ippowerLibrary->startIppower($server->getIppower());
-
+        $server->setEtat(1);
+        $entityManager->flush();
        return $this->json(['ippower'=>$teste]);
     }
 
     /**
      * @Route("/stopippower/{id}", name="app_stop_ippower_json", methods={"GET"})
      */
-    public function stopIpPower(Server $server,IppowerLibrary $ippowerLibrary): Response
+    public function stopIpPower(Server $server,IppowerLibrary $ippowerLibrary,EntityManagerInterface $entityManager): Response
     {
     $teste =    $ippowerLibrary->stopIppower($server->getIppower());
-
+        $server->setEtat(0);
+        $entityManager->flush();
        return $this->json(['ippower'=>$teste]);
     }
 
