@@ -124,9 +124,9 @@ class IppowerLibrary
         parse_str(str_replace(',', '&', $match[1]), $output);
 
         if($output['p6'.$pc]==1){
-            $resultat = true;
+            $resultat = 'Actif';
         }else{
-            $resultat = false;
+            $resultat = 'Inactif';
         }
         return $resultat;
     }
@@ -140,9 +140,9 @@ class IppowerLibrary
         parse_str(str_replace(',', '&', $match[1]), $output);
 
         if($output['p6'.$pc]==1){
-            $resultat = true;
+            $resultat = 'Actif';
         }else{
-            $resultat = false;
+            $resultat = 'Inactif';
         }
         return $resultat;
     }

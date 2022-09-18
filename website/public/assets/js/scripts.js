@@ -326,17 +326,25 @@ if (document.getElementById('ippower')) {
 function ippower() {
     const id = document.getElementById('server').value;
     const etat = document.getElementById('ippower');
+    const stop = document.getElementById('stop');
+    const restart = document.getElementById('restart');
     let url = `/admin/server/pingippower/${id}`;
     fetch(url).then(response => response.json().then(data => {
         console.log(data);
 
         if(data.ippower) {
             etat.textContent = data.ippower;
+
+
         }else{
             etat.textContent = `Inactif`;
         }
 
-
+        if(data.ippower==="Inactif")
+        {
+            stop.style.display =`none`;
+            restart.style.display =`none`;
+        }
 
     }));
 }
@@ -373,6 +381,70 @@ if (document.getElementById('restart')) {
                     etatelec.innerHTML = "";
                 }, 160000);
             }
+        }));
+    })
+}
+
+if (document.getElementById('start')) {
+    const start = document.getElementById('start');
+    const ippower = document.getElementById('ippower');
+    const etat = document.getElementById('etat');
+    const id = document.getElementById('server').value;
+    const etatelec = document.getElementById('etatelec');
+
+
+    start.addEventListener("click", () => {
+        let url = `/admin/server/startippower/${id}`;
+
+        etatelec.innerHTML = "Démarrage en cours";
+
+        fetch(url).then(response => response.json().then(data => {
+
+            if(data.ippower==="Actif")
+            {
+                ippower.innerHTML = `Actif`;
+                start.style.display =``;
+                    etatelec.innerHTML  = "Démarrage terminé";
+                setTimeout(function () {
+                    etatelec.innerHTML = "";
+                }, 10000);
+
+            }
+
+        }));
+    })
+}
+
+if (document.getElementById('stop')) {
+    const stop = document.getElementById('stop');
+    const start = document.getElementById('start');
+    const restart = document.getElementById('restart');
+    const ippower = document.getElementById('ippower');
+    const etat = document.getElementById('etat');
+    const id = document.getElementById('server').value;
+    const etatelec = document.getElementById('etatelec');
+
+
+    stop.addEventListener("click", () => {
+        let url = `/admin/server/stopippower/${id}`;
+        etat.innerHTML = `Hors ligne`;
+        etatelec.innerHTML = "Arrêt en cours";
+        stop.style.display =`none`;
+        restart.style.display =`none`;
+        start.style.display =``;
+        fetch(url).then(response => response.json().then(data => {
+
+            if(data.ippower==="Inactif")
+            {
+                ippower.innerHTML = `Inactif`;
+
+                    etatelec.innerHTML  = "Arrêt terminé";
+                setTimeout(function () {
+                    etatelec.innerHTML = "";
+                }, 10000);
+
+            }
+
         }));
     })
 }
