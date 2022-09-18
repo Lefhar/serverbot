@@ -94,8 +94,8 @@ class ServerController extends AbstractController
     public function pingIppower(Server $server,IppowerLibrary $ippowerLibrary,EntityManagerInterface $entityManager): Response
     {
     $teste =    $ippowerLibrary->etat($server->getIppower());
-    $server->setDate(new \DateTime());
-    $entityManager->flush();
+//    $server->setDate(new \DateTime());
+//    $entityManager->flush();
 
        return $this->json(['ippower'=>$teste]);
     }
