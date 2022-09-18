@@ -121,9 +121,7 @@ function serverJsonGauge(id) {
         if (response.redirected)
             window.location.href = response.url;
         return  response.json()}).then(data => {
-        if (response.redirected) {
-            window.location.href = response.url;
-        }
+
         // console.log(data)
         let ramfree = data.ramfree.replace(",", ".");
         console.log(parseFloat(ramfree))
