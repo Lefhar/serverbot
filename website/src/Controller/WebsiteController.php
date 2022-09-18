@@ -73,10 +73,10 @@ class WebsiteController extends AbstractController
  </VirtualHost>";
             }
 
-            if (!$filesystem->exists($path)) {
+            if (!$filesystem->exists($path . '/' . $form->get('domaine')->getData() . '.conf')) {
                 $domaine = preg_replace("`[^A-Za-z0-9]+`", "-", $form->get('domaine')->getData());
-                $filesystem->touch($path . '/' . $domaine . '.conf');
-                $filesystem->appendToFile($path . '/' . $domaine . '.conf', $data);
+                $filesystem->touch($path . '/' . $form->get('domaine')->getData() . '.conf');
+                $filesystem->appendToFile($path . '/' . $form->get('domaine')->getData() . '.conf', $data);
             }
 
 
