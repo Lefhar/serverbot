@@ -114,5 +114,37 @@ class IppowerLibrary
         }
         return $resultat;
     }
+    public function startIppower($pc)
+    {
+         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=1';
+        $start =   $this->getCurl($url);
+        preg_match('/<html>(.*?)<\/html>/s', $start, $match);
+        $retour = $match[1].',';
+
+        parse_str(str_replace(',', '&', $match[1]), $output);
+
+        if($output['p6'.$pc]==1){
+            $resultat = true;
+        }else{
+            $resultat = false;
+        }
+        return $resultat;
+    }
+    public function stopIppower($pc)
+    {
+         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=1';
+        $start =   $this->getCurl($url);
+        preg_match('/<html>(.*?)<\/html>/s', $start, $match);
+        $retour = $match[1].',';
+
+        parse_str(str_replace(',', '&', $match[1]), $output);
+
+        if($output['p6'.$pc]==1){
+            $resultat = true;
+        }else{
+            $resultat = false;
+        }
+        return $resultat;
+    }
 
 }

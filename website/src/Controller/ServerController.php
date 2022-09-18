@@ -108,6 +108,26 @@ class ServerController extends AbstractController
     }
 
     /**
+     * @Route("/startippower/{id}", name="app_start_ippower_json", methods={"GET"})
+     */
+    public function startIpPower(Server $server,IppowerLibrary $ippowerLibrary): Response
+    {
+    $teste =    $ippowerLibrary->startIppower($server->getIppower());
+
+       return $this->json(['ippower'=>$teste]);
+    }
+
+    /**
+     * @Route("/stopippower/{id}", name="app_stop_ippower_json", methods={"GET"})
+     */
+    public function stopIpPower(Server $server,IppowerLibrary $ippowerLibrary): Response
+    {
+    $teste =    $ippowerLibrary->stopIppower($server->getIppower());
+
+       return $this->json(['ippower'=>$teste]);
+    }
+
+    /**
      * @Route("/{id}/edit", name="app_server_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Server $server, ServerRepository $serverRepository): Response
