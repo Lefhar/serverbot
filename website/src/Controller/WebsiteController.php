@@ -43,23 +43,23 @@ class WebsiteController extends AbstractController
             $website->setUsers($this->getUser());
             $websiteRepository->add($website, true);
             $filesystem = new Filesystem();
-            $path = getcwd().'/assets/file';
+            $path = getcwd() . '/assets/file';
 
-           // mkdir('/var/www/html/dev.serverbot/serverbot/website/public/assets/file',0755);
-            if(!$filesystem->exists($path)){
+            // mkdir('/var/www/html/dev.serverbot/serverbot/website/public/assets/file',0755);
+            if (!$filesystem->exists($path)) {
                 $filesystem->mkdir($path, 0775);
                 $filesystem->chown($path, "www-data");
                 $filesystem->chgrp($path, "www-data");
             }
-            if($form->get('port')->getData()=="80"){
-            $data = "<VirtualHost *:80>
-        ServerAdmin postmaster@".$form->get('domaine')->getData()."
-        ServerName ".$form->get('domaine')->getData()."
-        ProxyPass / http://".$form->get('ip')->getData().":80/
-        ProxyPassReverse / http://".$form->get('domaine')->getData().":80/
+            if ($form->get('port')->getData() == "80") {
+                $data = "<VirtualHost *:80>
+        ServerAdmin postmaster@" . $form->get('domaine')->getData() . "
+        ServerName " . $form->get('domaine')->getData() . "
+        ProxyPass / http://" . $form->get('ip')->getData() . ":80/
+        ProxyPassReverse / http://" . $form->get('domaine')->getData() . ":80/
         ProxyPreserveHost On
  </VirtualHost>";
-        }else {
+            } else {
                 $data = "<VirtualHost *:80>
         ServerAdmin postmaster@" . $form->get('domaine')->getData() . "
         ServerName " . $form->get('domaine')->getData() . "
@@ -69,11 +69,11 @@ class WebsiteController extends AbstractController
         RewriteEngine on  
         RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]  
         RewriteCond %{HTTP:CONNECTION} ^Upgrade$ [NC]  
-        RewriteRule .* ws://" .$form->get('ip')->getData() . ":" .$form->get('ip')->getData() . "%{REQUEST_URI} [P] 
+        RewriteRule .* ws://" . $form->get('ip')->getData() . ":" . $form->get('ip')->getData() . "%{REQUEST_URI} [P] 
  </VirtualHost>";
             }
 
-            if(!$filesystem->exists($path)) {
+            if (!$filesystem->exists($path)) {
                 $domaine = preg_replace("`[^A-Za-z0-9]+`", "-", $form->get('domaine')->getData());
                 $filesystem->touch($path . '/' . $domaine . '.conf');
                 $filesystem->appendToFile($path . '/' . $domaine . '.conf', $data);
@@ -124,7 +124,7 @@ class WebsiteController extends AbstractController
      */
     public function delete(Request $request, Website $website, WebsiteRepository $websiteRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$website->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $website->getId(), $request->request->get('_token'))) {
             $websiteRepository->remove($website, true);
         }
 
