@@ -88,8 +88,8 @@ if (document.getElementsByClassName('ram')) {
             // ramuser+=obj.ramuse;
             document.getElementById(id).innerHTML = `${data.ramfree}/${data.ram} ${data.ramuse} Libre`;
             let cpuusage = parseFloat(data.cpuusage.replace(',','.'));
-            document.getElementById('uptime' + id).innerHTML = `${data.cpuusage} %`;
-            document.getElementById('progressbar' + id).innerHTML =`${(data.cpuusage>100?'100':data.cpuusage)} %`;
+            document.getElementById('uptime' + id).innerHTML = `${(parseFloat(data.cpuusage)>100?'100':data.cpuusage)} %`;
+            document.getElementById('progressbar' + id).innerHTML =`${(parseFloat(data.cpuusage)>100?'100':data.cpuusage)} %`;
             document.getElementById('progressbar' + id).style =`width: ${parseFloat(data.cpuusage)}%`;
             document.getElementById('progressbar' + id).ariaValueNow = parseFloat(data.cpuusage);
             console.log(cpuusage);
