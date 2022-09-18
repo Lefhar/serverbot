@@ -29,6 +29,11 @@ class CronController extends AbstractController
                $date->format('Y-m-d H:i:s');
                $row->setDate($date);
                $entityManager->flush();
+           }else{
+               if($row->getDate()<= new \DateTime())
+               {
+                   $ippowerLibrary->restart($row->getIppower());
+               }
            }
 
         }
