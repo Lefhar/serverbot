@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Restart;
 use App\library\IppowerLibrary;
 use App\Repository\RestartRepository;
+use App\Repository\ServerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,19 @@ class CronController extends AbstractController
     /**
      * @Route("/cron", name="app_cron", methods={"GET"})
      */
-    public function index(RestartRepository $restartRepository,IppowerLibrary $ippowerLibrary, EntityManagerInterface $entityManager): Response
+    public function index(RestartRepository $restartRepository,IppowerLibrary $ippowerLibrary, EntityManagerInterface $entityManager,ServerRepository $serverRepository): Response
     {
+
+        $server = $serverRepository->findAll();
+        foreach ($server as $row)
+        {
+           $etat = $ippowerLibrary->etat($row->getIppower());
+           if($etat=="Actif"){
+               $row->setDate(new \DateTime());
+               $entityManager->flush();
+           }
+
+        }
         $restart = $restartRepository->findBy(['etat'=>2]);
 dump($restart);
         date_default_timezone_set('Europe/Paris');

@@ -8,6 +8,7 @@ use App\library\IppowerLibrary;
 use App\library\ssh_access;
 use App\Repository\IdentificationRepository;
 use App\Repository\ServerRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Nzo\UrlEncryptorBundle\Encryptor\Encryptor;
 use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
 use SpecShaper\EncryptBundle\Event\EncryptEvent;
@@ -90,9 +91,11 @@ class ServerController extends AbstractController
     /**
      * @Route("/pingippower/{id}", name="app_ippower_json", methods={"GET"})
      */
-    public function pingIppower(Server $server,IppowerLibrary $ippowerLibrary): Response
+    public function pingIppower(Server $server,IppowerLibrary $ippowerLibrary,EntityManagerInterface $entityManager): Response
     {
     $teste =    $ippowerLibrary->etat($server->getIppower());
+    $server->setDate(new \DateTime());
+    $entityManager->flush();
 
        return $this->json(['ippower'=>$teste]);
     }
