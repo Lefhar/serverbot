@@ -72,11 +72,11 @@ class WebsiteController extends AbstractController
         RewriteRule .* ws://" . $form->get('ip')->getData() . ":" . $form->get('ip')->getData() . "%{REQUEST_URI} [P] 
  </VirtualHost>";
             }
+            $domaine = preg_replace("`[^A-Za-z0-9]+`", "-", $form->get('domaine')->getData());
+            if (!$filesystem->exists($path . '/' . $domaine . '.conf')) {
 
-            if (!$filesystem->exists($path . '/' . $form->get('domaine')->getData() . '.conf')) {
-                $domaine = preg_replace("`[^A-Za-z0-9]+`", "-", $form->get('domaine')->getData());
-                $filesystem->touch($path . '/' . $form->get('domaine')->getData() . '.conf');
-                $filesystem->appendToFile($path . '/' . $form->get('domaine')->getData() . '.conf', $data);
+                $filesystem->touch($path . '/' . $domaine . '.conf');
+                $filesystem->appendToFile($path . '/' . $domaine . '.conf', $data);
             }
 
 
