@@ -90,8 +90,8 @@ if (document.getElementsByClassName('ram')) {
             let cpuusage = parseFloat(data.cpuusage.replace(',','.'));
             document.getElementById('uptime' + id).innerHTML = `${data.cpuusage} %`;
             document.getElementById('progressbar' + id).innerHTML =`${(data.cpuusage>100?'100':data.cpuusage)} %`;
-            document.getElementById('progressbar' + id).style =`width: ${parseFloat(data.cpuusage.replace(',','.'))}%`;
-            document.getElementById('progressbar' + id).ariaValueNow = data.cpuusage;
+            document.getElementById('progressbar' + id).style =`width: ${parseFloat(data.cpuusage)}%`;
+            document.getElementById('progressbar' + id).ariaValueNow = parseFloat(data.cpuusage);
             console.log(cpuusage);
             if(parseFloat(data.cpuusage.replace(',','.')) >= 80)
             {
