@@ -44,7 +44,7 @@ class WebsiteController extends AbstractController
             $websiteRepository->add($website, true);
             $filesystem = new Filesystem();
 
-            $filesystem->mkdir('/file', 0777);
+            $filesystem->mkdir('/assets/file', 0777);
             return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
         }
 
