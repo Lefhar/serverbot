@@ -75,6 +75,7 @@ if (document.getElementsByClassName('ram')) {
         fetch(url).then(response => response.json().then(data => {
             // console.log(data)
             // console.log(data.cpu)
+
             if (response.redirected) {
                 window.location.href = response.url;
             }
@@ -116,7 +117,13 @@ if (document.getElementById('gauge')) {
 
 function serverJsonGauge(id) {
     let url = `/admin/ssh/sshjson/${id}`;
-    fetch(url).then(response => response.json().then(data => {
+    fetch(url).then(response => {
+        if (response.redirected)
+            window.location.href = response.url;
+        return  response.json()}).then(data => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        }
         // console.log(data)
         let ramfree = data.ramfree.replace(",", ".");
         console.log(parseFloat(ramfree))
@@ -281,7 +288,7 @@ function serverJsonGauge(id) {
         // myChart.update()
 
 
-    }));
+    });
 
 
 }
