@@ -69,7 +69,7 @@ class IppowerLibrary
   public function restart($pc)
     {
         $server = $this->serverRepository->findOneBy(['ippower'=>$pc]);
-        ini_set('max_execution_time', 0);
+       // ini_set('max_execution_time', 0);
         $url = 'http://'.$this->encryptor->decrypt($this->getIppower()->getName()).':'.$this->encryptor->decrypt($this->getIppower()->getPassword()).'@power.serverbot.fr:122/Set.cmd?CMD=SetPower+P6'.$pc.'=0';
 
         $start =   $this->getCurl($url);
@@ -106,7 +106,7 @@ class IppowerLibrary
         $retour = $match[1].',';
 
         parse_str(str_replace(',', '&', $match[1]), $output);
-        dump($output);
+        //dump($output);
         if($output['p6'.$pc]==1){
             $resultat = true;
         }else{
