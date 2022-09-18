@@ -72,13 +72,14 @@ if (document.getElementsByClassName('ram')) {
 
     function serverJson(id) {
         let url = `/admin/ssh/sshjson/${id}`;
-        fetch(url).then(response => response.json().then(data => {
+        fetch(url).then(response => {
+            if (response.redirected)
+                window.location.href = response.url;
+            return  response.json()}).then(data => {
             // console.log(data)
             // console.log(data.cpu)
 
-            if (response.redirected) {
-                window.location.href = response.url;
-            }
+
 
             // ram+=obj.ram;
             // ramuser+=obj.ramuse;
@@ -90,7 +91,7 @@ if (document.getElementsByClassName('ram')) {
             document.getElementById('disk' + id).innerHTML = `${data.diskfree}/${data.disk} ${data.diskuse} utilisé`;
 
 
-        }));
+        });
     }
 
 }
