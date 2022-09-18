@@ -345,6 +345,7 @@ function ippower() {
         {
             stop.style.display =`none`;
             restart.style.display =`none`;
+            start.style.display =``;
         }
 
         if(data.ippower==="Actif")
