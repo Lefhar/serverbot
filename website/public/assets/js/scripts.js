@@ -302,10 +302,12 @@ if (document.getElementById('etat')) {
 function ping() {
     const id = document.getElementById('server').value;
     const etat = document.getElementById('etat');
+    const start = document.getElementById('start');
     let url = `/admin/server/ping/${id}`;
     fetch(url).then(response => response.json().then(data => {
         console.log(data);
         if(data.ping) {
+            start.style.display =`none`;
             etat.textContent = data.ping;
         }else{
             etat.textContent = `Hors ligne`;
