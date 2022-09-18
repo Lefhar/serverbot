@@ -21,6 +21,7 @@
                     <th>Ram</th>
                     <th>Cpu</th>
                     <th>Disk</th>
+                    <th>Action</th>
                 </tr>
               </thead>
                 <tbody>
@@ -33,6 +34,10 @@
                         <td class="ram"><span id="{{ row.id }}"></span></td>
                         <td><span id="uptime{{ row.id }}"></span></td>
                         <td><span id="disk{{ row.id }}"></span></td>
+                        <td>
+                            <a href="{{ path('app_server_show', {'id': row.server.id}) }}">show</a>
+                            <a href="{{ path('app_server_edit', {'id': row.server.id}) }}">edit</a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
