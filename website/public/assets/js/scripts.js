@@ -303,14 +303,23 @@ function ping() {
     const id = document.getElementById('server').value;
     const etat = document.getElementById('etat');
     const start = document.getElementById('start');
+    const stop = document.getElementById('stop');
     let url = `/admin/server/ping/${id}`;
     fetch(url).then(response => response.json().then(data => {
         console.log(data);
         if(data.ping) {
-            start.style.display =`none`;
+
             etat.textContent = data.ping;
         }else{
             etat.textContent = `Hors ligne`;
+        }
+        if(data.ping==="Hors ligne")
+        {
+            start.style.display =``;
+            stop.style.display =`none`;
+        }else{
+            start.style.display =`none`;
+            stop.style.display =``;
         }
 
     }));
