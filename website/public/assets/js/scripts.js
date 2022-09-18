@@ -71,6 +71,7 @@ if (document.getElementsByClassName('ram')) {
 
 
     function serverJson(id) {
+      //  const progressbar = document.getElementById('progressbar' + id);
         let url = `/admin/ssh/sshjson/${id}`;
         fetch(url).then(response => {
             if (response.redirected)
@@ -86,8 +87,22 @@ if (document.getElementsByClassName('ram')) {
             // ramfree+=obj.ramfree;
             // ramuser+=obj.ramuse;
             document.getElementById(id).innerHTML = `${data.ramfree}/${data.ram} ${data.ramuse} Libre`;
-
+            let cpuusage = parseFloat(data.cpuusage.replace(',','.'));
             document.getElementById('uptime' + id).innerHTML = `${data.cpuusage} %`;
+            document.getElementById('progressbar' + id).innerHTML =`${data.cpuusage} %`;
+            document.getElementById('progressbar' + id).style =`width: ${parseFloat(data.cpuusage.replace(',','.'))}%`;
+            document.getElementById('progressbar' + id).ariaValueNow = data.cpuusage;
+            console.log(cpuusage);
+            if(parseFloat(data.cpuusage.replace(',','.')) >= 80)
+            {
+                document.getElementById('progressbar' + id).classList.remove('bg-success')
+                document.getElementById('progressbar' + id).classList.add('bg-danger')
+            }else {
+                document.getElementById('progressbar' + id).classList.remove('bg-danger')
+                document.getElementById('progressbar' + id).classList.add('bg-success')
+            }
+
+
             document.getElementById('disk' + id).innerHTML = `${data.diskfree}/${data.disk} ${data.diskuse} utilisé`;
 
 
