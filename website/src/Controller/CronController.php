@@ -31,9 +31,12 @@ class CronController extends AbstractController
                $entityManager->flush();
            }else{
                $dateActuel = new \DateTime();
-               if($row->getDate()<= $dateActuel&&$row->getEtat()==1)
+               if($row->getDate()<= $dateActuel)
                {
-                   $ippowerLibrary->restart($row->getIppower());
+                   if($row->getEtat()==1){
+                       $ippowerLibrary->restart($row->getIppower());
+                   }
+
                }
            }
 
