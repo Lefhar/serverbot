@@ -267,7 +267,7 @@ function serverJsonGauge(id) {
                     "Libre",
                 ],
                 datasets: [{
-                    data: [parseFloat(cpuuse), (100 - parseFloat(cpuuse))],
+                    data: [(parseFloat(cpuuse)>100?'100':cpuuse), (100 - (parseFloat(cpuuse)>100?'100':cpuuse))],
                     backgroundColor: [
                         'rgba(255,0,0,0.7)',
                         'rgba(41,224,20,0.7)'
@@ -281,7 +281,7 @@ function serverJsonGauge(id) {
             options: {
                 elements: {
                     center: {
-                        text: parseFloat(cpuuse) + '%',
+                        text: (parseFloat(cpuuse)>100?'100':cpuuse)  + '%',
                         color: '#FF6384', // Default is #000000
                         fontStyle: 'Arial', // Default is Arial
                         sidePadding: 20 // Defualt is 20 (as a percentage)
