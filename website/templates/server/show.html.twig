@@ -4,85 +4,88 @@
 
 {% block body %}
     <h1>Server</h1>
-{#{{ dump(server.sshes|first) }}#}
+    {# {{ dump(server.sshes|first) }} #}
     {% if server.sshes|first %}
-    <div class="container">
+        <div class="container">
 
-        <div class="row gauge"  id="{{ (server.sshes|first).id }}">
-            <div class="col">
-                <div class="card" >
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Ram</h5>
-                        <canvas id="gauge" width="350" height="350" ></canvas>
+            <div class="row gauge" id="{{ (server.sshes|first).id }}">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Ram</h5>
+                            <canvas id="gauge" width="350" height="350"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
-            <div class="col">
-                <div class="card" >
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Disk</h5>
-                        <canvas id="disk" width="350" height="350" ></canvas>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Disk</h5>
+                            <canvas id="disk" width="350" height="350"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card" >
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Cpu</h5>
-                        <canvas id="cpu" width="350" height="320" ></canvas>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Cpu</h5>
+                            <canvas id="cpu" width="350" height="320"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-{% endif %}
+    {% endif %}
     <input type="hidden" id="server" value="{{ server.id }}">
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ server.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ server.nom }}</td>
-            </tr>
-            <tr>
-                <th>Ippower</th>
-                <td><span id="ippower"></span></td>
-            </tr>
-            <tr>
-                <th>Etat</th>
-                <td><span id="etat"></span></td>
-            </tr>
-            <tr>
-                <th>Ipv4</th>
-                <td>{{ server.ipv4 }}</td>
-            </tr>
-            <tr>
-                <th>Gestion électrique</th>
-                <td><button type="button" id="restart" class="btn btn-success"><i class="fa-solid fa-rotate-right"></i></button>
-                    <button type="button" id="start" class="btn btn-success"><i class="fa-solid fa-power-off"></i></button>
-                    <button type="button" id="stop" class="btn btn-danger"><i class="fa-solid fa-power-off"></i></button> <span id="etatelec"></span> </td>
-            </tr>
-{#            <tr>#}
-{#                <th>Location</th>#}
-{#                <td>{{ server.location }}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>Localscript</th>#}
-{#                <td>{{ server.localscript }}</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <th>Lieninfo</th>#}
-{#                <td>{{ server.lieninfo }}</td>#}
-{#            </tr>#}
-            <tr>
-                <th>Date</th>
-                <td>{{ server.date ? server.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ server.id }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ server.nom }}</td>
+        </tr>
+        <tr>
+            <th>Ippower</th>
+            <td><span id="ippower"></span></td>
+        </tr>
+        <tr>
+            <th>Etat</th>
+            <td><span id="etat"></span></td>
+        </tr>
+        <tr>
+            <th>Ipv4</th>
+            <td>{{ server.ipv4 }}</td>
+        </tr>
+        <tr>
+            <th>Gestion électrique</th>
+            <td>
+                <button type="button" id="restart" class="btn btn-success"><i class="fa-solid fa-rotate-right"></i>
+                </button>
+                <button type="button" id="start" class="btn btn-success"><i class="fa-solid fa-power-off"></i></button>
+                <button type="button" id="stop" class="btn btn-danger"><i class="fa-solid fa-power-off"></i></button>
+                <span id="etatelec"></span></td>
+        </tr>
+        {#            <tr> #}
+        {#                <th>Location</th> #}
+        {#                <td>{{ server.location }}</td> #}
+        {#            </tr> #}
+        {#            <tr> #}
+        {#                <th>Localscript</th> #}
+        {#                <td>{{ server.localscript }}</td> #}
+        {#            </tr> #}
+        {#            <tr> #}
+        {#                <th>Lieninfo</th> #}
+        {#                <td>{{ server.lieninfo }}</td> #}
+        {#            </tr> #}
+        <tr>
+            <th>Date</th>
+            <td>{{ server.date ? server.date|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
         </tbody>
     </table>
 
