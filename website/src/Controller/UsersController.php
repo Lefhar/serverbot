@@ -17,7 +17,9 @@ class UsersController extends AbstractController
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
-
+        if($this->getUser()){
+            return $this->redirectToRoute('app_admin');
+        }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
