@@ -1,7 +1,8 @@
-<div class="d-grid gap-2">
+
     <form method="post" action="{{ path('app_website_delete', {'id': website.id}) }}"
           onsubmit="return confirm('être vous sur vouloir supprimer ?');">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ website.id) }}">
+        <div class="d-grid gap-2 pt-2">
         <button class="btn  btn-danger ">Effacer</button>
+        </div>
     </form>
-</div>
