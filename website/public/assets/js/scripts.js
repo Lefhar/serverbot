@@ -148,7 +148,7 @@ if (document.getElementById('gauge')) {
 
         setInterval(() => {
             serverJsonGauge(document.querySelector('.gauge').id);
-        }, 20000);
+        }, 5000);
 
 
     });
