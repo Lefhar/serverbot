@@ -279,6 +279,7 @@ function serverJsonGauge(id) {
                 }]
             },
             options: {
+                responsive: true,
                 elements: {
                     center: {
                         text: (parseFloat(cpuuse)>100?'100':cpuuse)  + '%',
