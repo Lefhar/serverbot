@@ -1,5 +1,9 @@
 {{ form_start(form) }}
 {#    {{ form_widget(form) }}#}
+{{ form_label(form.type) }}
+<div class="mb-3">
+    {{ form_widget(form.type,{value:Identification.type|decrypt}) }}
+</div>
 {{ form_label(form.name) }}
 <div class="mb-3">
     {{ form_widget(form.name,{value:Identification.name|decrypt}) }}
