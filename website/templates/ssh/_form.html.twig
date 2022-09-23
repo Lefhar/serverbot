@@ -23,5 +23,6 @@
     {{ form_widget(form) }}
 <div class="mb-3 mt-3">
         <button class="btn btn-success">{{ button_label|default('Valider') }}</button>
+    <a href="{{ path('app_ssh_index') }}" class="btn btn-dark">retour</a>
     </div>
     {{ form_end(form) }}

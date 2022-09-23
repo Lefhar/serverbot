@@ -1,4 +1,6 @@
 <form method="post" action="{{ path('app_ssh_delete', {'id': ssh.id}) }}" onsubmit="return confirm('être vous sûr de vouloir supprimer?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ssh.id) }}">
-    <button class="btn btn-danger">Effacer</button>
+    <div class="d-grid gap-2 pt-2">
+        <button class="btn  btn-danger ">Effacer</button>
+    </div>
 </form>
