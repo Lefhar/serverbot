@@ -82,7 +82,7 @@ if (document.getElementsByClassName('ram')) {
 
             setInterval(() => {
                 serverJson(item.firstChild.id);
-            }, 10000);
+            }, 5000);
 
         });
     });
