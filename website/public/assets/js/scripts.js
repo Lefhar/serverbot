@@ -167,7 +167,7 @@ function serverJsonGauge(id) {
             },
             options: {
                 //cutoutPercentage: 40,
-                responsive: false,
+                responsive: true,
                 tooltips: {
                     callbacks: {
                         label: (tooltipItem, chart) => {
@@ -201,7 +201,7 @@ function serverJsonGauge(id) {
             },
             options: {
                 //cutoutPercentage: 40,
-                responsive: false,
+                responsive: true,
                 tooltips: {
                     callbacks: {
                         label: (tooltipItem, chart) => {
