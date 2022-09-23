@@ -55,11 +55,11 @@ window.addEventListener('DOMContentLoaded', event => {
         const eye = document.getElementById('viewpassword');
         const eyepassword = document.getElementById('eyepassword');
         eye.addEventListener("click", function () {
-            if (password.attr("type") === "text") {
+            if (password.type === "text") {
                 password.attr('type', 'password');
                 eyepassword.addClass("fa-eye-slash");
                 eyepassword.removeClass("fa-eye");
-            } else if (password.attr("type") === "password") {
+            } else if (password.type === "password") {
                 password.attr('type', 'text');
                 eyepassword.removeClass("fa-eye-slash");
                 eyepassword.addClass("fa-eye");
