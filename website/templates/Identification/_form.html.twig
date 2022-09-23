@@ -11,7 +11,7 @@
 <div class="mb-3">
     Mot de passe
     <div class="input-group">
-        {{ form_widget(form.password,{ 'id': 'motdepasse',value:Identification.password|decrypt}) }}
+        {{ form_widget(form.password,{ 'id': 'password',value:Identification.password|decrypt}) }}
         <span class="input-group-text" id="viewpassword">
                 <i class="fa fa-eye-slash" aria-hidden="true" id="eyepassword"></i></span>
     </div>
