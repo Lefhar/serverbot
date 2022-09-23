@@ -6,7 +6,7 @@ use App\Repository\IdentificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=IppowerRepository::class)
+ * @ORM\Entity(repositoryClass=IdentificationRepository::class)
  */
 class Identification
 {
