@@ -1,5 +1,5 @@
-<form method="post" action="{{ path('app_Identification_delete', {'id': ippower.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ippower.id) }}">
+<form method="post" action="{{ path('app_Identification_delete', {'id': Identification.id}) }}" onsubmit="return confirm('être vous sûr de vouloir supprimer?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ Identification.id) }}">
     <div class="d-grid gap-2 pt-2">
         <button class="btn  btn-danger ">Effacer</button>
     </div>
