@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Machine index</h1>
-
+<div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -30,6 +30,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
     <a href="{{ path('app_machine_new') }}">Create new</a>
 {% endblock %}

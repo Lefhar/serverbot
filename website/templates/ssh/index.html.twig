@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Ssh index</h1>
-
+<div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -36,6 +36,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
     <a href="{{ path('app_ssh_new') }}">Ajouter un nouveau ssh</a>
 {% endblock %}

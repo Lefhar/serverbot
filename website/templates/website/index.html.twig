@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Liste website</h1>
-
+<div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -40,6 +40,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
     <a href="{{ path('app_website_new') }}">Ajouter un site</a>
 {% endblock %}
