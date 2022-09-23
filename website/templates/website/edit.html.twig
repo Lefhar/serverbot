@@ -4,10 +4,9 @@
 
 {% block body %}
     <h1>Edit Website</h1>
-
+    <div class="form-group pt-2">
     {{ include('website/_form.html.twig', {'button_label': 'Valider'}) }}
-<div class="form-group pt-2">
-    <a href="{{ path('app_website_index') }}">retour</a>
+
+
 </div>
-    {{ include('website/_delete_form.html.twig') }}
 {% endblock %}
