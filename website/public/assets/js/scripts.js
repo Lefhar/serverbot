@@ -58,12 +58,12 @@ window.addEventListener('DOMContentLoaded', event => {
             if (password.type === "text") {
                // password.attr('type', 'password');
                 password.type = "password";
-                eyepassword.addClass("fa-eye-slash");
-                eyepassword.removeClass("fa-eye");
+                eyepassword.classList.add("fa-eye-slash");
+                eyepassword.classList.remove("fa-eye");
             } else if (password.type === "password") {
                 password.type = "text";
-                eyepassword.removeClass("fa-eye-slash");
-                eyepassword.addClass("fa-eye");
+                eyepassword.classList.remove("fa-eye-slash");
+                eyepassword.classList.add("fa-eye");
             }
         });
     }
