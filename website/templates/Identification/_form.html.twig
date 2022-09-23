@@ -1,4 +1,5 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<button class="btn btn-success">{{ button_label|default('Valider') }}</button>
+<a href="{{ path('app_Identification_index') }}" class="btn btn-dark">retour</a>
 {{ form_end(form) }}
