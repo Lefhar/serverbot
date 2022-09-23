@@ -115,7 +115,7 @@ if (document.getElementsByClassName('ram')) {
             {
                 document.getElementById('progressbar' + id).classList.remove('bg-success')
                 document.getElementById('progressbar' + id).classList.add('bg-danger')
-            }else if(parseFloat(data.cpuusage.replace(',','.')) >= 60)
+            }else if(parseFloat(data.cpuusage.replace(',','.')) >= 50)
             {
                 document.getElementById('progressbar' + id).classList.remove('bg-success')
                 document.getElementById('progressbar' + id).classList.remove('bg-danger')
