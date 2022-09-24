@@ -10,7 +10,6 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Password</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,7 +19,6 @@
                 <td>{{ Identification.id }}</td>
                 <td>{{ Identification.type }}</td>
                 <td>{{ Identification.name }}</td>
-                <td>{{ Identification.password }}</td>
                 <td>
                     <a href="{{ path('app_Identification_show', {'id': Identification.id}) }}">show</a>
                     <a href="{{ path('app_Identification_edit', {'id': Identification.id}) }}">edit</a>
