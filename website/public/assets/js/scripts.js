@@ -53,8 +53,9 @@ window.addEventListener('DOMContentLoaded', event => {
 
         const password = document.getElementById('motdepasse');
         const eye = document.getElementById('viewpassword');
-        const eyepassword = document.getElementById('eyepassword');
+
         eye.addEventListener("click", function () {
+            const eyepassword = document.getElementById('eyepassword');
             if (password.type === "text") {
                // password.attr('type', 'password');
                 password.type = "password";
