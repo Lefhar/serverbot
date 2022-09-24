@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Type</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,7 +18,6 @@
             <tr>
                 <td>{{ Identification.id }}</td>
                 <td>{{ Identification.type }}</td>
-                <td>{{ Identification.name }}</td>
                 <td>
                     <a href="{{ path('app_Identification_show', {'id': Identification.id}) }}">show</a>
                     <a href="{{ path('app_Identification_edit', {'id': Identification.id}) }}">edit</a>
