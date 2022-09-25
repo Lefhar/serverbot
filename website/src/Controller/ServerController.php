@@ -8,6 +8,7 @@ use App\library\IppowerLibrary;
 use App\library\ssh_access;
 use App\Repository\IdentificationRepository;
 use App\Repository\ServerRepository;
+use App\Repository\SshRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Nzo\UrlEncryptorBundle\Encryptor\Encryptor;
 use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
@@ -91,14 +92,14 @@ class ServerController extends AbstractController
     /**
      * @Route("/restart/{id}", name="app_restart_json", methods={"GET"})
      */
-    public function RestartPc(ssh_access $ssh_access, EncryptorInterface $encryptor): Response
+    public function RestartPc($id,ServerRepository $serverRepository,ssh_access $ssh_access, EncryptorInterface $encryptor,SshRepository $sshRepository): Response
     {
 
-
-        $ssh_access->setIp($ssh_access->getIp());
-        $ssh_access->setPort($ssh_access->getPort());
-        $ssh_access->setIdentifiant($encryptor->decrypt($ssh_access->getIdentifiant()));
-        $ssh_access->setPassword($ssh_access->getPassword());
+     $machine = $sshRepository->findOneBy(['id'=>$id]);
+        $ssh_access->setIp($machine->getServer()->getIpv4());
+        $ssh_access->setPort($machine->getPort());
+        $ssh_access->setIdentifiant($encryptor->decrypt($machine->getIdentifiant()));
+        $ssh_access->setPassword($encryptor->decrypt($machine->getMotdepasse()));
     $teste =    $ssh_access->reboot();
         dump($ssh_access);
        return $this->json(['restart'=>$teste]);
