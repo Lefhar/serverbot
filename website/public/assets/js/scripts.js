@@ -379,6 +379,7 @@ function ippower() {
     const stop = document.getElementById('stop');
     const start = document.getElementById('start');
     const restart = document.getElementById('restart');
+    const restartserver = document.getElementById('restartserver');
     let url = `/admin/server/pingippower/${id}`;
     fetch(url).then(response => response.json().then(data => {
         console.log(data);
@@ -395,6 +396,7 @@ function ippower() {
         {
             stop.style.display =`none`;
             restart.style.display =`none`;
+            restartserver.style.display =`none`;
             start.style.display =``;
         }
 
@@ -402,6 +404,7 @@ function ippower() {
         {
             stop.style.display =``;
             restart.style.display =``;
+            restartserver.style.display =``;
             start.style.display =`none`;
         }
 
