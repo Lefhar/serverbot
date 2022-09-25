@@ -91,15 +91,16 @@ class ServerController extends AbstractController
     /**
      * @Route("/restart/{id}", name="app_restart_json", methods={"GET"})
      */
-    public function RestartPc(Server $server,ssh_access $ssh_access, EncryptorInterface $encryptor): Response
+    public function RestartPc(ssh_access $ssh_access, EncryptorInterface $encryptor): Response
     {
+
 
         $ssh_access->setIp($ssh_access->getIp());
         $ssh_access->setPort($ssh_access->getPort());
         $ssh_access->setIdentifiant($encryptor->decrypt($ssh_access->getIdentifiant()));
         $ssh_access->setPassword($ssh_access->getPassword());
     $teste =    $ssh_access->reboot();
-dump($ssh_access);
+        dump($ssh_access);
        return $this->json(['restart'=>$teste]);
     }
 
