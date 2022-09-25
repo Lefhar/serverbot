@@ -345,12 +345,14 @@ function ping() {
     const etat = document.getElementById('etat');
     const start = document.getElementById('start');
     const stop = document.getElementById('stop');
+    const etatserver = document.getElementById('etatserver');
     let url = `/admin/server/ping/${id}`;
     fetch(url).then(response => response.json().then(data => {
         console.log(data);
-        if(data.ping) {
+        if(data.ping==="En ligne") {
 
             etat.textContent = data.ping;
+            etatserver.innerHTML =``;
         }else{
             etat.textContent = `Hors ligne`;
         }
