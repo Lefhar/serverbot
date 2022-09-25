@@ -89,6 +89,16 @@ class ServerController extends AbstractController
     }
 
     /**
+     * @Route("/restart/{id}", name="app_restart_json", methods={"GET"})
+     */
+    public function RestartPc(Server $server,ssh_access $ssh_access): Response
+    {
+    $teste =    $ssh_access->reboot();
+
+       return $this->json(['restart'=>$teste]);
+    }
+
+    /**
      * @Route("/pingippower/{id}", name="app_ippower_json", methods={"GET"})
      */
     public function pingIppower(Server $server,IppowerLibrary $ippowerLibrary,EntityManagerInterface $entityManager): Response

@@ -402,6 +402,67 @@ class ssh_access
 
         return $finaljson;
     }
+    public function reboot()
+    {
+        if (!function_exists("ssh2_connect")) die("function ssh2_connect doesn't exist");
+
+        function ssh2_debug($message, $language, $always_display)
+        {
+            printf("%s %s %s\n", $message, $language, $always_display);
+        }
+
+        /* Notify the user if the server terminates the connection */
+        function my_ssh_disconnect($reason, $message, $language)
+        {
+            printf("Server disconnected with reason code [%d] and message: %s\n", $reason, $message);
+        }
+
+        $methods = array(
+            'hostkey' => 'ssh-rsa,ssh-dss',
+//    'kex' => 'diffie-hellman-group-exchange-sha256',
+            'client_to_server' => array(
+                'crypt' => 'aes256-ctr,aes192-ctr,aes128-ctr,aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc,blowfish-cbc',
+                'comp' => 'none'),
+            'server_to_client' => array(
+                'crypt' => 'aes256-ctr,aes192-ctr,aes128-ctr,aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc,blowfish-cbc',
+                'comp' => 'none'));
+
+        //      $callbacks = array('disconnect' => 'my_ssh_disconnect');
+        $callbacks = array(
+            1 => 'NET_SSH2_DISCONNECT_HOST_NOT_ALLOWED_TO_CONNECT',
+            2 => 'NET_SSH2_DISCONNECT_PROTOCOL_ERROR',
+            3 => 'NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED',
+            4 => 'NET_SSH2_DISCONNECT_RESERVED',
+            5 => 'NET_SSH2_DISCONNECT_MAC_ERROR',
+            6 => 'NET_SSH2_DISCONNECT_COMPRESSION_ERROR',
+            7 => 'NET_SSH2_DISCONNECT_SERVICE_NOT_AVAILABLE',
+            8 => 'NET_SSH2_DISCONNECT_PROTOCOL_VERSION_NOT_SUPPORTED',
+            9 => 'NET_SSH2_DISCONNECT_HOST_KEY_NOT_VERIFIABLE',
+            10 => 'NET_SSH2_DISCONNECT_CONNECTION_LOST',
+            11 => 'NET_SSH2_DISCONNECT_BY_APPLICATION',
+            12 => 'NET_SSH2_DISCONNECT_TOO_MANY_CONNECTIONS',
+            13 => 'NET_SSH2_DISCONNECT_AUTH_CANCELLED_BY_USER',
+            14 => 'NET_SSH2_DISCONNECT_NO_MORE_AUTH_METHODS_AVAILABLE',
+            15 => 'NET_SSH2_DISCONNECT_ILLEGAL_USER_NAME'
+        );
+
+        $connection = ssh2_connect($this->getIp(), $this->port, $methods, $callbacks);
+        if (!$connection) die("Connection failed:");
+
+        ssh2_auth_password($connection, $this->getIdentifiant(), $this->getPassword()) or die("Unable to authenticate");
+        $stream = ssh2_exec($connection, 'systemctl reboot');
+
+
+        stream_set_blocking($stream, true);
+
+        $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
+
+
+        $restart = stream_get_contents($stream_out);
+
+        dump($restart);
+        return $restart;
+    }
 
     /**
      * @throws TransportExceptionInterface
