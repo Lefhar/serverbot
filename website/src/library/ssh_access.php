@@ -446,7 +446,7 @@ class ssh_access
             15 => 'NET_SSH2_DISCONNECT_ILLEGAL_USER_NAME'
         );
 
-        $connection = ssh2_connect($this->getIp(), $this->port, $methods, $callbacks);
+        $connection = ssh2_connect($this->getIp(), $this->getPort(), $methods, $callbacks);
         if (!$connection) die("Connection failed:");
 
         ssh2_auth_password($connection, $this->getIdentifiant(), $this->getPassword()) or die("Unable to authenticate");

@@ -99,7 +99,7 @@ class ServerController extends AbstractController
         $ssh_access->setIdentifiant($encryptor->decrypt($ssh_access->getIdentifiant()));
         $ssh_access->setPassword($ssh_access->getPassword());
     $teste =    $ssh_access->reboot();
-
+dump($ssh_access);
        return $this->json(['restart'=>$teste]);
     }
 
