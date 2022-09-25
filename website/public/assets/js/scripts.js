@@ -444,6 +444,44 @@ if (document.getElementById('restart')) {
     })
 }
 
+if (document.getElementById('restartserver')) {
+    const restartserver = document.getElementById('restartserver');
+    const ippower = document.getElementById('ippower');
+    const etat = document.getElementById('etat');
+    const id = document.getElementById('server').value;
+    const etatserver = document.getElementById('etatserver');
+
+
+    restartserver.addEventListener("click", () => {
+
+        let url = `/admin/server/restart/${id}`;
+
+
+
+        fetch(url).then(response => response.json().then(data => {
+
+            if(data.restart===true)
+            {
+                etat.innerHTML = `Hors ligne`;
+                ippower.innerHTML = `Inactif`;
+                etatserver.innerHTML = "Redémarrage en cours";
+                setTimeout(function () {
+                    etatserver.innerHTML  = "Redémarrage terminé";
+                }, 120000);
+            }
+
+
+
+
+                // On l'efface 8 secondes plus tard
+                setTimeout(function () {
+                    etatserver.innerHTML = "";
+                }, 160000);
+
+        }));
+    })
+}
+
 if (document.getElementById('start')) {
     const start = document.getElementById('start');
     const ippower = document.getElementById('ippower');

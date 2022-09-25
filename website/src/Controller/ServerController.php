@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Server;
+use App\Entity\Ssh;
 use App\Form\ServerType;
 use App\library\IppowerLibrary;
 use App\library\ssh_access;
@@ -92,14 +93,14 @@ class ServerController extends AbstractController
     /**
      * @Route("/restart/{id}", name="app_restart_json", methods={"GET"})
      */
-    public function RestartPc($id,ServerRepository $serverRepository,ssh_access $ssh_access, EncryptorInterface $encryptor,SshRepository $sshRepository): Response
+    public function RestartPc(ssh_access $ssh_access, EncryptorInterface $encryptor,Ssh $ssh): Response
     {
 
-     $machine = $sshRepository->findOneBy(['id'=>$id]);
-        $ssh_access->setIp($machine->getServer()->getIpv4());
-        $ssh_access->setPort($machine->getPort());
-        $ssh_access->setIdentifiant($encryptor->decrypt($machine->getIdentifiant()));
-        $ssh_access->setPassword($encryptor->decrypt($machine->getMotdepasse()));
+
+        $ssh_access->setIp($ssh->getServer()->getIpv4());
+        $ssh_access->setPort($ssh->getPort());
+        $ssh_access->setIdentifiant($encryptor->decrypt($ssh->getIdentifiant()));
+        $ssh_access->setPassword($encryptor->decrypt($ssh->getMotdepasse()));
     $teste =    $ssh_access->reboot();
         dump($ssh_access);
        return $this->json(['restart'=>$teste]);
