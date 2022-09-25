@@ -450,7 +450,7 @@ class ssh_access
         if (!$connection) die("Connection failed:");
 
         ssh2_auth_password($connection, $this->getIdentifiant(), $this->getPassword()) or die("Unable to authenticate");
-        $stream = ssh2_exec($connection, 'reboot');
+        $stream = ssh2_exec($connection, 'shutdown -r now');
 
 
         stream_set_blocking($stream, true);
@@ -460,8 +460,14 @@ class ssh_access
 
         $restart = stream_get_contents($stream_out);
 
-        dump($restart);
-        return $restart;
+
+        if(preg_match('`Shutdown NOW`i',$restart))
+        {
+             $result = true;
+        }else{
+            $result = false;
+        }
+        return $result;
     }
 
     /**
