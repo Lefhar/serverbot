@@ -93,6 +93,7 @@ class ServerController extends AbstractController
      */
     public function RestartPc(Server $server,ssh_access $ssh_access): Response
     {
+        $ssh_access->setMachine($ssh_access);
     $teste =    $ssh_access->reboot();
 
        return $this->json(['restart'=>$teste]);
