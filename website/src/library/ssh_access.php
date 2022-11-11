@@ -101,10 +101,10 @@ class ssh_access
             ),
         );
       //  $context = stream_context_create($opts);
-        $socket = stream_socket_client('tcp://192.168.10.151:242', $errno, $errstr, ini_get('default_socket_timeout'), STREAM_CLIENT_CONNECT);
+        $socket = stream_socket_client('tcp://'.$this->getIp().':'.$this->getPort(), $errno, $errstr, ini_get('default_socket_timeout'), STREAM_CLIENT_CONNECT);
 
         $ssh = new SSH2($socket);
-        $ssh->login('root', '4vefg7kK7116*');
+        $ssh->login($this->getIdentifiant(), $this->getPassword());
 
 //       $uptime =  $ssh->exec('uptime');
 //       $memory =  $ssh->exec('sysctl hw | egrep \'hw.(phys|user|real)\'');
