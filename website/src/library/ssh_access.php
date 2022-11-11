@@ -2,6 +2,7 @@
 
 namespace App\library;
 
+use phpseclib3\Net\SSH2;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
@@ -93,6 +94,96 @@ class ssh_access
     {
 
 
+// http://php.net/manual/en/context.socket.php
+        $opts = array(
+            'socket' => array(
+                'bindto' => '192.168.10.1',
+            ),
+        );
+      //  $context = stream_context_create($opts);
+        $socket = stream_socket_client('tcp://192.168.10.151:242', $errno, $errstr, ini_get('default_socket_timeout'), STREAM_CLIENT_CONNECT);
+
+        $ssh = new SSH2($socket);
+        $ssh->login('root', '4vefg7kK7116*');
+
+//       $uptime =  $ssh->exec('uptime');
+//       $memory =  $ssh->exec('sysctl hw | egrep \'hw.(phys|user|real)\'');
+
+
+
+
+        //top -w
+        //freenas-boot/ROOT/11.3-U5
+
+
+
+
+
+
+        //  $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
+        $upteste =  $ssh->exec('uptime');;
+        $cpu =  $ssh->exec('ps aux | wc -l');
+        $memory =  $ssh->exec('sysctl hw | egrep \'hw.(phys|user|real)\'');
+        $disk = $ssh->exec('df /');
+        $swapbrut = $ssh->exec( 'top -w');
+        $testecc = $ssh->exec('top -b -n 1');
+        $testecpu = $this->extstres22($upteste, 'load averages:', "\n");
+        $uptimexxzza = explode("\n", $testecc);
+        // dump($uptimexxzza);
+        $uptimexxzz = explode(" ", $uptimexxzza[9]);
+
+        $tabteste = array();
+        foreach ($uptimexxzz as $row)
+        {
+            if($row !=""){
+                $tabteste[] = $row;
+            }
+
+        }
+
+        $cpuusage = str_replace('%', "", $tabteste[10]);
+        $uptimexx = explode(", ", trim($testecpu));
+
+        //echo stream_get_contents($stream_out);
+        $pos[0] = strpos($upteste, 'load') + 14;
+        $uptime[0] = substr($upteste, $pos[0]);
+        $pos[0] = strpos($uptime[0], ',');
+        $uptime[1] = substr($uptime[0], 0, $pos[0]);
+        $memoryphy1 = $this->extstres22($memory, 'hw.physmem:', 'hw.usermem:');
+        $memoryuse1 = $this->extstres22($memory, 'hw.usermem:', 'hw.realmem:');
+
+        $dftotalgiga0 = explode(" ", $disk);
+        $memoryuse1 = str_replace('\n', "", $memoryuse1);
+     //   dump($dftotalgiga0);
+        $disktotal = $dftotalgiga0[30] / 1024000;
+        $disktotal = number_format($disktotal, 2, ',', ' ');
+        $diskuse = $dftotalgiga0[31] / 1024000;
+        $diskuse = number_format($diskuse, 2, ',', ' ');
+        $diskfree = $dftotalgiga0[32] / 1024000;
+        $diskfree = number_format($diskfree, 2, ',', ' ');
+        $memoryphy = trim($memoryphy1) / 1024000000;
+        $memoryuse = trim($memoryuse1) / 1024000000;
+        $ramcomplet = $memoryphy;
+        $ramcomplet = number_format($ramcomplet, 2, ',', ' ');
+        $memoryphy = number_format($memoryphy, 2, ',', ' ');
+        $ramutil = number_format($memoryuse, 2, ',', ' ');
+        //    dump((int)$ramcomplet  );
+        $ramdispo = (float)$ramcomplet - (float)$ramutil;
+
+        $ramdispo = number_format($ramdispo, 2, ',', ' ');
+        $swapcomplet = $this->extstres22($swapbrut, 'Swap:', 'Total');
+        $swapdispo = $this->extstres22($swapbrut, '' . trim($swapcomplet) . ' Total,', 'Free');
+        $swaputil = (float)$swapcomplet - (float)$swapdispo;
+
+        $swaputil = 0;
+        $finaljson = ['cpu' => trim($cpu), 'pcpu' => $uptimexx,'cpuusage'=>$cpuusage, 'ram' => rtrim($ramcomplet), 'ramfree' => rtrim($ramdispo), 'ramuse' => rtrim($ramutil), 'swap' => trim($swapcomplet), 'swapfree' => trim($swapdispo), 'swapuse' => trim($swaputil), 'disk' => trim($disktotal), 'diskfree' => trim($diskfree), 'diskuse' => trim($diskuse)];
+
+        return $finaljson;
+    }
+    public function connexionfreenasSSh2()
+    {
+
+
         if (!function_exists("ssh2_connect")) die("function ssh2_connect doesn't exist");
 
         function ssh2_debug($message, $language, $always_display)
@@ -107,13 +198,13 @@ class ssh_access
         }
 
         $methods = array(
-            'hostkey' => 'ssh-rsa,ssh-dss',
+            'hostkey' => 'ssh-ed25519, ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, ecdsa-sha2-nistp521, rsa-sha2-256, rsa-sha2-512, ssh-rsa, ssh-dss',
 //    'kex' => 'diffie-hellman-group-exchange-sha256',
             'client_to_server' => array(
-                'crypt' => 'aes256-ctr,aes192-ctr,aes128-ctr,aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc,blowfish-cbc',
+                'crypt' => 'curve25519-sha256, curve25519-sha256@libssh.org, ecdh-sha2-nistp256, ecdh-sha2-nistp384, ecdh-sha2-nistp521, diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group14-sha256, diffie-hellman-group14-sha1, diffie-hellman-group15-sha512, diffie-hellman-group16-sha512, diffie-hellman_group17-sha512, diffie-hellman-group18-sha512, diffie-hellman-group1-sha1',
                 'comp' => 'none'),
             'server_to_client' => array(
-                'crypt' => 'aes256-ctr,aes192-ctr,aes128-ctr,aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc,blowfish-cbc',
+                'crypt' => 'curve25519-sha256, curve25519-sha256@libssh.org, ecdh-sha2-nistp256, ecdh-sha2-nistp384, ecdh-sha2-nistp521, diffie-hellman-group-exchange-sha256, diffie-hellman-group-exchange-sha1, diffie-hellman-group14-sha256, diffie-hellman-group14-sha1, diffie-hellman-group15-sha512, diffie-hellman-group16-sha512, diffie-hellman_group17-sha512, diffie-hellman-group18-sha512, diffie-hellman-group1-sha1',
                 'comp' => 'none'));
 
         //      $callbacks = array('disconnect' => 'my_ssh_disconnect');
