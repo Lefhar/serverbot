@@ -1,6 +1,6 @@
 {{ form_start(form) }}
 {{ form_label(form.identifiant) }}
-<div class="mb-3">
+<div class="mb-3 p-1">
     {{ form_widget(form.identifiant,{value:ssh.identifiant|decrypt}) }}
 </div>
 
