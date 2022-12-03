@@ -437,7 +437,12 @@ class ssh_access
         $uptime[1] = substr($uptime[0], 0, $pos[0]);
         $uptime[1] = $uptimexx;
         $dftotalgiga0 = explode(" ", $disk);
-     //   dump($dftotalgiga0);
+        dump($dftotalgiga0);
+        if(empty($dftotalgiga0[21]))
+        {
+            $dftotalgiga0[21]= $dftotalgiga0[22];
+            $dftotalgiga0[22]= $dftotalgiga0[23];
+        }
         $disktotal = $dftotalgiga0[21] / 1024000;
         $disktotal = number_format($disktotal, 2, ',', ' ');
         $diskuse = $dftotalgiga0[22] / 1024000;
