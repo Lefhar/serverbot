@@ -154,12 +154,12 @@ class ssh_access
 
         $dftotalgiga0 = explode(" ", $disk);
         $memoryuse1 = str_replace('\n', "", $memoryuse1);
-     //   dump($dftotalgiga0);
-        $disktotal = $dftotalgiga0[30] / 1024000;
+        dump($dftotalgiga0);
+        $disktotal = $dftotalgiga0[32] / 1024000;
         $disktotal = number_format($disktotal, 2, ',', ' ');
-        $diskuse = $dftotalgiga0[31] / 1024000;
+        $diskuse = $dftotalgiga0[33] / 1024000;
         $diskuse = number_format($diskuse, 2, ',', ' ');
-        $diskfree = $dftotalgiga0[32] / 1024000;
+        $diskfree = $dftotalgiga0[34] / 1024000;
         $diskfree = number_format($diskfree, 2, ',', ' ');
         $memoryphy = trim($memoryphy1) / 1024000000;
         $memoryuse = trim($memoryuse1) / 1024000000;
