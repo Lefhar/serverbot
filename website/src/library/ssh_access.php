@@ -471,7 +471,7 @@ class ssh_access
 
         }
         sort($dftotalgiga0);
-        dump($dftotalgiga0);
+       // dump($dftotalgiga0);
 
         $disktotal = $dftotalgiga0[3] / 1024000;
         $disktotal = number_format($disktotal, 2, ',', ' ');
