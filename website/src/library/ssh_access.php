@@ -154,12 +154,28 @@ class ssh_access
 
         $dftotalgiga0 = explode(" ", $disk);
         $memoryuse1 = str_replace('\n', "", $memoryuse1);
-        dump($dftotalgiga0);
-        $disktotal = $dftotalgiga0[32] / 1024000;
+        $dftotalgiga0 = array_map('intval', $dftotalgiga0);
+        foreach ($dftotalgiga0 as $key => $val){
+
+//dump(gettype($val));
+            if ($val == 0 or $val <10){
+
+                unset($dftotalgiga0[$key]);
+
+            }
+            if (gettype($val) == 'string'){
+
+                unset($dftotalgiga0[$key]);
+
+            }
+
+        }
+        sort($dftotalgiga0);
+        $disktotal = $dftotalgiga0[2] / 1024000;
         $disktotal = number_format($disktotal, 2, ',', ' ');
-        $diskuse = $dftotalgiga0[33] / 1024000;
+        $diskuse = $dftotalgiga0[0] / 1024000;
         $diskuse = number_format($diskuse, 2, ',', ' ');
-        $diskfree = $dftotalgiga0[34] / 1024000;
+        $diskfree = $dftotalgiga0[1] / 1024000;
         $diskfree = number_format($diskfree, 2, ',', ' ');
         $memoryphy = trim($memoryphy1) / 1024000000;
         $memoryuse = trim($memoryuse1) / 1024000000;
@@ -438,26 +454,42 @@ class ssh_access
         $uptime[1] = $uptimexx;
         $dftotalgiga0 = explode(" ", $disk);
         dump($dftotalgiga0);
-        if(empty($dftotalgiga0[21]))
-        {
-            $dftotalgiga0[21]= $dftotalgiga0[22];
-            $dftotalgiga0[22]= $dftotalgiga0[23];
-        }
-        $disktotal = $dftotalgiga0[21] / 1024000;
-        $disktotal = number_format($disktotal, 2, ',', ' ');
-        $diskuse = $dftotalgiga0[22] / 1024000;
+        $dftotalgiga0 = array_map('intval', $dftotalgiga0);
+        foreach ($dftotalgiga0 as $key => $val){
 
-        $disklibre = (float)$disktotal - (float)$diskuse;
-        $disklibre = number_format($disklibre, 2);
+//dump(gettype($val));
+            if ($val == 0 or $val <10){
+
+                unset($dftotalgiga0[$key]);
+
+            }
+            if (gettype($val) == 'string'){
+
+                unset($dftotalgiga0[$key]);
+
+            }
+
+        }
+        sort($dftotalgiga0);
+        dump($dftotalgiga0);
+
+        $disktotal = $dftotalgiga0[3] / 1024000;
+        $disktotal = number_format($disktotal, 2, ',', ' ');
+        $diskuse = $dftotalgiga0[2] / 1024000;
+
+
+        $disklibre = $dftotalgiga0[1] / 1024000;
+        $diskfree = number_format($disklibre, 2, ',', '');
       //  dump($disklibre);
         $diskuse = number_format($diskuse, 2, ',', ' ');
-        //  $diskfree = $dftotalgiga0[24] / 1024000;
-        $diskfree = $disklibre;
+
+
        // dump($memory);
         $mem = explode("\n", $memory);
      //   dump($mem);
-        $diskfree = number_format($diskfree, 2, ',', ' ');
 
+        dump($disklibre);
+       // $diskfree = number_format($disklibre, 2);
 
         $memoire = $mem[0];
         $memfree = $mem[1];
