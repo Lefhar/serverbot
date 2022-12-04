@@ -488,7 +488,7 @@ class ssh_access
         $mem = explode("\n", $memory);
      //   dump($mem);
 
-        dump($disklibre);
+     //   dump($disklibre);
        // $diskfree = number_format($disklibre, 2);
 
         $memoire = $mem[0];
