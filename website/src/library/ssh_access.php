@@ -453,7 +453,7 @@ class ssh_access
         $uptime[1] = substr($uptime[0], 0, $pos[0]);
         $uptime[1] = $uptimexx;
         $dftotalgiga0 = explode(" ", $disk);
-        dump($dftotalgiga0);
+  //      dump($dftotalgiga0);
         $dftotalgiga0 = array_map('intval', $dftotalgiga0);
         foreach ($dftotalgiga0 as $key => $val){
 
