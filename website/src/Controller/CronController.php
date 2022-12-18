@@ -25,7 +25,7 @@ class CronController extends AbstractController
            $etat = $ippowerLibrary->etat($row->getIppower());
            if($etat=="Actif"){
                $date = new \DateTime();
-               $date->modify('+5 minutes');
+               $date->modify('+10 minutes');
                $date->format('Y-m-d H:i:s');
                $row->setDate($date);
                $entityManager->flush();
@@ -48,10 +48,10 @@ class CronController extends AbstractController
        // dump($dateActuel);
         foreach ($restartRepository->findBy(['etat'=>2]) as $row)
         {
-dump($row->getDate());
+//dump($row->getDate());
 
             if($row->getDate()<= $dateActuel){
-                dump('une date');
+               // dump('une date');
                 if($ippowerLibrary->startByCron($row->getIppower()->getIppower())){
                     $entityManager->remove($row);
                     $entityManager->flush();
