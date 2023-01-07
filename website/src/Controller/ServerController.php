@@ -71,7 +71,7 @@ class ServerController extends AbstractController
      */
     public function show(Server $server,ssh_access $ssh_access): Response
     {
-        dump(new \DateTime());
+      //  dump(new \DateTime());
     $teste =    $ssh_access->ping($server->getIpv4());
 //        dump($ippowerLibrary->etat($server->getIppower()));
         return $this->render('server/show.html.twig', [
@@ -102,7 +102,7 @@ class ServerController extends AbstractController
         $ssh_access->setIdentifiant($encryptor->decrypt($ssh->getIdentifiant()));
         $ssh_access->setPassword($encryptor->decrypt($ssh->getMotdepasse()));
     $teste =    $ssh_access->reboot();
-        dump($ssh_access);
+     //   dump($ssh_access);
        return $this->json(['restart'=>$teste]);
     }
 
