@@ -53,7 +53,9 @@ class IppowerLibrary
         preg_match('/<html>(.*?)<\/html>/s', $data, $match);
 
 //        $teste = str_replace('=','=>',$match[1]);
-//        dump([$teste]);
+//        dump($match);
+//        exit();
+if(!empty($match)){
         parse_str(str_replace(',', '&', $match[1]), $output);
 
         //teste
@@ -63,6 +65,9 @@ class IppowerLibrary
         }else{
             $resultat = 'Inactif';
         }
+}else{
+    $resultat = 'Inactif';
+}
         return $resultat;
     }
 
