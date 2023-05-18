@@ -605,6 +605,8 @@ class ssh_access
     {
 
         $ping = shell_exec("ping -c 1 $ip");
+//        dump($ping);
+//        exit();
         if(preg_match('`100% packet loss`i', $ping))
         {
             $pinger = 'Hors ligne';
