@@ -35,6 +35,13 @@ class CronController extends AbstractController
                {
                    if($row->getEtat()==1){
                        $ippowerLibrary->restart($row->getIppower());
+                   }else{
+
+                       $date = new \DateTime();
+                       $date->modify('+10 minutes');
+                       $date->format('Y-m-d H:i:s');
+                       $row->setDate($date);
+                       $entityManager->flush();
                    }
 
                }
