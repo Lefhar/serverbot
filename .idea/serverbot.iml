@@ -170,6 +170,7 @@
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/amphp/http" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/amphp/byte-stream" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/amphp/process" />
+      <excludeFolder url="file://$MODULE_DIR$/website/vendor/twig/intl-extra" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
