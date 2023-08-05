@@ -42,42 +42,42 @@ class WebsiteController extends AbstractController
             $website->setFile(0);
             $website->setUsers($this->getUser());
             $websiteRepository->add($website, true);
-            $filesystem = new Filesystem();
-            $path = getcwd() . '/assets/file';
-
-            // mkdir('/var/www/html/dev.serverbot/serverbot/website/public/assets/file',0755);
-            if (!$filesystem->exists($path)) {
-                $filesystem->mkdir($path, 0775);
-                $filesystem->chown($path, "www-data");
-                $filesystem->chgrp($path, "www-data");
-            }
-            if ($form->get('port')->getData() == "80") {
-                $data = "<VirtualHost *:80>
-        ServerAdmin postmaster@" . $form->get('domaine')->getData() . "
-        ServerName " . $form->get('domaine')->getData() . "
-        ProxyPass / http://" . $form->get('ip')->getData() . ":80/
-        ProxyPassReverse / http://" . $form->get('domaine')->getData() . ":80/
-        ProxyPreserveHost On
- </VirtualHost>";
-            } else {
-                $data = "<VirtualHost *:80>
-        ServerAdmin postmaster@" . $form->get('domaine')->getData() . "
-        ServerName " . $form->get('domaine')->getData() . "
-        ProxyPass / http://" . $form->get('ip')->getData() . ":" . $form->get('port')->getData() . "/
-        ProxyPassReverse / http://" . $form->get('domaine')->getData() . ":80/
-        ProxyPreserveHost On
-        RewriteEngine on  
-        RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]  
-        RewriteCond %{HTTP:CONNECTION} ^Upgrade$ [NC]  
-        RewriteRule .* ws://" . $form->get('ip')->getData() . ":" . $form->get('ip')->getData() . "%{REQUEST_URI} [P] 
- </VirtualHost>";
-            }
-            $domaine = preg_replace("`[^A-Za-z0-9]+`", "-", $form->get('domaine')->getData());
-            if (!$filesystem->exists($path . '/' . $domaine . '.conf')) {
-
-                $filesystem->touch($path . '/' . $domaine . '.conf');
-                $filesystem->appendToFile($path . '/' . $domaine . '.conf', $data);
-            }
+           // $filesystem = new Filesystem();
+//            $path = getcwd() . '/assets/file';
+//
+//            // mkdir('/var/www/html/dev.serverbot/serverbot/website/public/assets/file',0755);
+//            if (!$filesystem->exists($path)) {
+//                $filesystem->mkdir($path, 0775);
+//                $filesystem->chown($path, "www-data");
+//                $filesystem->chgrp($path, "www-data");
+//            }
+//            if ($form->get('port')->getData() == "80") {
+//                $data = "<VirtualHost *:80>
+//        ServerAdmin postmaster@" . $form->get('domaine')->getData() . "
+//        ServerName " . $form->get('domaine')->getData() . "
+//        ProxyPass / http://" . $form->get('ip')->getData() . ":80/
+//        ProxyPassReverse / http://" . $form->get('domaine')->getData() . ":80/
+//        ProxyPreserveHost On
+// </VirtualHost>";
+//            } else {
+//                $data = "<VirtualHost *:80>
+//        ServerAdmin postmaster@" . $form->get('domaine')->getData() . "
+//        ServerName " . $form->get('domaine')->getData() . "
+//        ProxyPass / http://" . $form->get('ip')->getData() . ":" . $form->get('port')->getData() . "/
+//        ProxyPassReverse / http://" . $form->get('domaine')->getData() . ":80/
+//        ProxyPreserveHost On
+//        RewriteEngine on
+//        RewriteCond %{HTTP:UPGRADE} ^WebSocket$ [NC]
+//        RewriteCond %{HTTP:CONNECTION} ^Upgrade$ [NC]
+//        RewriteRule .* ws://" . $form->get('ip')->getData() . ":" . $form->get('ip')->getData() . "%{REQUEST_URI} [P]
+// </VirtualHost>";
+//            }
+//            $domaine = preg_replace("`[^A-Za-z0-9]+`", "-", $form->get('domaine')->getData());
+//            if (!$filesystem->exists($path . '/' . $domaine . '.conf')) {
+//
+//                $filesystem->touch($path . '/' . $domaine . '.conf');
+//                $filesystem->appendToFile($path . '/' . $domaine . '.conf', $data);
+//            }
 
 
             return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
@@ -108,6 +108,7 @@ class WebsiteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $website->setFile(1);
             $websiteRepository->add($website, true);
 
             return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
