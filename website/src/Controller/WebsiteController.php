@@ -130,7 +130,7 @@ class WebsiteController extends AbstractController
             $domaine = $website->getDomaine(); // Remplacez par le nom de domaine correspondant
             $domaine = str_replace('.','-',$domaine);
 // Chemin vers le script shell
-            $scriptPath = "/var/www/html/dev.serverbot/serverbot/website/removesite.sh";
+            $scriptPath = "/home/removesite.sh";
 
 // Chemin vers le fichier de configuration à supprimer
             $configFile = $domaine . ".conf"; // Assurez-vous que c'est le bon nom de fichier
