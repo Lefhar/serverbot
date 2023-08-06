@@ -138,8 +138,8 @@ class WebsiteController extends AbstractController
 // Exécution du script shell pour supprimer le fichier de configuration
             $output = [];
             $exitCode = null;
-            exec("$scriptPath $configFile", $output, $exitCode);
-
+            $result = exec("$scriptPath $configFile", $output, $exitCode);
+dump($result);
             if ($exitCode === 0) {
                 echo "Le fichier de configuration a été supprimé avec succès.";
                 $websiteRepository->remove($website, true);
