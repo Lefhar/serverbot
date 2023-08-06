@@ -130,7 +130,7 @@ class WebsiteController extends AbstractController
             $domaine = $website->getDomaine(); // Remplacez par le nom de domaine correspondant
             $domaine = str_replace('.','-',$domaine);
 // Chemin vers le script shell
-            $scriptPath = "/home/removesite.sh";
+            $scriptPath = "/var/www/html/dev.serverbot/serverbot/website/removesite.sh";
 
 // Chemin vers le fichier de configuration à supprimer
             $configFile = $domaine . ".conf"; // Assurez-vous que c'est le bon nom de fichier
@@ -138,12 +138,12 @@ class WebsiteController extends AbstractController
 // Exécution du script shell pour supprimer le fichier de configuration
             $output = [];
             $exitCode = null;
-            $result = exec("$scriptPath $configFile", $output, $exitCode);
+            $result = exec("bash $scriptPath $configFile", $output, $exitCode);
 dump($result);
             if ($exitCode === 0) {
                 echo "Le fichier de configuration a été supprimé avec succès.";
-                $websiteRepository->remove($website, true);
-                return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
+              //  $websiteRepository->remove($website, true);
+               // return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
             } else {
                 echo "Une erreur s'est produite lors de la suppression du fichier de configuration.";
             }
