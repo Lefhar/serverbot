@@ -39,7 +39,7 @@ class WebsiteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $website->setDate(new \DateTime());
-            $website->setFile(0);
+            $website->setFile(1);
             $website->setUsers($this->getUser());
             $websiteRepository->add($website, true);
            // $filesystem = new Filesystem();
