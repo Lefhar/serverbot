@@ -6,6 +6,7 @@ use App\Entity\Website;
 use App\Form\WebsiteType;
 use App\Repository\WebsiteRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -124,7 +125,7 @@ class WebsiteController extends AbstractController
     /**
      * @Route("/{id}", name="app_website_delete", methods={"POST"})
      */
-    public function delete(Request $request, Website $website, WebsiteRepository $websiteRepository,EntityManager $entityManager): Response
+    public function delete(Request $request, Website $website, WebsiteRepository $websiteRepository,EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $website->getId(), $request->request->get('_token'))) {
             $website->setRemove(1);
