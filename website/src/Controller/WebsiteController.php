@@ -42,6 +42,7 @@ class WebsiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $website->setDate(new \DateTime());
             $website->setFile(1);
+            $website->setRemove(0);
             $website->setUsers($this->getUser());
             $websiteRepository->add($website, true);
            // $filesystem = new Filesystem();
@@ -111,6 +112,7 @@ class WebsiteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $website->setFile(1);
+            $website->setRemove(0);
             $websiteRepository->add($website, true);
 
             return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
@@ -129,7 +131,7 @@ class WebsiteController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $website->getId(), $request->request->get('_token'))) {
             $website->setRemove(1);
-            $entityManager->flush($website);
+            $websiteRepository->add($website, true);
 //            $domaine = $website->getDomaine(); // Remplacez par le nom de domaine correspondant
 //            $domaine = str_replace('.','-',$domaine);
 //// Chemin vers le script shell
