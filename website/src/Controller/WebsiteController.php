@@ -5,10 +5,15 @@ namespace App\Controller;
 use App\Entity\Website;
 use App\Form\WebsiteType;
 use App\Repository\WebsiteRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/website")
@@ -40,7 +45,7 @@ class WebsiteController extends AbstractController
             $website->setRemove(0);
             $website->setUsers($this->getUser());
             $websiteRepository->add($website, true);
-            // $filesystem = new Filesystem();
+           // $filesystem = new Filesystem();
 //            $path = getcwd() . '/assets/file';
 //
 //            // mkdir('/var/www/html/dev.serverbot/serverbot/website/public/assets/file',0755);
@@ -122,7 +127,7 @@ class WebsiteController extends AbstractController
     /**
      * @Route("/{id}", name="app_website_delete", methods={"POST"})
      */
-    public function delete(Request $request, Website $website, WebsiteRepository $websiteRepository, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Website $website, WebsiteRepository $websiteRepository,EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $website->getId(), $request->request->get('_token'))) {
             $website->setRemove(1);
@@ -143,13 +148,13 @@ class WebsiteController extends AbstractController
 //            if ($exitCode === 0) {
 //                echo "Le fichier de configuration a été supprimé avec succès.";
 //              //  $websiteRepository->remove($website, true);
-
+//               // return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
 //            } else {
 //                echo "Une erreur s'est produite lors de la suppression du fichier de configuration.";
 //            }
 
         }
-        return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
 
+        return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
     }
 }
