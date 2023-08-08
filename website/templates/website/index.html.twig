@@ -20,7 +20,7 @@
         </thead>
         <tbody>
         {% for website in websites %}
-            <tr>
+            <tr {% if website.remove=="1" %} style="background-color: #ff5151;color: white;"{% endif %}>
                 <td>{{ website.id }}</td>
                 <td>{{ website.domaine }}</td>
                 <td>{{ website.date ? website.date|date('Y-m-d H:i:s') : '' }}</td>
