@@ -53,6 +53,11 @@ class Website
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="integer", options={"default"=0})
+     */
+    private $remove;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +143,18 @@ class Website
     public function setUsers(?Users $users): self
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function isRemove(): ?int
+    {
+        return $this->remove;
+    }
+
+    public function setRemove(int $remove): self
+    {
+        $this->remove = $remove;
 
         return $this;
     }

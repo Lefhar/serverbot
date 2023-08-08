@@ -126,27 +126,27 @@ class WebsiteController extends AbstractController
     public function delete(Request $request, Website $website, WebsiteRepository $websiteRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $website->getId(), $request->request->get('_token'))) {
-
-            $domaine = $website->getDomaine(); // Remplacez par le nom de domaine correspondant
-            $domaine = str_replace('.','-',$domaine);
-// Chemin vers le script shell
-            $scriptPath = "/home/removesite.sh";
-
-// Chemin vers le fichier de configuration à supprimer
-            $configFile = $domaine . ".conf"; // Assurez-vous que c'est le bon nom de fichier
-
-// Exécution du script shell pour supprimer le fichier de configuration
-            $output = [];
-            $exitCode = null;
-            $result = exec("bash $scriptPath $configFile", $output, $exitCode);
-dump($result);
-            if ($exitCode === 0) {
-                echo "Le fichier de configuration a été supprimé avec succès.";
-              //  $websiteRepository->remove($website, true);
-               // return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
-            } else {
-                echo "Une erreur s'est produite lors de la suppression du fichier de configuration.";
-            }
+            $website->setRemove(1);
+//            $domaine = $website->getDomaine(); // Remplacez par le nom de domaine correspondant
+//            $domaine = str_replace('.','-',$domaine);
+//// Chemin vers le script shell
+//            $scriptPath = "/home/removesite.sh";
+//
+//// Chemin vers le fichier de configuration à supprimer
+//            $configFile = $domaine . ".conf"; // Assurez-vous que c'est le bon nom de fichier
+//
+//// Exécution du script shell pour supprimer le fichier de configuration
+//            $output = [];
+//            $exitCode = null;
+//            $result = exec("bash $scriptPath $configFile", $output, $exitCode);
+//dump($result);
+//            if ($exitCode === 0) {
+//                echo "Le fichier de configuration a été supprimé avec succès.";
+//              //  $websiteRepository->remove($website, true);
+//               // return $this->redirectToRoute('app_website_index', [], Response::HTTP_SEE_OTHER);
+//            } else {
+//                echo "Une erreur s'est produite lors de la suppression du fichier de configuration.";
+//            }
 
         }
 
