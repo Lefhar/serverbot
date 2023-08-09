@@ -130,6 +130,7 @@ class WebsiteController extends AbstractController
     public function delete(Request $request, Website $website, WebsiteRepository $websiteRepository,EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $website->getId(), $request->request->get('_token'))) {
+            $website->setFile(0);
             $website->setRemove(1);
             $websiteRepository->add($website, true);
 //            $domaine = $website->getDomaine(); // Remplacez par le nom de domaine correspondant
