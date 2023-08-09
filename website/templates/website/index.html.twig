@@ -14,7 +14,7 @@
                 <th>Ip</th>
                 <th>Port</th>
                 <th>Etat</th>
-                <th>File</th>
+                <th>Migration</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,8 +26,8 @@
                 <td>{{ website.date ? website.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ website.ip }}</td>
                 <td>{{ website.port }}</td>
-                <td>{{ website.etat }}</td>
-                <td>{{ website.file }}</td>
+                <td>{% if website.etat=="1" %} Actif {% else %} Inactif{% endif %}</td>
+                <td>{% if website.file=="1" %} Actif {% else %} Inactif{% endif %}</td>
                 <td>
                     <a href="{{ path('app_website_show', {'id': website.id}) }}">Voir</a>
                     <a href="{{ path('app_website_edit', {'id': website.id}) }}">Modifier</a>
