@@ -22,7 +22,6 @@
       <path value="$PROJECT_DIR$/website/vendor/phpunit/php-text-template" />
       <path value="$PROJECT_DIR$/website/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/website/vendor/myclabs/deep-copy" />
-      <path value="$PROJECT_DIR$/website/vendor/phpspec/prophecy" />
       <path value="$PROJECT_DIR$/website/vendor/composer" />
       <path value="$PROJECT_DIR$/website/vendor/sensio/framework-extra-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/doctrine/cache" />
@@ -71,8 +70,6 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/security-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/mime" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/security-guard" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/amqp-messenger" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/redis-messenger" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/validator" />
       <path value="$PROJECT_DIR$/website/vendor/symfonycasts/verify-email-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/browser-kit" />
@@ -150,7 +147,6 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/lock" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/rate-limiter" />
-      <path value="$PROJECT_DIR$/website/vendor/twig/string-extra" />
       <path value="$PROJECT_DIR$/website/vendor/daverandom/libdns" />
       <path value="$PROJECT_DIR$/website/vendor/league/uri" />
       <path value="$PROJECT_DIR$/website/vendor/league/uri-parser" />
@@ -177,9 +173,15 @@
       <path value="$PROJECT_DIR$/website/vendor/amphp/byte-stream" />
       <path value="$PROJECT_DIR$/website/vendor/amphp/process" />
       <path value="$PROJECT_DIR$/website/vendor/twig/intl-extra" />
+      <path value="$PROJECT_DIR$/website/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/website/vendor/twig/string-extra" />
+      <path value="$PROJECT_DIR$/website/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php83" />
+      <path value="$PROJECT_DIR$/website/vendor/psr/clock" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/clock" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>

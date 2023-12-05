@@ -15,7 +15,6 @@
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/phpunit/php-text-template" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/psr/cache" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/myclabs/deep-copy" />
-      <excludeFolder url="file://$MODULE_DIR$/website/vendor/phpspec/prophecy" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/sensio/framework-extra-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/doctrine/cache" />
@@ -64,8 +63,6 @@
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/security-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/mime" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/security-guard" />
-      <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/amqp-messenger" />
-      <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/redis-messenger" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/validator" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfonycasts/verify-email-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/browser-kit" />
@@ -170,6 +167,11 @@
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/amphp/byte-stream" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/amphp/process" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/twig/intl-extra" />
+      <excludeFolder url="file://$MODULE_DIR$/website/vendor/masterminds/html5" />
+      <excludeFolder url="file://$MODULE_DIR$/website/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/website/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/polyfill-php83" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

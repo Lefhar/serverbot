@@ -121,7 +121,7 @@ class ssh_access
 
 
         //  $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
-        $upteste =  $ssh->exec('uptime');;
+        $upteste =  $ssh->exec('uptime');
         $cpu =  $ssh->exec('ps aux | wc -l');
         $memory =  $ssh->exec('sysctl hw | egrep \'hw.(phys|user|real)\'');
         $disk = $ssh->exec('df /');
@@ -328,7 +328,7 @@ class ssh_access
 
     public function connexiondebianSSh()
     {
-        if (!function_exists("ssh2_connect")) die("function ssh2_connect doesn't exist");
+      //  if (!function_exists("ssh2_connect")) die("function ssh2_connect doesn't exist");
 
         function ssh2_debug($message, $language, $always_display)
         {
@@ -369,40 +369,68 @@ class ssh_access
             14 => 'NET_SSH2_DISCONNECT_NO_MORE_AUTH_METHODS_AVAILABLE',
             15 => 'NET_SSH2_DISCONNECT_ILLEGAL_USER_NAME'
         );
+        $socket = stream_socket_client('tcp://'.$this->getIp().':'.$this->getPort(), $errno, $errstr, ini_get('default_socket_timeout'), STREAM_CLIENT_CONNECT);
 
-        $connection = ssh2_connect($this->getIp(), $this->port, $methods, $callbacks);
-        if (!$connection) die("Connection failed:");
+        $ssh = new SSH2($socket);
+        $ssh->login($this->getIdentifiant(), $this->getPassword());
 
-        ssh2_auth_password($connection, $this->getIdentifiant(), $this->getPassword()) or die("Unable to authenticate");
-        $stream = ssh2_exec($connection, 'uptime');
-        $stream2 = ssh2_exec($connection, 'ps aux | wc -l');
-        $stream3 = ssh2_exec($connection, 'cat /proc/meminfo');
-        $stream4 = ssh2_exec($connection, 'df /');
+       // $connection = ssh2_connect($this->getIp(), $this->port, $methods, $callbacks);
+       // if (!$connection) die("Connection failed:");
+
+      //  ssh2_auth_password($connection, $this->getIdentifiant(), $this->getPassword()) or die("Unable to authenticate");
+        $stream = $ssh->exec( 'uptime');
+
+        $stream2 = $ssh->exec(  'ps aux | wc -l');
+
+        $stream3 = $ssh->exec(  'cat /proc/meminfo');
+
+        $stream4 = $ssh->exec( 'df /');
+        $testecc = $ssh->exec('top -b -n 1');
         //top -w
-        $stream5 = ssh2_exec($connection, '/usr/bin/top -b -n1');
-        $stream6 = ssh2_exec($connection, 'vmstat -w 1');
+        $stream5 = $ssh->exec(  '/usr/bin/top -b -n1');
+
+        //$stream6 =$ssh->exec(  'vmstat -w 1');
+        $stream6="";
+//        dump($stream6);
+//        exit();
         //$stream7 = ssh2_exec($connection, 'top');
         //freenas-boot/ROOT/11.3-U5
-        stream_set_blocking($stream, true);
-        stream_set_blocking($stream2, true);
-        stream_set_blocking($stream3, true);
-        stream_set_blocking($stream4, true);
-        stream_set_blocking($stream5, true);
+//        stream_set_blocking($stream, true);
+//        stream_set_blocking($stream2, true);
+//        stream_set_blocking($stream3, true);
+//        stream_set_blocking($stream4, true);
+     //   stream_set_blocking($stream5, true);
       //  stream_set_blocking($stream6, true);
        // stream_set_blocking($stream7, true);
-        $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
-        $stream_out2 = ssh2_fetch_stream($stream2, SSH2_STREAM_STDIO);
-        $stream_out3 = ssh2_fetch_stream($stream3, SSH2_STREAM_STDIO);
-        $stream_out4 = ssh2_fetch_stream($stream4, SSH2_STREAM_STDIO);
-        $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
-        $stream_out6 = ssh2_fetch_stream($stream6, SSH2_STREAM_STDIO);
+//        $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
+//        $stream_out2 = ssh2_fetch_stream($stream2, SSH2_STREAM_STDIO);
+//        $stream_out3 = ssh2_fetch_stream($stream3, SSH2_STREAM_STDIO);
+//        $stream_out4 = ssh2_fetch_stream($stream4, SSH2_STREAM_STDIO);
+//        $stream_out5 = ssh2_fetch_stream($stream5, SSH2_STREAM_STDIO);
+//        $stream_out6 = ssh2_fetch_stream($stream6, SSH2_STREAM_STDIO);
 
-        $upteste = stream_get_contents($stream_out);
-        $cpu = stream_get_contents($stream_out2);
-        $memory = stream_get_contents($stream_out3);
-        $disk = stream_get_contents($stream_out4);
-        $testecuu = stream_get_contents($stream_out5);
-        $testepourcentage = stream_get_contents($stream_out6);
+        $upteste = $stream;
+        $cpu = $stream2;
+        $memory = ($stream3);
+        $disk = ($stream4);
+        $testecuu = ($stream5);
+        //$testepourcentage = ($stream6);
+        $testepourcentage = $this->extstres22($upteste, 'load average:', "\n");
+        $uptimexxzza = explode("\n", $testecc);
+        // dump($uptimexxzza);
+        $uptimexxzz = explode(" ", $uptimexxzza[9]);
+
+        $tabteste = array();
+        foreach ($uptimexxzz as $row)
+        {
+            if($row !=""){
+                $tabteste[] = $row;
+            }
+
+        }
+
+        $cpuusage = str_replace('%', "", $tabteste[10]);
+        $uptimexx = explode(", ", trim($testepourcentage));
 
         $uptimexxzza = explode("\n", trim($testecuu));
         $uptimexxzz = explode(" ", $uptimexxzza[7]);
@@ -414,6 +442,8 @@ class ssh_access
             }
 
         }
+//        dump($uptimexx);
+//        dump($testepourcentage);
        // dump($uptimexxzza[6]);
        // dump($uptimexxzza[7]);
        // dd($uptimexxzz);
@@ -422,7 +452,8 @@ class ssh_access
         $pos[0] = strpos($upteste, 'load') + 14;
         $uptime[0] = substr($upteste, $pos[0]);
         $pos[0] = strpos($uptime[0], ',');
-          $uptimexx = explode("\n", $testepourcentage);
+        //  $uptimexx = explode("\n", $testepourcentage);
+//          dump($uptimexx);
         $tabvaleur = explode(" ", $uptimexx[2]);
 
      //   dd( $tabteste);
