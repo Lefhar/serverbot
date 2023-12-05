@@ -93,7 +93,7 @@
             <th>Date ajout:</th>
             <td>
 {#                {{ server.date|date("F jS \\a\\t g:ia", "Europe/Paris")|trans('fr') }}#}
-               Le {{ server.date|format_datetime(locale='fr', timezone=false) }}
+               Le {{ server.date|format_datetime(locale='fr', timezone=null) }}
                 </td>
         </tr>
         </tbody>
