@@ -69,7 +69,6 @@
       <path value="$PROJECT_DIR$/website/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/security-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/mime" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/security-guard" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/validator" />
       <path value="$PROJECT_DIR$/website/vendor/symfonycasts/verify-email-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/browser-kit" />
@@ -119,13 +118,11 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/var-exporter" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/routing" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/service-contracts" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/runtime" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-intl-normalizer" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php80" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/http-foundation" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/framework-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-intl-grapheme" />
@@ -145,7 +142,6 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/cache-contracts" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/dependency-injection" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/console" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/lock" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/rate-limiter" />
       <path value="$PROJECT_DIR$/website/vendor/daverandom/libdns" />
       <path value="$PROJECT_DIR$/website/vendor/league/uri" />
@@ -176,9 +172,9 @@
       <path value="$PROJECT_DIR$/website/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/website/vendor/twig/string-extra" />
       <path value="$PROJECT_DIR$/website/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/clock" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php83" />
       <path value="$PROJECT_DIR$/website/vendor/psr/clock" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/clock" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

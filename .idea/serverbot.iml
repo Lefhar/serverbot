@@ -62,7 +62,6 @@
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/sebastian/type" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/security-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/mime" />
-      <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/security-guard" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/validator" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfonycasts/verify-email-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/browser-kit" />
@@ -112,13 +111,11 @@
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/var-exporter" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/routing" />
-      <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/polyfill-php81" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/service-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/runtime" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/polyfill-intl-normalizer" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/polyfill-php80" />
-      <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/polyfill-php73" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/http-foundation" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/framework-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/polyfill-intl-grapheme" />
@@ -138,7 +135,6 @@
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/cache-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/dependency-injection" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/console" />
-      <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/lock" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/symfony/rate-limiter" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/twig/string-extra" />
       <excludeFolder url="file://$MODULE_DIR$/website/vendor/daverandom/libdns" />

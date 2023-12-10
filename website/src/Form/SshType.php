@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Ssh;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\ShowHidePasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +15,7 @@ class SshType extends AbstractType
     {
         $builder
             ->add('identifiant',TextType::class)
-            ->add('motdepasse',ShowHidePasswordType::class)
+            ->add('motdepasse',PasswordType::class)
             ->add('Server',null,['required' => true])
             ->add('port')
         ;

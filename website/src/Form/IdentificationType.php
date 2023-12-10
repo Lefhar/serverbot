@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Identification;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ShowHidePasswordType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +16,7 @@ class IdentificationType extends AbstractType
         $builder
             ->add('type',TextType::class)
             ->add('name',TextType::class)
-            ->add('password',ShowHidePasswordType::class)
+            ->add('password',PasswordType::class)
         ;
     }
 
