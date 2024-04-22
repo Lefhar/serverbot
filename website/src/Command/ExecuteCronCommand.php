@@ -3,6 +3,10 @@
 namespace App\Command;
 
 use App\Controller\CronController;
+use App\Library\IppowerLibrary;
+use App\Repository\RestartRepository;
+use App\Repository\ServerRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,27 +15,33 @@ class ExecuteCronCommand extends Command
 {
     protected static $defaultName = 'app:execute-cron';
 
-    private $cronController;
+    private RestartRepository $restartRepository;
+    private IppowerLibrary $ippowerLibrary;
+    private EntityManagerInterface $entityManager;
+    private ServerRepository $serverRepository;
 
-    public function __construct(CronController $cronController)
+    public function __construct(RestartRepository $restartRepository, IppowerLibrary $ippowerLibrary, EntityManagerInterface $entityManager, ServerRepository $serverRepository)
     {
-        $this->cronController = $cronController;
-
         parent::__construct();
+        $this->restartRepository = $restartRepository;
+        $this->ippowerLibrary = $ippowerLibrary;
+        $this->entityManager = $entityManager;
+        $this->serverRepository = $serverRepository;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
-        $this->setDescription('Execute the cron logic from CronController.');
+        $this->setDescription('Execute the cron job');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // Call the method from CronController
-        $this->cronController->index();
+// Appel de la méthode index du CronController avec les dépendances injectées
+        $cronController = new CronController($this->restartRepository, $this->ippowerLibrary, $this->entityManager, $this->serverRepository);
+        $response = $cronController->index();
 
-        // Output success message
-        $output->writeln('Cron logic executed successfully.');
+// Gestion de la réponse
+        $output->writeln($response);
 
         return Command::SUCCESS;
     }
