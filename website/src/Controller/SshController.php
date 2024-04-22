@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ssh;
 use App\Form\SshType;
-use App\library\ssh_access;
+use App\Library\ssh_access;
 use App\Repository\SshRepository;
 use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\library;
+namespace App\Library;
 
 use phpseclib3\Net\SSH2;
 use Symfony\Component\HttpClient\HttpClient;
