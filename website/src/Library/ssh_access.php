@@ -81,12 +81,19 @@ class ssh_access
 
     public function connexionSSh()
     {
-        if ($this->getMachine() == "Freenas") {
-            return $this->connexionfreenasSSh();
-        } elseif ($this->getMachine() == "Debian") {
-            return $this->connexiondebianSSh();
-        } else {
-            return (array('error' => 'aucune machine compatible'));
+        try {
+            // Vérifie le type de machine et tente la connexion SSH appropriée
+            if ($this->getMachine() == "Freenas") {
+                return $this->connexionfreenasSSh();
+            } elseif ($this->getMachine() == "Debian") {
+                return $this->connexiondebianSSh();
+            } else {
+                // Si la machine n'est pas reconnue, retourner une erreur
+                return array('error' => 'Aucune machine compatible');
+            }
+        } catch (\Exception $e) {
+            // Gérer les erreurs de connexion SSH et retourner un message d'erreur spécifique
+            return array('error' => 'Échec de la connexion SSH: ' . $e->getMessage());
         }
     }
 
