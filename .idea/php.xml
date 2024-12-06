@@ -62,14 +62,10 @@
       <path value="$PROJECT_DIR$/website/vendor/sebastian/version" />
       <path value="$PROJECT_DIR$/website/vendor/sebastian/resource-operations" />
       <path value="$PROJECT_DIR$/website/vendor/sebastian/type" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/security-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/mime" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/validator" />
       <path value="$PROJECT_DIR$/website/vendor/symfonycasts/verify-email-bundle" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/browser-kit" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/css-selector" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/property-access" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/dom-crawler" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/http-client-contracts" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/doctrine-bridge" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/options-resolver" />
@@ -82,8 +78,6 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/doctrine-messenger" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/maker-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/security-core" />
-      <path value="$PROJECT_DIR$/website/vendor/twig/twig" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/security-csrf" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/expression-language" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/web-profiler-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/proxy-manager-bridge" />
@@ -92,7 +86,6 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/debug-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/notifier" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-intl-idn" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/serializer" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/password-hasher" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/intl" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/property-info" />
@@ -102,9 +95,7 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/twig-bridge" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/http-client" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/monolog-bridge" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/translation-contracts" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/translation" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/asset" />
       <path value="$PROJECT_DIR$/website/vendor/friendsofphp/proxy-manager-lts" />
       <path value="$PROJECT_DIR$/website/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/var-dumper" />
@@ -176,6 +167,15 @@
       <path value="$PROJECT_DIR$/website/vendor/phpseclib/phpseclib" />
       <path value="$PROJECT_DIR$/website/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/website/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/asset" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/browser-kit" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/website/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/security-bundle" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/serializer" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/security-csrf" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
