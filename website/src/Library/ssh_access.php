@@ -337,16 +337,8 @@ class ssh_access
     {
       //  if (!function_exists("ssh2_connect")) die("function ssh2_connect doesn't exist");
 
-        function ssh2_debug($message, $language, $always_display)
-        {
-            printf("%s %s %s\n", $message, $language, $always_display);
-        }
 
-        /* Notify the user if the server terminates the connection */
-        function my_ssh_disconnect($reason, $message, $language)
-        {
-            printf("Server disconnected with reason code [%d] and message: %s\n", $reason, $message);
-        }
+
 
         $methods = array(
             'hostkey' => 'ssh-rsa,ssh-dss',
