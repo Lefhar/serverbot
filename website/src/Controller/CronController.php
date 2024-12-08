@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AllowDynamicProperties]
 class CronController extends AbstractController
@@ -26,6 +27,8 @@ class CronController extends AbstractController
     private IppowerLibrary $ippowerLibrary;
     private ssh_access $ssh_access;
     private EncryptorInterface $encryptor;
+    private HttpClientInterface $httpClient;
+    private string $discordWebhookUrl = "https://discord.com/api/webhooks/1211663580206735391/9_IFzatjZjWk7znlgxX93nlkHeFF_aQZazmr_0TfCsWSgz4Yb7En1ZO2nWModVbbzcWs";
 
     public function __construct(
         RestartRepository $restartRepository,
@@ -35,7 +38,8 @@ class CronController extends AbstractController
         ssh_access $sshAccess,
         SshRepository $ssh,
         IdentificationRepository $identificationRepository,
-        EncryptorInterface $encryptorinterface
+        EncryptorInterface $encryptorinterface,
+        HttpClientInterface $httpClient
     ) {
         $this->restartRepository = $restartRepository;
         $this->entityManager = $entityManager;
@@ -44,10 +48,12 @@ class CronController extends AbstractController
         $this->ippowerLibrary = new IppowerLibrary($identificationRepository, $encryptorinterface, $entityManager, $serverRepository);
         $this->ssh_access = $sshAccess;
         $this->encryptor = $encryptor;
+        $this->httpClient = $httpClient;
     }
 
     /**
      * @Route("/cron", name="app_cron", methods={"GET"})
+     * @throws TransportExceptionInterface
      */
     public function index(): Response
     {
@@ -63,10 +69,17 @@ class CronController extends AbstractController
             }
 
             $this->initializeSshAccess($ssh);
-
             $serverStatus = $this->monitorServer($server);
-            $arrayserver[$server->getIppower()] = $serverStatus;
 
+            if ($serverStatus['etat'] === "Inactif" && $server->getEtat() === 1) {
+                $restartResult = $this->handleServerRestart($server);
+                if ($restartResult['redemarrage_effectue']) {
+                    $this->sendDiscordNotification($server->getNom(), $restartResult['message']);
+                }
+                $serverStatus = array_merge($serverStatus, $restartResult);
+            }
+
+            $arrayserver[$server->getIppower()] = $serverStatus;
             $this->entityManager->flush();
         }
 
@@ -91,7 +104,6 @@ class CronController extends AbstractController
     {
         $jsonprocess = $this->ssh_access->connexionSSh();
 
-        // Vérifie si une erreur est retournée
         if (isset($jsonprocess['error'])) {
             return [
                 "nom" => $server->getNom(),
@@ -102,7 +114,6 @@ class CronController extends AbstractController
             ];
         }
 
-        // Si pas d'erreur, vérifie l'état via IPPower
         $etat = $this->ippowerLibrary->etat($server->getIppower());
         $ping = $this->ssh_access->ping($server->getIpv4());
 
@@ -120,44 +131,23 @@ class CronController extends AbstractController
         ];
     }
 
-    private function handleInactiveServer($server): array
+    /**
+     * @throws TransportExceptionInterface
+     */
+    private function handleServerRestart($server): array
     {
-        $dateActuel = new \DateTime();
-        $ping = $this->ssh_access->ping($server->getIpv4());
-
         $etat = $this->ippowerLibrary->etat($server->getIppower());
-
-        if ($server->getDate() <= $dateActuel && $server->getEtat() === 1) {
-            if ($etat === 'Actif') {
-                $this->ippowerLibrary->restart($server->getIppower());
-                return [
-                    "etat" => "Inactif",
-                    "statut" => true,
-                    "date" => $server->getDate(),
-                    'ping' => $ping,
-                    "message" => "Redémarrage effectué car serveur actif mais injoignable."
-                ];
-            } else {
-                return [
-                    "etat" => "Inactif",
-                    "statut" => false,
-                    "date" => $server->getDate(),
-                    'ping' => $ping,
-                    "message" => "Pas de redémarrage : serveur inactif selon IPPower."
-                ];
-            }
+        if ($etat === 'Actif') {
+            $this->ippowerLibrary->restart($server->getIppower());
+            return [
+                "redemarrage_effectue" => true,
+                "message" => "Redémarrage effectué car serveur actif mais injoignable."
+            ];
         }
 
-        $date = new \DateTime();
-        $date->modify('+10 minutes');
-        $server->setDate($date);
-
         return [
-            "etat" => "Inactif",
-            "statut" => false,
-            "date" => $server->getDate(),
-            'ping' => $ping,
-            "message" => "Aucune action requise."
+            "redemarrage_effectue" => false,
+            "message" => "Pas de redémarrage : serveur inactif selon IPPower."
         ];
     }
 
@@ -173,5 +163,20 @@ class CronController extends AbstractController
         }
 
         $this->entityManager->flush();
+    }
+
+    private function sendDiscordNotification(string $serverName, string $message): void
+    {
+        $payload = [
+            'content' => "🔄 **$serverName** : $message"
+        ];
+
+        try {
+            $this->httpClient->request('POST', $this->discordWebhookUrl, [
+                'json' => $payload
+            ]);
+        } catch (\Exception $e) {
+            dump("Failed to send Discord notification: " . $e->getMessage());
+        }
     }
 }
