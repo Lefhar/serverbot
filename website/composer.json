@@ -54,7 +54,8 @@
         "twig/extra-bundle": "^3.6",
         "twig/intl-extra": "^3.6",
         "twig/string-extra": "^3.4",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+      "ext-ssh2": "*"
     },
     "config": {
         "allow-plugins": {

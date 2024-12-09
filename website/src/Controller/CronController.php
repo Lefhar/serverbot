@@ -102,18 +102,18 @@ class CronController extends AbstractController
      */
     private function monitorServer($server): array
     {
-        $jsonprocess = $this->ssh_access->connexionSSh();
-
-        if (isset($jsonprocess['error'])) {
+        // Vérifie rapidement la disponibilité SSH
+        if (!$this->ssh_access->isSshAvailable()) {
             return [
                 "nom" => $server->getNom(),
-                "etat" => "Inactif",
+                "etat" => "Inaccessible",
                 "statut" => false,
                 "date" => $server->getDate(),
-                'error' => $jsonprocess['error']
+                "message" => "Connexion SSH indisponible"
             ];
         }
 
+        // Si SSH est disponible, continue avec le reste du traitement
         $etat = $this->ippowerLibrary->etat($server->getIppower());
         $ping = $this->ssh_access->ping($server->getIpv4());
 

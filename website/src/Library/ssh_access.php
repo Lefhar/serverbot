@@ -78,7 +78,16 @@ class ssh_access
         return $this->password;
     }
 
-
+    public function isSshAvailable(): bool
+    {
+        try {
+            // Teste uniquement si une connexion peut être établie
+            $connection = ssh2_connect($this->ip, $this->port);
+            return $connection !== false;
+        } catch (\Exception $e) {
+            return false; // Si une exception est levée, le SSH n'est pas disponible
+        }
+    }
     public function connexionSSh()
     {
         try {
