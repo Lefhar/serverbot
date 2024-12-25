@@ -73,6 +73,9 @@ class CronController extends AbstractController
 
             if ($serverStatus['etat'] === "Inactif" && $server->getEtat() === 1) {
                 $restartResult = $this->handleServerRestart($server);
+                $date = new \DateTime();
+                $date->modify('+10 minutes');
+                $server->setDate($date);
                 if ($restartResult['redemarrage_effectue']) {
                     $this->sendDiscordNotification($server->getNom(), $restartResult['message']);
                 }
@@ -139,6 +142,7 @@ class CronController extends AbstractController
         $etat = $this->ippowerLibrary->etat($server->getIppower());
         if ($etat === 'Actif') {
             $this->ippowerLibrary->restart($server->getIppower());
+
             return [
                 "redemarrage_effectue" => true,
                 "message" => "Redémarrage effectué car serveur actif mais injoignable."
