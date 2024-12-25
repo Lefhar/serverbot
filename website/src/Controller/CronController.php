@@ -106,7 +106,7 @@ class CronController extends AbstractController
         if (!$this->ssh_access->isSshAvailable()) {
             return [
                 "nom" => $server->getNom(),
-                "etat" => "Inaccessible",
+                "etat" => "Inactif",
                 "statut" => false,
                 "date" => $server->getDate(),
                 "message" => "Connexion SSH indisponible"
