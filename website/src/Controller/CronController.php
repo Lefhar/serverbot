@@ -28,7 +28,7 @@ class CronController extends AbstractController
     private ssh_access $ssh_access;
     private EncryptorInterface $encryptor;
     private HttpClientInterface $httpClient;
-    private string $discordWebhookUrl = "https://discord.com/api/webhooks/1211663580206735391/9_IFzatjZjWk7znlgxX93nlkHeFF_aQZazmr_0TfCsWSgz4Yb7En1ZO2nWModVbbzcWs";
+    private string $discordWebhookUrl ;
 
     public function __construct(
         RestartRepository $restartRepository,
@@ -49,6 +49,7 @@ class CronController extends AbstractController
         $this->ssh_access = $sshAccess;
         $this->encryptor = $encryptor;
         $this->httpClient = $httpClient;
+        $this->discordWebhookUrl = $_ENV['DISCORD_WEBHOOK_URL'] ?? ""; // Charge l'URL du webhook depuis le fichier .env
     }
 
     /**
