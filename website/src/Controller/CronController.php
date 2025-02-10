@@ -28,7 +28,7 @@ class CronController extends AbstractController
     private ssh_access $ssh_access;
     private EncryptorInterface $encryptor;
     private HttpClientInterface $httpClient;
-    private string $discordWebhookUrl ;
+    private string $discordWebhookUrl;
 
     public function __construct(
         RestartRepository $restartRepository,
@@ -41,15 +41,15 @@ class CronController extends AbstractController
         EncryptorInterface $encryptorinterface,
         HttpClientInterface $httpClient
     ) {
-        $this->restartRepository = $restartRepository;
-        $this->entityManager = $entityManager;
-        $this->serverRepository = $serverRepository;
-        $this->sshRepository = $ssh;
-        $this->ippowerLibrary = new IppowerLibrary($identificationRepository, $encryptorinterface, $entityManager, $serverRepository);
-        $this->ssh_access = $sshAccess;
-        $this->encryptor = $encryptor;
-        $this->httpClient = $httpClient;
-        $this->discordWebhookUrl = $_ENV['DISCORD_WEBHOOK_URL'] ?? ""; // Charge l'URL du webhook depuis le fichier .env
+        $this->restartRepository    = $restartRepository;
+        $this->entityManager        = $entityManager;
+        $this->serverRepository     = $serverRepository;
+        $this->sshRepository        = $ssh;
+        $this->ippowerLibrary       = new IppowerLibrary($identificationRepository, $encryptorinterface, $entityManager, $serverRepository);
+        $this->ssh_access           = $sshAccess;
+        $this->encryptor            = $encryptor;
+        $this->httpClient           = $httpClient;
+        $this->discordWebhookUrl    = $_ENV['DISCORD_WEBHOOK_URL'] ?? "";
     }
 
     /**
@@ -72,11 +72,20 @@ class CronController extends AbstractController
             $this->initializeSshAccess($ssh);
             $serverStatus = $this->monitorServer($server);
 
-            if ($serverStatus['etat'] === "Inactif" && $server->getEtat() === 1) {
+            // Récupérer l'heure actuelle
+            $now = new \DateTime();
+
+            // Si le serveur est inactif et est censé être actif (etat = 1)
+            // ET que la date stockée est antérieure ou égale à l'heure actuelle
+            // (c'est-à-dire qu'il est injoignable depuis au moins 10 minutes)
+            if ($serverStatus['etat'] === "Inactif" && $server->getEtat() === 1 && $server->getDate() <= $now) {
                 $restartResult = $this->handleServerRestart($server);
-                $date = new \DateTime();
-                $date->modify('+10 minutes');
-                $server->setDate($date);
+
+                // Après redémarrage, mettre à jour la date pour éviter un redémarrage en boucle
+                $newDate = new \DateTime();
+                $newDate->modify('+10 minutes');
+                $server->setDate($newDate);
+
                 if ($restartResult['redemarrage_effectue']) {
                     $this->sendDiscordNotification($server->getNom(), $restartResult['message']);
                 }
@@ -109,29 +118,30 @@ class CronController extends AbstractController
         // Vérifie rapidement la disponibilité SSH
         if (!$this->ssh_access->isSshAvailable()) {
             return [
-                "nom" => $server->getNom(),
-                "etat" => "Inactif",
-                "statut" => false,
-                "date" => $server->getDate(),
+                "nom"     => $server->getNom(),
+                "etat"    => "Inactif",
+                "statut"  => false,
+                "date"    => $server->getDate(),
                 "message" => "Connexion SSH indisponible"
             ];
         }
 
-        // Si SSH est disponible, continue avec le reste du traitement
+        // Si SSH est disponible, on continue avec le reste du traitement
         $etat = $this->ippowerLibrary->etat($server->getIppower());
         $ping = $this->ssh_access->ping($server->getIpv4());
 
+        // Si le serveur est accessible, on réinitialise le délai d'inaccessibilité à 10 minutes
         $date = new \DateTime();
         $date->modify('+10 minutes');
         $server->setDate($date);
 
         return [
-            "nom" => $server->getNom(),
-            "etat" => $etat,
+            "nom"    => $server->getNom(),
+            "etat"   => $etat,
             "statut" => ($etat === "Actif"),
-            "date" => $server->getDate(),
-            'ping' => $ping,
-            "ssh" => "actif"
+            "date"   => $server->getDate(),
+            "ping"   => $ping,
+            "ssh"    => "actif"
         ];
     }
 
@@ -146,13 +156,13 @@ class CronController extends AbstractController
 
             return [
                 "redemarrage_effectue" => true,
-                "message" => "Redémarrage effectué car serveur actif mais injoignable."
+                "message"              => "Redémarrage effectué car serveur actif mais injoignable."
             ];
         }
 
         return [
             "redemarrage_effectue" => false,
-            "message" => "Pas de redémarrage : serveur inactif selon IPPower."
+            "message"              => "Pas de redémarrage : serveur inactif selon IPPower."
         ];
     }
 
