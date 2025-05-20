@@ -14,6 +14,7 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
+        "patrickschur/language-detection": "^5.3",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpseclib/phpseclib": "~3.0.36",
         "phpstan/phpdoc-parser": "^1.6",
@@ -54,8 +55,7 @@
         "twig/extra-bundle": "^3.6",
         "twig/intl-extra": "^3.6",
         "twig/string-extra": "^3.4",
-        "twig/twig": "^2.12|^3.0",
-      "ext-ssh2": "*"
+        "twig/twig": "^3.19.0"
     },
     "config": {
         "allow-plugins": {
