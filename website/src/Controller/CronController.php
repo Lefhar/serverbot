@@ -170,7 +170,12 @@ class CronController extends AbstractController
     {
         $dateActuel = new \DateTime();
         foreach ($this->restartRepository->findBy(['etat' => 2]) as $row) {
-            if ($row->getDate() <= $dateActuel) {
+            $ipPowerId = $row->getIppower();
+            $server = $this->serverRepository->findOneBy(['ippower' => $ipPowerId]);
+            if (!$server || $server->getEtat() === 0) {
+                continue;
+            }
+            if ( $row->getDate() <= $dateActuel) {
                 if ($this->ippowerLibrary->startByCron($row->getIppower()->getIppower())) {
                     $this->entityManager->remove($row);
                 }

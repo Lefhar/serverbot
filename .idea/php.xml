@@ -34,8 +34,6 @@
       <path value="$PROJECT_DIR$/website/vendor/doctrine/persistence" />
       <path value="$PROJECT_DIR$/website/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/website/vendor/doctrine/migrations" />
-      <path value="$PROJECT_DIR$/website/vendor/doctrine/sql-formatter" />
-      <path value="$PROJECT_DIR$/website/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/website/vendor/phar-io/manifest" />
       <path value="$PROJECT_DIR$/website/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/website/vendor/theseer/tokenizer" />
@@ -67,7 +65,6 @@
       <path value="$PROJECT_DIR$/website/vendor/symfonycasts/verify-email-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/property-access" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/http-client-contracts" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/doctrine-bridge" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/options-resolver" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/monolog-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-intl-icu" />
@@ -84,7 +81,6 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/security-http" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/web-link" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/debug-bundle" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/notifier" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-intl-idn" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/password-hasher" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/intl" />
@@ -106,7 +102,6 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/runtime" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-intl-normalizer" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php80" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/framework-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-intl-grapheme" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/http-kernel" />
@@ -144,7 +139,6 @@
       <path value="$PROJECT_DIR$/website/vendor/masterminds/html5" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/clock" />
       <path value="$PROJECT_DIR$/website/vendor/psr/clock" />
-      <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php81" />
       <path value="$PROJECT_DIR$/website/vendor/league/uri" />
       <path value="$PROJECT_DIR$/website/vendor/amphp/parser" />
       <path value="$PROJECT_DIR$/website/vendor/amphp/byte-stream" />
@@ -176,6 +170,13 @@
       <path value="$PROJECT_DIR$/website/vendor/symfony/security-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/serializer" />
       <path value="$PROJECT_DIR$/website/vendor/symfony/security-csrf" />
+      <path value="$PROJECT_DIR$/website/vendor/patrickschur/language-detection" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php84" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/doctrine-bridge" />
+      <path value="$PROJECT_DIR$/website/vendor/doctrine/sql-formatter" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/website/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/website/vendor/symfony/notifier" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
