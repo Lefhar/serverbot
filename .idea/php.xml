@@ -20,7 +20,6 @@
       <path value="$PROJECT_DIR$/website/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/website/vendor/myclabs/deep-copy" />
       <path value="$PROJECT_DIR$/website/vendor/composer" />
-      <path value="$PROJECT_DIR$/website/vendor/sensio/framework-extra-bundle" />
       <path value="$PROJECT_DIR$/website/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/website/vendor/doctrine/collections" />
       <path value="$PROJECT_DIR$/website/vendor/doctrine/deprecations" />
